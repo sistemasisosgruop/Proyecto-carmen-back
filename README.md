@@ -92,9 +92,127 @@ Status Code: 201 Created
   "updatedAt": "2023-05-07T12:00:00.000Z"
 }
 ``` 
+### Get All Users
+
+Retrieve a paginated list of all created users in the database.
+
+- URL: `https://localhost:3000/api/v1/users`
+- Method: GET
+- Content Type: application/json
+
+#### Parameters
+
+No parameters are required for this request.
+
+#### Successful Response
+
+Status Code: 200 OK
+
+```json
+{
+  "results": {
+    "count": 2,
+    "totalPages": 1,
+    "currentPage": 1,
+    "results": [
+      {
+        "id": "e364fdf9-40fc-4b4b-b1e0-767a3cfea541",
+        "first_name": "Nicolas",
+        "last_name": "Cortez",
+        "genre": "Male",
+        "document_type": "Passport",
+        "number_id": 123455,
+        "email": "nicolas@mail.com",
+        "password": "1234",
+        "birthday": "01-01-1993",
+        "student": false,
+        "country_id": 2,
+        "role_id": "USER",
+        "created_at": "2023-05-08T00:09:08.093Z",
+        "updated_at": "2023-05-08T00:09:08.093Z"
+      },
+      {
+        "id": "e365dD66-40fc-4b4b-d5t2-767a3cfea875",
+        "first_name": "John",
+        "last_name": "Douglas",
+        "genre": "Male",
+        "document_type": "ID",
+        "number_id": "9874566",
+        "email": "john@mail.com",
+        "password": "1234",
+        "birthday": "02-02-1944",
+        "student": false,
+        "country_id": 1,
+        "role_id": "ADMIN",
+        "created_at": "2023-05-08T00:09:08.093Z",
+        "updated_at": "2023-05-08T00:09:08.093Z"
+      }
+    ]
+  }
+}
+```
+
+### Update User Data
+
+Update the data of a user, excluding email and password.
+
+- URL: `https://localhost:3000/api/v1/users`
+- Method: PUT
+- Content Type: application/json
+
+#### Parameters
+
+The request body should include the following parameters:
+
+| Name          | Type     | Description                            |
+|---------------|----------|----------------------------------------|
+| first_name    | String   | Updated first name of the user.         |
+| last_name     | String   | Updated last name of the user.          |
+| genre         | String   | Updated gender of the user.             |
+| document_type | String   | Updated document type of the user.      |
+| number_id     | Number   | Updated document number of the user.    |
+| birthday      | Date     | Updated date of birth of the user.      |
+| student       | Boolean  | Updated student status of the user.     |
+| country_id    | Number   | Updated ID of the user's country.       |
 
 
+#### Example Request
+
+```json
+{
+  "first_name": "John",
+  "last_name": "Smith",
+  "genre": "Male",
+  "document_type": "Passport",
+  "number_id": 987654321,
+  "birthday": "1990-05-20",
+  "student": true,
+  "country_id": 1,
+}
+```
 
 
+### User Login
 
+Authenticate a user by providing their email and password.
 
+- URL: `https://localhost:3000/api/v1/auth`
+- Method: POST
+- Content Type: application/json
+
+#### Parameters
+
+The request body should include the following parameters:
+
+| Name     | Type   | Description                 |
+|----------|--------|-----------------------------|
+| email    | String | User's email address.       |
+| password | String | User's password.            |
+
+#### Example Request
+
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "password123"
+}

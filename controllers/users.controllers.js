@@ -22,33 +22,72 @@ const getUsers = async (request, response, next) => {
 
 const addUser = async (request, response, next) => {
   try {
-    let { first_name, last_name, genre, document_type, number_id, email, password, birthday, student, country_id, role_id } = request.body
+    let {
+      first_name,
+      last_name,
+      genre,
+      document_type,
+      number_id,
+      email,
+      password,
+      birthday,
+      student,
+      country_id,
+      role_id,
+    } = request.body
 
-    let user = await usersService.createUser({first_name, last_name, genre, document_type, number_id, email, password, birthday, student, country_id, role_id})
+    let user = await usersService.createUser({
+      first_name,
+      last_name,
+      genre,
+      document_type,
+      number_id,
+      email,
+      password,
+      birthday,
+      student,
+      country_id,
+      role_id,
+    })
     return response.status(201).json({ results: user })
   } catch (error) {
-    return response.status(401).json({message: error.message})
+    return response.status(401).json({
+      message: error.message,
+      fields: {
+        'first_name': 'String',
+        'last_name': 'String',
+        'genre': 'String',
+        'document_type': 'String',
+        'number_id': 'Number',
+        'email': 'example@example.com',
+        'password': 'String',
+        'birthday': 'Date',
+        'student': 'Boolean',
+        'country_id': 'Number',
+        'role_id': 'String',
+      },
+    })
   }
 }
 
-const getUser = async (request, response, next) => {
+const getUser = async (request, response) => {
   try {
     let { id } = request.params
     let users = await usersService.getUserOr404(id)
     return response.json({ results: users })
   } catch (error) {
-    next(error)
+    return response.status(401).json({message: 'Invalid ID'})
   }
 }
 
-const updateUser = async (request, response, next) => {
+const updateUser = async (request, response) => {
   try {
     let { id } = request.params
-    let { body } = request
-    let user = await usersService.updateUser(id, body)
+    let { first_name, last_name, genre, document_type, number_id, birthday, student } = request.body
+    let user = await usersService.updateUser(id, {first_name, last_name, genre, document_type, number_id, birthday, student})
     return response.json({ results: user })
   } catch (error) {
-    next(error)
+    return response.status(401).json({message: 'Invalid ID'})
   }
 }
 
