@@ -19,15 +19,12 @@ module.exports = {
           type: Sequelize.STRING
         },
         genre: {
-          allowNull: false, 
           type: Sequelize.STRING
         },
         document_type: {
-          allowNull: false,
           type: Sequelize.STRING
         },
         number_id: {
-          allowNull: false, 
           type: Sequelize.INTEGER, 
           unique: true
         },
@@ -43,8 +40,7 @@ module.exports = {
           allowNull: false,
           type: Sequelize.STRING
         },
-        birthday: {
-          allowNull: false, 
+        birthday: { 
           type: Sequelize.DATE, 
           validate: {
             isDate: true
@@ -53,11 +49,10 @@ module.exports = {
         student: {
           allowNull: false, 
           type: Sequelize.BOOLEAN, 
-          default: false
+          defaultValue: false
         },
         country_id: {
           type: Sequelize.INTEGER,
-          allowNull: false,
           foreignKey: true,
           references: {
             model: 'Countries',
@@ -66,7 +61,6 @@ module.exports = {
         },
         role_id: {
           type: Sequelize.INTEGER,
-          allowNull: false,
           foreignKey: true,
           references: {
             model: 'Roles',
@@ -75,11 +69,13 @@ module.exports = {
         },
         createdAt: {
           allowNull: false,
-          type: Sequelize.DATE
+          type: Sequelize.DATE,
+          field: 'created_at'
         },
         updatedAt: {
           allowNull: false,
-          type: Sequelize.DATE
+          type: Sequelize.DATE, 
+          field: 'updated_at'
         }
       }, { transaction })
 

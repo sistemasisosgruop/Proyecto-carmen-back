@@ -14,11 +14,22 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Countries.init({
-    id: DataTypes.INTEGER,
+    id: {
+      type: DataTypes.INTEGER, 
+      primaryKey: true
+    },
     name: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Countries',
+    tableName: 'Countries',
+    underscored: true,
+    timestamps: true,
+    scopes: {
+      public_view: {
+        attributes: ['name']
+      }
+    },
   });
   return Countries;
 };

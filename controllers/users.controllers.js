@@ -27,7 +27,7 @@ const addUser = async (request, response, next) => {
     let user = await usersService.createUser({first_name, last_name, genre, document_type, number_id, email, password, birthday, student, country_id, role_id})
     return response.status(201).json({ results: user })
   } catch (error) {
-    next(error)
+    return response.status(401).json({message: error.message})
   }
 }
 

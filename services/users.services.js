@@ -1,7 +1,8 @@
-const models = require('../database/models')
 const { Op } = require('sequelize')
 const { CustomError } = require('../utils/custom-error')
 const { v4: uuid4 } = require('uuid')
+const models = require('../database/models/')
+const Users = require('../database/models/users')
 
 class UsersService {
   constructor() {}
@@ -30,8 +31,7 @@ class UsersService {
   }
 
   async createUser(userData) {
-    console.log(userData)
-    const transaction = await models.sequelize.transaction()
+    const transaction = await models.Users.sequelize.transaction()
     try {
       let newUser = await models.Users.create(
         {
@@ -50,7 +50,6 @@ class UsersService {
         },
         { transaction }
       )
-
       await transaction.commit()
       return newUser
     } catch (error) {
@@ -58,6 +57,7 @@ class UsersService {
       throw error
     }
   }
+  
   //Return Instance if we do not converted to json (or raw:true)
   async getUserOr404(id) {
     let user = await models.Users.findByPk(id)
