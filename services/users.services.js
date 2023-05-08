@@ -2,7 +2,7 @@ const { Op } = require('sequelize')
 const { CustomError } = require('../utils/custom-error')
 const { v4: uuid4 } = require('uuid')
 const models = require('../database/models/')
-const Users = require('../database/models/users')
+const { hash } = require('../utils/crypto')
 
 class UsersService {
   constructor() {}
@@ -42,7 +42,7 @@ class UsersService {
           document_type: userData.document_type,
           number_id: userData.number_id,
           email: userData.email,
-          password: userData.password,
+          password: hash(userData.password),
           birthday: userData.birthday,
           student: userData.student,
           country_id: userData.country_id,
@@ -73,16 +73,25 @@ class UsersService {
     return user
   }
 
-  async updateUser(id, { name }) {
+  async updateUser(id, {first_name, last_name, genre, document_type, number_id, birthday, student}) {
     const transaction = await models.sequelize.transaction()
     try {
       let user = await models.Users.findByPk(id)
-
+      console.log('user: ', user)
+      console.log('Name: ', first_name, last_name)
+      console.log('Genre: ', genre)
+      
       if (!user) throw new CustomError('Not found user', 404, 'Not Found')
-
+      
       let updatedUser = await user.update(
         {
-          name,
+          first_name,
+          last_name,
+          genre,
+          document_type,
+          number_id,
+          birthday,
+          student
         },
         { transaction }
       )
@@ -113,6 +122,18 @@ class UsersService {
       throw error
     }
   }
+
+  async getUserByEmail(email) {
+    let user = await models.Users.findOne({
+      where: {
+        email: email
+      }
+    })
+    return user
+  }
 }
+
+
+
 
 module.exports = UsersService
