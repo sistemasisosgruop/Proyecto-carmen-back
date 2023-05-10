@@ -55,8 +55,6 @@ app.get('/', ({ res }) => {
   })
 })
 
-
-
 app.listen(PORT, () => {
   console.log(`Server on PORT: ${PORT}`)
 })

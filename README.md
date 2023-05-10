@@ -196,7 +196,7 @@ The request body should include the following parameters:
 
 Authenticate a user by providing their email and password.
 
-- URL: `https://localhost:3000/api/v1/auth`
+- URL: `https://localhost:3000/api/v1/auth/login`
 - Method: POST
 - Content Type: application/json
 
@@ -216,3 +216,4 @@ The request body should include the following parameters:
   "email": "john.doe@example.com",
   "password": "password123"
 }
+```

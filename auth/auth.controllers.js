@@ -4,6 +4,7 @@ const { verifyUser } = require('./auth.services')
 
 const postLogin = (request, response) => {
   const { email, password } = request.body
+  
   if (email && password) {
     verifyUser(email, password)
       .then((data) => {
@@ -22,7 +23,7 @@ const postLogin = (request, response) => {
           response.status(400).json({ message: 'Invalid Credentials' })
         }
       })
-      .catch((err) => response.status(404).json({ message: err }))
+      .catch((err) => response.status(404).json({ message: err.message }))
   } else {
     response.status(400).json({
       message: 'All parametres are required',

@@ -1,10 +1,12 @@
 const { Op } = require('sequelize')
-const { CustomError } = require('../utils/custom-error')
 const { v4: uuid4 } = require('uuid')
-const models = require('../database/models/')
+const { CustomError } = require('../utils/custom-error')
 const { hash } = require('../utils/crypto')
+const models = require('../database/models')
+
 
 class UsersService {
+
   constructor() {}
 
   async findAndCount(query) {
@@ -124,7 +126,7 @@ class UsersService {
   }
 
   async getUserByEmail(email) {
-    let user = await models.Users.findOne({
+    const user = await models.Users.findOne({
       where: {
         email: email
       }
@@ -132,8 +134,5 @@ class UsersService {
     return user
   }
 }
-
-
-
 
 module.exports = UsersService
