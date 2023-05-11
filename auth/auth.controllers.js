@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken')
-const { verifyUser } = require('./auth.services') 
+const { verifyUser, createRecoveryToken, changePassword } = require('./auth.services') 
+const mailer = require('../utils/mailer')
+const config = require('../config')
 
 
 const postLogin = (request, response) => {
@@ -16,7 +18,7 @@ const postLogin = (request, response) => {
               last_name: data.last_name,
               email: data.email,
             },
-            process.env.JWT_SECRET
+            config.api.jwtSecret
           )
           response.status(200).json({ message: 'Correct Credentials', token })
         } else {
@@ -35,6 +37,56 @@ const postLogin = (request, response) => {
   }
 }
 
+const postRecoveryToken = (request, response) => {
+
+  const { email } = request.body
+  if (email) {
+    createRecoveryToken(email)
+      .then((data) => {
+        if (data) {
+          mailer.sendMail({
+            from: 'nicolaspantojadi@gmail.com',
+            to: email,
+            subject: 'Recovery Password',
+            html: `Through this link you'll be able to recover the access by updating your password: <a href='${config.api.host}/api/v1/recovery-password/${data.dataValues.id}'>${config.api.host}/api/v1/recovery-password/${data.dataValues.id}</a>`,
+            text: `Password recovery URL: ${config.api.host}/api/v1/recovery-password/${data.dataValues.id}`
+          })
+          response.status(200).json({ message: 'Email sended. Check your inbox!' })
+        } else {
+          response.status(400).json({ message: 'Error, token not created' })
+        }
+      })
+      .catch((err) => {
+        response.status(400).json({ message: err })
+      })
+  } else{
+    response.status(400).json({message: 'Invalid data', fields: {
+      email: 'example@example.com'
+    }})
+  }
+}
+
+
+const patchPassword = (request, response) => {
+  const id = request.params.id
+  const { password } = request.body
+
+  changePassword(id, password)
+    .then(data => {
+      if (data) {
+        response.status(200).json({ message: 'Password updated succesfully' })
+      } else {
+        response.status(400).json({message: 'URL Expired'})
+      }
+    })
+    .catch(err => {
+      response.status(400).json({message: err.message})
+    } )
+}
+
+
 module.exports = {
-  postLogin
+  postLogin, 
+  postRecoveryToken, 
+  patchPassword
 }

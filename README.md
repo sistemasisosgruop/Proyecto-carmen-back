@@ -217,3 +217,51 @@ The request body should include the following parameters:
   "password": "password123"
 }
 ```
+### Initiate Password Recovery
+
+Initiate the password recovery process by providing the user's email. A password recovery token will be sent to the user's email address.
+
+- URL: `https://localhost:3000/api/v1/auth/recovery-password`
+- Method: POST
+- Content Type: application/json
+
+#### Parameters
+
+The request body should include the following parameter:
+
+| Name  | Type   | Description               |
+|-------|--------|---------------------------|
+| email | String | User's email address.     |
+
+#### Example Request
+
+```json
+{
+  "email": "john.doe@example.com"
+}
+```
+
+### Reset Password
+
+Reset the user's password using the recovery token received via email.
+
+- URL: `https://localhost:3000/api/v1/auth/recovery-password/:token`
+- Method: PATCH
+- Content Type: application/json
+
+#### Parameters
+
+The request body should include the following parameter:
+
+| Name     | Type   | Description                   |
+|----------|--------|-------------------------------|
+| password | String | New password for the user.    |
+
+#### Example Request
+
+```json
+{
+  "password": "newpassword123"
+}
+
+```

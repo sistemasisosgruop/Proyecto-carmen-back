@@ -126,6 +126,7 @@ class UsersService {
   }
 
   async getUserByEmail(email) {
+    console.log(email)
     const user = await models.Users.findOne({
       where: {
         email: email
@@ -134,5 +135,6 @@ class UsersService {
     return user
   }
 }
+
 
 module.exports = UsersService

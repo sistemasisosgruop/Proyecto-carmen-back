@@ -14,7 +14,7 @@ module.exports = {
     dialectOptions: {
       useUTC: true,
     },
-    timezone: 'UTC',
+    timezone: 'UTC'
   },
   test: {
     use_env_variable: 'DATABASE_URI_TEST',
