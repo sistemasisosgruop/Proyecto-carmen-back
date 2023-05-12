@@ -22,10 +22,9 @@ const verifyUser = async (email, password) => {
 }
 
 const createRecoveryToken = async (email) => {
-  console.log(email)
+
   try {
     const user = await UsersService.getUserByEmail(email)
-    console.log(user)
     const data = await models.Recovery_Passwords.create({
       id: uuid4(),
       user_id: user.id,
@@ -39,6 +38,7 @@ const createRecoveryToken = async (email) => {
 }
 
 const changePassword = async (tokenId, newPassword) => {
+
   const changeData = await models.Recovery_Passwords.findOne({
     where: {
       id: tokenId,
@@ -51,7 +51,7 @@ const changePassword = async (tokenId, newPassword) => {
         id: tokenId
       }
     })
-    const data = await updateUser(changeData.user_id, {
+    const data = await UsersService.updateUser(changeData.dataValues.user_id, {
       password: hash(newPassword)
     })
     return data

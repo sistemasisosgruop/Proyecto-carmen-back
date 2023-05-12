@@ -263,5 +263,4 @@ The request body should include the following parameter:
 {
   "password": "newpassword123"
 }
-
 ```

@@ -80,7 +80,7 @@ const patchPassword = (request, response) => {
       }
     })
     .catch(err => {
-      response.status(400).json({message: err.message})
+      response.status(400).json({message: err.message, fields: 'ERROR AQUI'})
     } )
 }
 

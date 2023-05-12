@@ -75,13 +75,10 @@ class UsersService {
     return user
   }
 
-  async updateUser(id, {first_name, last_name, genre, document_type, number_id, birthday, student}) {
+  async updateUser(id, {first_name, last_name, genre, document_type, number_id, password, birthday, student}) {
     const transaction = await models.sequelize.transaction()
     try {
       let user = await models.Users.findByPk(id)
-      console.log('user: ', user)
-      console.log('Name: ', first_name, last_name)
-      console.log('Genre: ', genre)
       
       if (!user) throw new CustomError('Not found user', 404, 'Not Found')
       
@@ -92,6 +89,7 @@ class UsersService {
           genre,
           document_type,
           number_id,
+          password,
           birthday,
           student
         },
@@ -126,7 +124,6 @@ class UsersService {
   }
 
   async getUserByEmail(email) {
-    console.log(email)
     const user = await models.Users.findOne({
       where: {
         email: email

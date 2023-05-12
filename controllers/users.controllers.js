@@ -83,8 +83,9 @@ const getUser = async (request, response) => {
 const updateUser = async (request, response) => {
   try {
     let { id } = request.params
-    let { first_name, last_name, genre, document_type, number_id, birthday, student } = request.body
-    let user = await usersService.updateUser(id, {first_name, last_name, genre, document_type, number_id, birthday, student})
+    let { first_name, last_name, genre, document_type, number_id, password, birthday, student } = request.body
+
+    let user = await usersService.updateUser(id, {first_name, last_name, genre, document_type, number_id, password, birthday, student})
     return response.json({ results: user })
   } catch (error) {
     return response.status(401).json({message: 'Invalid ID'})
