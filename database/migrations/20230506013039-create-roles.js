@@ -20,7 +20,7 @@ module.exports = {
         },
         permissions: {
           allowNull: false, 
-          type: Sequelize.ARRAY(DataTypes.STRING)
+          type: Sequelize.JSONB
         },
         createdAt: {
           allowNull: false,

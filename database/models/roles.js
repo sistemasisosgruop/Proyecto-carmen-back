@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true
     },
     name: DataTypes.STRING, 
-    permissions: [DataTypes.STRING]
+    permissions: DataTypes.JSONB
   }, {
     sequelize,
     sequelize,

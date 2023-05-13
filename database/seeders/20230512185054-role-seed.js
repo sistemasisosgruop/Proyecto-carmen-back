@@ -9,14 +9,14 @@ module.exports = {
         {
           id: 1,
           name: 'admin',
-          permissions: ['sendMessages', 'receiveMessages'],
+          permissions: JSON.stringify({'sendMessages': true, 'receiveMessages': true}),
           created_at: new Date(),
           updated_at: new Date()
         },
         {
           id: 2,
           name: 'public',
-          permissions: ['sendMessages'],
+          permissions: JSON.stringify({'sendMessages': true, 'receiveMessages': true}),
           created_at: new Date(),
           updated_at: new Date()
         }
