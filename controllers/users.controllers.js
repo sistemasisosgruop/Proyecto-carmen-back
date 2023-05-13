@@ -25,28 +25,30 @@ const addUser = async (request, response, next) => {
     let {
       first_name,
       last_name,
-      genre,
-      document_type,
-      number_id,
       email,
       password,
+      genre,
+      phone_number,
+      country_code,
+      document_type,
+      document_number,
       birthday,
       student,
-      country_id,
       role_id,
     } = request.body
 
     let user = await usersService.createUser({
       first_name,
       last_name,
-      genre,
-      document_type,
-      number_id,
       email,
       password,
+      genre,
+      phone_number,
+      country_code,
+      document_type,
+      document_number,
       birthday,
       student,
-      country_id,
       role_id,
     })
     return response.status(201).json({ results: user })
@@ -56,14 +58,15 @@ const addUser = async (request, response, next) => {
       fields: {
         'first_name': 'String',
         'last_name': 'String',
-        'genre': 'String',
-        'document_type': 'String',
-        'number_id': 'Number',
         'email': 'example@example.com',
         'password': 'String',
+        'genre': 'String',
+        'phone_number': 'Integer',
+        'country_code': 'String',
+        'document_type': 'String',
+        'document_number': 'Number',
         'birthday': 'Date',
         'student': 'Boolean',
-        'country_id': 'Number',
         'role_id': 'String',
       },
     })
@@ -83,9 +86,9 @@ const getUser = async (request, response) => {
 const updateUser = async (request, response) => {
   try {
     let { id } = request.params
-    let { first_name, last_name, genre, document_type, number_id, password, birthday, student } = request.body
+    let { first_name, last_name, genre, phone_number, document_type, document_number, password, birthday, student } = request.body
 
-    let user = await usersService.updateUser(id, {first_name, last_name, genre, document_type, number_id, password, birthday, student})
+    let user = await usersService.updateUser(id, {first_name, last_name, genre, phone_number, document_type, document_number, password, birthday, student})
     return response.json({ results: user })
   } catch (error) {
     return response.status(401).json({message: 'Invalid ID'})

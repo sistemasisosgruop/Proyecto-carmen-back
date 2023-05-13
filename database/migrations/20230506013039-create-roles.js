@@ -1,4 +1,8 @@
 'use strict'
+
+const { DataTypes } = require('sequelize')
+const { sequelize } = require('../models')
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
@@ -10,11 +14,13 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER
         },
-        role: {
+        name: {
+          allowNull:false,
           type: Sequelize.STRING
         },
         permissions: {
-          type: Sequelize.STRING
+          allowNull: false, 
+          type: Sequelize.ARRAY(DataTypes.STRING)
         },
         createdAt: {
           allowNull: false,

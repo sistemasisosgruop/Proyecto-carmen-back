@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Users.belongsTo(models.Roles, { as: 'Roles', foreignKey: 'role_id' })
-      Users.belongsTo(models.Countries, { as: 'Countries', foreignKey: 'country_id' })
+      Users.belongsTo(models.Countries, { as: 'Countries', foreignKey: 'country_code' })
     }
   }
   Users.init({  
@@ -21,17 +21,18 @@ module.exports = (sequelize, DataTypes) => {
     },
     first_name: DataTypes.STRING,
     last_name: DataTypes.STRING,
-    genre: DataTypes.STRING,
-    document_type: DataTypes.STRING,
-    number_id: DataTypes.INTEGER,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    birthday: DataTypes.DATE,
-    student: DataTypes.BOOLEAN,
-    country_id: {
-      type: DataTypes.INTEGER, 
+    genre: DataTypes.STRING,
+    phone_number: DataTypes.BIGINT,
+    country_code: {
+      type: DataTypes.STRING, 
       foreignKey: true
     },
+    document_type: DataTypes.STRING,
+    document_number: DataTypes.INTEGER,
+    birthday: DataTypes.DATE,
+    student: DataTypes.BOOLEAN,
     role_id: {
       type: DataTypes.INTEGER, 
       foreignKey: true
@@ -44,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     scopes: {
       public_view: {
-        attributes: ['id', 'first_name', 'last_name', 'email', 'username', 'password']
+        attributes: ['id', 'first_name', 'last_name', 'email', 'genre', 'phone_number', 'country_code', 'document_type', 'document_number', 'birthday', 'student', 'role_id' ]
       }
     },
   });

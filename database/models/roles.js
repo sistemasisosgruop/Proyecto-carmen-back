@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER, 
       primaryKey: true
     },
-    role: DataTypes.STRING
+    name: DataTypes.STRING, 
+    permissions: [DataTypes.STRING]
   }, {
     sequelize,
     sequelize,

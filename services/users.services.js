@@ -41,13 +41,14 @@ class UsersService {
           first_name: userData.first_name,
           last_name: userData.last_name,
           genre: userData.genre,
+          phone_number: userData.phone_number,
           document_type: userData.document_type,
-          number_id: userData.number_id,
+          document_number: userData.document_number,
           email: userData.email,
           password: hash(userData.password),
           birthday: userData.birthday,
           student: userData.student,
-          country_id: userData.country_id,
+          country_code: userData.country_code,
           role_id: userData.role_id
         },
         { transaction }
@@ -70,12 +71,12 @@ class UsersService {
   }
 
   //Return not an Instance raw:true | we also can converted to Json instead
-  async getUser(id) {
+  async getUser(id) {    
     let user = await models.Users.findByPk(id, { raw: true })
     return user
   }
 
-  async updateUser(id, {first_name, last_name, genre, document_type, number_id, password, birthday, student}) {
+  async updateUser(id, {first_name, last_name, genre, phone_number, document_type, document_number, password, birthday, student}) {
     const transaction = await models.sequelize.transaction()
     try {
       let user = await models.Users.findByPk(id)
@@ -87,8 +88,9 @@ class UsersService {
           first_name,
           last_name,
           genre,
+          phone_number,
           document_type,
-          number_id,
+          document_number,
           password,
           birthday,
           student

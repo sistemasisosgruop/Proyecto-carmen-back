@@ -3,71 +3,69 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.createTable('Users', {
+      await queryInterface.createTable('Messages', {
         id: {
           allowNull: false,
-          defaultValue: Sequelize.UUIDV4,
           primaryKey: true,
           type: Sequelize.UUID
         },
-        first_name: {
-          allowNull: false, 
+        sender_id: {
+          allowNull: false,
+          type: Sequelize.UUID,
+          references: {
+            model: 'Users',
+            key: 'id'
+          }
+        },
+        recipient_id: {
+          allowNull: false,
+          type: Sequelize.UUID,
+          references: {
+            model: 'Users',
+            key: 'id'
+          }
+        },
+        sender_first_name: {
+          allowNull: false,
           type: Sequelize.STRING
         },
-        last_name: {
-          allowNull: false, 
+        sender_last_name: {
+          allowNull: false,
           type: Sequelize.STRING
         },
-        email: {
-          allowNull: false, 
-          type: Sequelize.STRING, 
-          unique: true, 
+        sender_email: {
+          allowNull: false,
+          type: Sequelize.STRING,
           validate: {
             isEmail: true
           }
         },
-        password: {
-          allowNull: false,
-          type: Sequelize.STRING
-        },
-        genre: {
-          type: Sequelize.STRING
-        },
-        phone_number: {
+        sender_phone_number: {
           allowNull: false,
           type: Sequelize.BIGINT
         },
-        country_code: {
-          type: Sequelize.INTEGER,
-          references: {
-            model: 'Countries',
-            key: 'id'
-          }
-        },
-        document_type: {
+        sender_country_code: {
+          allowNull: false,
           type: Sequelize.STRING
         },
-        document_number: {
-          type: Sequelize.INTEGER, 
-          unique: true
+        sender_document_type: {
+          allowNull: false,
+          type: Sequelize.STRING
         },
-        birthday: { 
-          type: Sequelize.DATE, 
-          validate: {
-            isDate: true
-          }
+        sender_document_number: {
+          allowNull: false,
+          type: Sequelize.INTEGER
         },
-        student: {
-          allowNull: false, 
-          type: Sequelize.BOOLEAN, 
-          defaultValue: false
+        subject: {
+          allowNull: false,
+          type: Sequelize.STRING
         },
-        role_id: {
-          type: Sequelize.INTEGER,
-          references: {
-            model: 'Roles',
-            key: 'id'
-          }
+        content: {
+          allowNull: false,
+          type: Sequelize.TEXT
+        },
+        attachment: {
+          type: Sequelize.STRING
         },
         createdAt: {
           allowNull: false,
@@ -76,7 +74,7 @@ module.exports = {
         },
         updatedAt: {
           allowNull: false,
-          type: Sequelize.DATE, 
+          type: Sequelize.DATE,
           field: 'updated_at'
         }
       }, { transaction })
@@ -90,7 +88,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Users',{ transaction })
+      await queryInterface.dropTable('Messages', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()
