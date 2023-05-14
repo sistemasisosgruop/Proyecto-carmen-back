@@ -3,9 +3,9 @@ const { getPagination, getPagingData } = require('../utils/pagination')
 
 const usersService = new UsersService()
 
-const getUsers = async (request, response, next) => {
+const getUsers = async (req, res, next) => {
   try {
-    let query = request.query
+    let query = req.query
     let { page, size } = query
 
     const { limit, offset } = getPagination(page, size, '10')
@@ -14,13 +14,13 @@ const getUsers = async (request, response, next) => {
 
     let users = await usersService.findAndCount(query)
     const results = getPagingData(users, page, limit)
-    return response.json({ results: results })
+    return res.json({ results: results })
   } catch (error) {
     next(error)
   }
 }
 
-const addUser = async (request, response, next) => {
+const addUser = async (req, res, next) => {
   try {
     let {
       first_name,
@@ -35,7 +35,7 @@ const addUser = async (request, response, next) => {
       birthday,
       student,
       role_id,
-    } = request.body
+    } = req.body
 
     let user = await usersService.createUser({
       first_name,
@@ -51,9 +51,9 @@ const addUser = async (request, response, next) => {
       student,
       role_id,
     })
-    return response.status(201).json({ results: user })
+    return res.status(201).json({ results: user })
   } catch (error) {
-    return response.status(401).json({
+    return res.status(401).json({
       message: error.message,
       fields: {
         'first_name': 'String',
@@ -73,33 +73,33 @@ const addUser = async (request, response, next) => {
   }
 }
 
-const getUser = async (request, response) => {
+const getUser = async (req, res) => {
   try {
-    let { id } = request.params
+    let { id } = req.params
     let users = await usersService.getUserOr404(id)
-    return response.json({ results: users })
+    return res.json({ results: users })
   } catch (error) {
-    return response.status(401).json({message: 'Invalid ID'})
+    return res.status(401).json({message: 'Invalid ID'})
   }
 }
 
-const updateUser = async (request, response) => {
+const updateUser = async (req, res) => {
   try {
-    let { id } = request.params
-    let { first_name, last_name, genre, phone_number, document_type, document_number, password, birthday, student } = request.body
+    let { id } = req.params
+    let { first_name, last_name, genre, phone_number, document_type, document_number, password, birthday, student } = req.body
 
     let user = await usersService.updateUser(id, {first_name, last_name, genre, phone_number, document_type, document_number, password, birthday, student})
-    return response.json({ results: user })
+    return res.json({ results: user })
   } catch (error) {
-    return response.status(401).json({message: 'Invalid ID'})
+    return res.status(401).json({message: 'Invalid ID'})
   }
 }
 
-const removeUser = async (request, response, next) => {
+const removeUser = async (req, res, next) => {
   try {
-    let { id } = request.params
+    let { id } = req.params
     let user = await usersService.removeUser(id)
-    return response.json({ results: user, message: 'removed' })
+    return res.json({ results: user, message: 'removed' })
   } catch (error) {
     next(error)
   }

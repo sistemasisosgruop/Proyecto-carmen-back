@@ -4,8 +4,8 @@ const mailer = require('../utils/mailer')
 const config = require('../config')
 
 
-const postLogin = (request, response) => {
-  const { email, password } = request.body
+const postLogin = (req, res) => {
+  const { email, password } = req.body
   
   if (email && password) {
     verifyUser(email, password)
@@ -20,14 +20,14 @@ const postLogin = (request, response) => {
             },
             config.api.jwtSecret
           )
-          response.status(200).json({ message: 'Correct Credentials', token })
+          res.status(200).json({ message: 'Correct Credentials', token })
         } else {
-          response.status(400).json({ message: 'Invalid Credentials' })
+          res.status(400).json({ message: 'Invalid Credentials' })
         }
       })
-      .catch((err) => response.status(404).json({ message: err.message }))
+      .catch((err) => res.status(404).json({ message: err.message }))
   } else {
-    response.status(400).json({
+    res.status(400).json({
       message: 'All parametres are required',
       fields: {
         email: 'example@example.com',
@@ -37,9 +37,9 @@ const postLogin = (request, response) => {
   }
 }
 
-const postRecoveryToken = (request, response) => {
+const postRecoveryToken = (req, res) => {
 
-  const { email } = request.body
+  const { email } = req.body
   if (email) {
     createRecoveryToken(email)
       .then((data) => {
@@ -51,36 +51,36 @@ const postRecoveryToken = (request, response) => {
             html: `Through this link you'll be able to recover the access by updating your password: <a href='${config.api.host}/api/v1/recovery-password/${data.dataValues.id}'>${config.api.host}/api/v1/recovery-password/${data.dataValues.id}</a>`,
             text: `Password recovery URL: ${config.api.host}/api/v1/recovery-password/${data.dataValues.id}`
           })
-          response.status(200).json({ message: 'Email sended. Check your inbox!' })
+          res.status(200).json({ message: 'Email sended. Check your inbox!' })
         } else {
-          response.status(400).json({ message: 'Error, token not created' })
+          res.status(400).json({ message: 'Error, token not created' })
         }
       })
       .catch((err) => {
-        response.status(400).json({ message: err })
+        res.status(400).json({ message: err })
       })
   } else{
-    response.status(400).json({message: 'Invalid data', fields: {
+    res.status(400).json({message: 'Invalid data', fields: {
       email: 'example@example.com'
     }})
   }
 }
 
 
-const patchPassword = (request, response) => {
-  const id = request.params.id
-  const { password } = request.body
+const patchPassword = (req, res) => {
+  const id = req.params.id
+  const { password } = req.body
 
   changePassword(id, password)
     .then(data => {
       if (data) {
-        response.status(200).json({ message: 'Password updated succesfully' })
+        res.status(200).json({ message: 'Password updated successfully' })
       } else {
-        response.status(400).json({message: 'URL Expired'})
+        res.status(400).json({message: 'URL Expired'})
       }
     })
     .catch(err => {
-      response.status(400).json({message: err.message, fields: 'ERROR AQUI'})
+      res.status(400).json({ message: err.message })
     } )
 }
 

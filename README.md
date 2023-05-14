@@ -274,7 +274,8 @@ The request body should include the following parameter:
 
 ### Send Message
 
-Send a message to a recipient.
+Send a message to a recipient. Messages can only be sent to administrators, not between regular users.
+
 
 - URL: `https://localhost:3000/api/v1/message/:id`
 - Method: POST
