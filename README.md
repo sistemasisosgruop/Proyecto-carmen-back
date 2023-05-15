@@ -339,3 +339,96 @@ Status Code: 200 OK
   }
 }
 ```
+### Create Room
+
+Create a new room. This endpoint is only accessible to administrators.
+
+- URL: `https://localhost:3000/api/v1/rooms`
+- Method: POST
+- Content Type: application/json
+
+#### Parameters
+
+The request should include the following parameters:
+
+##### Request Body
+
+The request body should include the following parameters:
+
+| Name             | Type   | Description                                        |
+|------------------|--------|----------------------------------------------------|
+| room_type        | String | Type of the room.                                  |
+| description      | Text   | Description of the room.                           |
+| address          | String | Address of the room.                               |
+| price            | Number | Price of the room.                                 |
+| check_in         | Date   | Check-in date for the room.                        |
+| check_out        | Date   | Check-out date for the room.                       |
+| num_bathrooms    | Number | Number of bathrooms in the room.                    |
+| num_beds         | Number | Number of beds in the room.                         |
+| num_room         | Object | Details of the room number, including type and bed. |
+
+##### num_room Object
+
+The `num_room` object should include the following parameters:
+
+| Name          | Type   | Description                               |
+|---------------|--------|-------------------------------------------|
+| type_room     | String | Type of the room number.                   |
+| num_bed       | Number | Number of beds in the room number.         |
+| type_bed      | String | Type of the bed in the room number.        |
+| type_bed_2    | String | Additional type of bed in the room number. |
+| Photos        | String | Photos of the room number.                 |
+
+#### Example Request
+
+URL: `https://localhost:3000/api/v1/rooms`
+
+```json
+{
+  "room_type": "Single",
+  "description": "Cozy single room with a view.",
+  "address": "123 Main Street",
+  "price": 100,
+  "check_in": "2023-05-15",
+  "check_out": "2023-05-20",
+  "num_bathrooms": 1,
+  "num_beds": 1,    
+  // "extras": "None",
+  // "details": [""]
+  "num_room": {
+    "type_room": "Standard",
+    "num_bed": 1,
+    "type_bed": "Twin",
+    "type_bed_2": "None",
+    // "Photos": "https://example.com/room1.jpg", 
+  }
+}
+```
+
+#### Successful Response
+
+Status Code: 200 OK
+The room has been successfully created.
+
+
+``` json
+{
+  "room_type": "Single",
+  "description": "Cozy single room with a view.",
+  "address": "123 Main Street",
+  "price": 100,
+  "check_in": "2023-05-15",
+  "check_out": "2023-05-20",
+  "num_bathrooms": 1,
+  "num_beds": 1,
+  // "extras": "None"
+  // "details": [""]
+  "num_room": {
+    "type_room": "Standard",
+    "num_bed": 1,
+    "type_bed": "Twin",
+    "type_bed_2": "None"
+    // "Photos": "https://example.com/room1.jpg"
+  }
+}
+```

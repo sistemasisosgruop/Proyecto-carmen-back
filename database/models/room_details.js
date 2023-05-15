@@ -10,13 +10,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Room_Details.hasMany(models.Rooms, { foreignKey: 'num_rooms' });
+      Room_Details.belongsTo(models.Rooms, { foreignKey: 'room_id', as: 'Rooms' });
     }
   }
   Room_Details.init({
-    id: { 
-      type: DataTypes.BIGINT, 
-      primaryKey: true
+    room_id: {
+      type: DataTypes.UUID, 
+      foreignKey: true
     },
     type_room: DataTypes.STRING,
     num_bed: DataTypes.INTEGER,

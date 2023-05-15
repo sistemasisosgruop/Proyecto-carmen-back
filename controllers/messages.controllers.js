@@ -10,7 +10,7 @@ const postMessage = async (req, res) => {
     const recipientId = req.params
     const { subject, content } = req.body
 
-    // Verificar si el remitente y el destinatario existen
+    // Verify if the sender and the recipient exist.
     const [senderExists, recipientExists] = await Promise.all([
       usersService.getUser(senderId),
       usersService.getUser(recipientId.id)
@@ -20,7 +20,7 @@ const postMessage = async (req, res) => {
       return res.status(404).json({ message: 'Sender or recipient not found' })
     }
 
-    // Enviar el mensaje utilizando el servicio
+    // Send the message using the service.
     const messageContent = await messagesService.sendMessage(senderId, recipientId, subject, content)
 
     return res.status(201).json({ message: 'Message sent successfully', messageContent })

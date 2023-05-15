@@ -1,4 +1,5 @@
 'use strict'
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
@@ -8,9 +9,20 @@ module.exports = {
         {
           id: {
             allowNull: false,
-            autoIncrement: true,
             primaryKey: true,
+            autoIncrement: true,
+            defaultValues: Sequelize.INTEGER,
+            
             type: Sequelize.BIGINT
+          },
+          room_id: {
+            allowNull: false,
+            type: Sequelize.UUID,
+            foreignKey: true,
+            references: {
+              model: 'Rooms',
+              key: 'id'
+            }
           },
           type_room: {
             allowNull:false,
@@ -25,11 +37,10 @@ module.exports = {
             type: Sequelize.STRING,
           },
           type_bed_2: {
-            allowNull:false,
             type: Sequelize.STRING,
           },
           photos: {
-            allowNull:false,
+            // allowNull:false,
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
           createdAt: {

@@ -2,7 +2,6 @@ const { comparePassword, hash } = require('../utils/crypto')
 const UsersServices = require('../services/users.services')
 const models = require('../database/models')
 const { v4: uuid4} = require('uuid')
-const { updateUser } = require('../controllers/users.controllers')
 
 const UsersService = new UsersServices()
 

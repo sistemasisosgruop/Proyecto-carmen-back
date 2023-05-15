@@ -9,6 +9,7 @@ module.exports = {
           id: {
             allowNull: false,
             primaryKey: true,
+            defaultValue: Sequelize.UUIDV4,
             type: Sequelize.UUID
           },
           room_type: {
@@ -42,15 +43,7 @@ module.exports = {
           num_beds: {
             allowNull: false,
             type: Sequelize.INTEGER
-          },
-          num_rooms: {
-            // allowNull: false,
-            type: Sequelize.INTEGER,
-            references: {
-              model: 'Room_Details', 
-              key: 'id'
-            }
-          },
+          },         
           extras: {
             type: Sequelize.ARRAY(Sequelize.STRING)
           }, 
