@@ -42,7 +42,7 @@ app.use(express.urlencoded({ extended: false }))
 /*
 Routes
 */
-routerModels(app) 
+routerModels(app)
 
 /* 
     Tell everyone the state of your api

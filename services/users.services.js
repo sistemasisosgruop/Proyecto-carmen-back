@@ -25,7 +25,7 @@ class UsersService {
       options.where.name = { [Op.iLike]: `%${name}%` }
     }
 
-    //Necesario para el findAndCountAll de Sequelize
+    //Necessary for the findAndCountAll of Sequelize
     options.distinct = true
 
     const users = await models.Users.findAndCountAll(options)

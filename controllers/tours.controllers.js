@@ -1,0 +1,114 @@
+const ToursService = require('../services/tours.services')
+const tourService = new ToursService()
+const { getPagination, getPagingData } = require('../utils/pagination')
+
+class TourController {
+  constructor() {}
+
+  async getAllTours(req, res) {
+    try {
+      let query = req.query
+      let { page, size } = query
+
+      const { limit, offset } = getPagination(page, size, '10')
+      query.limit = limit
+      query.offset = offset
+
+      let tours = await tourService.findAndCount(query)
+      const results = getPagingData(tours, page, limit)
+      return res.status(200).json({ results: results })
+    } catch (error) {
+      return res.status(404).json({ message: 'Tours empty' })
+    }
+  }
+
+  async getTour(req, res) {
+    try {
+      let { tourId } = req.params
+      let tour = await tourService.getTourOr404(tourId)
+      return res.status(200).json({ results: tour })
+    } catch (error) {
+      return res.status(404).json({ message: error })
+    }
+  }
+
+  async postTour(req, res) {
+    const userId = req.user.id
+    const {
+      tour_name,
+      tour_description,
+      extras,
+      location,
+      duration,
+      difficulty,
+      languages,
+      number_of_people,
+      ages,
+      tour_info,
+      tour_details,
+    } = req.body
+
+    // console.log('USER', userId)
+    // console.log('DATA', {
+    //   tour_name,
+    //   tour_description,
+    //   extras,
+    //   location,
+    //   duration,
+    //   difficulty,
+    //   languages,
+    //   number_of_people,
+    //   ages,
+    //   tour_info,
+    //   tour_details})
+    try {
+      const tour = await tourService.createTour(userId, {
+        tour_name,
+        tour_description,
+        extras,
+        location,
+        duration,
+        difficulty,
+        languages,
+        number_of_people,
+        ages,
+        tour_info,
+        tour_details
+      })
+      return res.status(201).json(tour)
+    } catch (error) {
+      return res.status(404).json({
+        message: error.message,
+        fields: {
+          'tour_name': 'String',
+          'tour_description': 'Text',
+          'extras': 'String',
+          'location': 'String',
+          'duration': 'String',
+          'difficulty': 'String',
+          'languages': ['String'],
+          'number_of_people': 'String',
+          'ages': 'String',
+          'tour_info': {
+            'what_to_do': 'Text',
+            'good_choise_for': 'Text',
+            'cancellation_policy': 'Text',
+            'price_per_person': 'Number',
+            'available_dates': ['Date'],
+            'schedule': 'String',
+          },
+          'tour_details': {
+            'what_is_included': 'Text',
+            'what_is_not_included': 'Text',
+            'itinerary': ['String'],
+            'departure_details': 'String',
+            'return_details': 'String',
+            'accessibility': 'Text',
+          },
+        },
+      })
+    }
+  }
+}
+
+module.exports = TourController

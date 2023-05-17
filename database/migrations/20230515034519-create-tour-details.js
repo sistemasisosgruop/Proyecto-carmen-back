@@ -4,49 +4,46 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       await queryInterface.createTable(
-        'Rooms',
+        'Tour_Details',
         {
           id: {
             allowNull: false,
             primaryKey: true,
-            defaultValue: Sequelize.UUIDV4,
-            type: Sequelize.UUID
+            type: Sequelize.UUID,
           },
-          room_type: {
+          tour_id: {
             allowNull: false,
-            type: Sequelize.STRING
+            type: Sequelize.UUID,
+            references: {
+              model: 'Tours',
+              key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
           },
-          description: {
+          what_is_included: {
             allowNull: false,
-            type: Sequelize.TEXT
+            type: Sequelize.TEXT,
           },
-          address: {
+          what_is_not_included: {
             allowNull: false,
-            type: Sequelize.STRING
+            type: Sequelize.TEXT,
           },
-          price: {
+          itinerary: {
             allowNull: false,
-            type: Sequelize.FLOAT
+            type: Sequelize.ARRAY(Sequelize.STRING),
           },
-          check_in: {
-            allowNull:false,
-            type: Sequelize.DATE,
+          departure_details: {
+            allowNull: false,
+            type: Sequelize.STRING,
           },
-          check_out: {
+          return_details: {
             allowNull: false,
-            type: Sequelize.DATE,
+            type: Sequelize.STRING,
           },
-          num_bathrooms: {
+          accessibility: {
             allowNull: false,
-            type: Sequelize.INTEGER
-          },
-          num_beds: {
-            allowNull: false,
-            type: Sequelize.INTEGER
-          },         
-          extras: {
-            allowNull: false,
-            type: Sequelize.ARRAY(Sequelize.STRING)
+            type: Sequelize.STRING,
           },
           createdAt: {
             allowNull: false,
@@ -70,7 +67,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Rooms', { transaction })
+      await queryInterface.dropTable('Info_Tours', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

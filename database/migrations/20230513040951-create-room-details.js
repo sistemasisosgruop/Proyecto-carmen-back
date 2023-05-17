@@ -11,14 +11,12 @@ module.exports = {
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,
-            defaultValues: Sequelize.INTEGER,
-            
+            defaultValues: Sequelize.BIGINT,
             type: Sequelize.BIGINT
           },
           room_id: {
             allowNull: false,
             type: Sequelize.UUID,
-            foreignKey: true,
             references: {
               model: 'Rooms',
               key: 'id'

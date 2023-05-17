@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
 
       Rooms.hasMany(models.Room_Details, { foreignKey: 'room_id', as: 'Room_Details' });
+      Rooms.hasMany(models.Room_Details_2, { foreignKey: 'room_id', as: 'Room_Details_2' });
       Rooms.hasMany(models.Reservations, { foreignKey: 'room_id', as: 'Reservations' });
     }
   }
@@ -24,8 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     check_out: DataTypes.STRING,
     num_bathrooms: DataTypes.INTEGER,
     num_beds: DataTypes.INTEGER,
-    extras: DataTypes.ARRAY(DataTypes.STRING),
-    details: DataTypes.JSONB
+    extras: DataTypes.ARRAY(DataTypes.STRING)
   }, {
     sequelize,
     modelName: 'Rooms',

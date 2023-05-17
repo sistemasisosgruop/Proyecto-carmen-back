@@ -8,6 +8,5 @@ module.exports = {
     emailPass: process.env.MAIL_PASS,
     user: process.env.MAIL_USER,
     jwtSecret: process.env.JWT_SECRET,
-  }
+  },
 }
-

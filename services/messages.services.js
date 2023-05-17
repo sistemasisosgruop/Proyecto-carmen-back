@@ -5,7 +5,7 @@ class MessagesService {
   constructor() {}
 
   async sendMessage(senderId, recipientId, subject, content) {
-    const transaction = await models.Users.sequelize.transaction()
+    const transaction = await models.Messages.sequelize.transaction()
    
     try {
       const sender = await models.Users.findByPk(senderId)
