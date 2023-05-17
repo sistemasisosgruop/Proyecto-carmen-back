@@ -355,17 +355,31 @@ The request should include the following parameters:
 
 The request body should include the following parameters:
 
-| Name             | Type   | Description                                        |
-|------------------|--------|----------------------------------------------------|
-| room_type        | String | Type of the room.                                  |
-| description      | Text   | Description of the room.                           |
-| address          | String | Address of the room.                               |
-| price            | Number | Price of the room.                                 |
-| check_in         | Date   | Check-in date for the room.                        |
-| check_out        | Date   | Check-out date for the room.                       |
-| num_bathrooms    | Number | Number of bathrooms in the room.                    |
-| num_beds         | Number | Number of beds in the room.                         |
-| num_room         | Object | Details of the room number, including type and bed. |
+| Name          | Type    | Description                                                                                       |
+|---------------|---------|---------------------------------------------------------------------------------------------------|
+| room_type     | String  | Type of the room.                                                                                 |
+| description   | String  | Description of the room.                                                                          |
+| address       | String  | Address of the room.                                                                              |
+| price         | Number  | Price of the room.                                                                                |
+| check_in      | Date    | Check-in date for the room.                                                                       |
+| check_out     | Date    | Check-out date for the room.                                                                      |
+| num_bathrooms | Number  | Number of bathrooms in the room.                                                                  |
+| num_beds      | Number  | Number of beds in the room.                                                                       |
+| extras        | Array   | Additional features or extras offered in the room.                                               |
+| details       | Object  | Details about the room, including photos, amenities, not included services, and room services.   |
+| num_room      | Object  | Details about the room type, including room type, number of beds, bed type, and room photos.     |
+
+
+##### details Object
+
+The `details` object should include the following parameters:
+
+| Name           | Type      | Description                                                    |
+| ------------- | --------- | -------------------------------------------------------------- |
+| photos        | Array     | An array of strings representing the photos of the room.        |
+| amenities     | Array     | An array of strings listing the amenities provided in the room. |
+| not_included  | Array     | An array of strings specifying what is not included.            |
+| services      | Array     | An array of strings listing the services available.             |
 
 ##### num_room Object
 
@@ -385,22 +399,27 @@ URL: `https://localhost:3000/api/v1/rooms`
 
 ```json
 {
-  "room_type": "Single",
-  "description": "Cozy single room with a view.",
-  "address": "123 Main Street",
+  "room_type": "Room Type",
+  "description": "Room description",
+  "address": "Room address",
   "price": 100,
   "check_in": "2023-05-15",
   "check_out": "2023-05-20",
-  "num_bathrooms": 1,
-  "num_beds": 1,    
-  // "extras": "None",
-  // "details": [""]
+  "num_bathrooms": 2,
+  "num_beds": 3,
+  "extras": ["Soap", "Towels", "Shampoo"],
+  "details": {
+    // "photos": ["Photo 1", "Photo 2"],
+    "amenities": ["WiFi", "Heating"],
+    "not_included": ["Pet entry", "Swimming pool"],
+    "services": ["Free cancellation up to 10 days in advance"]
+  },
   "num_room": {
-    "type_room": "Standard",
+    "type_room": "Room Type",
     "num_bed": 1,
-    "type_bed": "Twin",
-    "type_bed_2": "None",
-    // "Photos": "https://example.com/room1.jpg", 
+    "type_bed": "Single Bed",
+    "type_bed_2": "Double Bed",
+    // "photos": "Room Photo"
   }
 }
 ```
@@ -413,22 +432,197 @@ The room has been successfully created.
 
 ``` json
 {
-  "room_type": "Single",
-  "description": "Cozy single room with a view.",
-  "address": "123 Main Street",
-  "price": 100,
-  "check_in": "2023-05-15",
-  "check_out": "2023-05-20",
-  "num_bathrooms": 1,
-  "num_beds": 1,
-  // "extras": "None"
-  // "details": [""]
-  "num_room": {
-    "type_room": "Standard",
+  {
+  "room": {
+    "id": "475921e3-2d82-414c-abd9-c121778ffe3e",
+    "room_type": "Deluxe Suite",
+    "description": "Spacious and luxurious suite with a stunning view of the city.",
+    "address": "123 Main Street, Cityville",
+    "price": 200,
+    "check_in": "2023-05-15T00:00:00.000Z",
+    "check_out": "2023-05-20T00:00:00.000Z",
+    "num_bathrooms": 2,
+    "num_beds": 1,
+    "extras": ["Breakfast included", "Free Wi-Fi", "Gym access"],
+    "updated_at": "2023-05-17T03:19:13.759Z",
+    "created_at": "2023-05-17T03:19:13.759Z"
+  },
+  "roomDetails": {
+    "id": "1",
+    "room_id": "475921e3-2d82-414c-abd9-c121778ffe3e",
+    "type_room": "Deluxe Suite",
     "num_bed": 1,
-    "type_bed": "Twin",
-    "type_bed_2": "None"
-    // "Photos": "https://example.com/room1.jpg"
+    "type_bed": "King Bed",
+    "type_bed_2": "Sofa Bed",
+    // "photos": null,
+    "updated_at": "2023-05-17T03:19:13.767Z",
+    "created_at": "2023-05-17T03:19:13.767Z"
+  },
+  "roomDetails2": {
+    "id": "1",
+    "room_id": "475921e3-2d82-414c-abd9-c121778ffe3e",
+    "amenities": ["Swimming pool", "Restaurant", "Room service"],
+    "not_included": ["Pets not allowed", "Smoking not allowed"],
+    "services": ["24/7 concierge", "Laundry service"],
+    "updated_at": "2023-05-17T03:19:13.769Z",
+    "created_at": "2023-05-17T03:19:13.769Z",
+    // "photos": null
+  }
+}
+
+```
+
+### Get All Rooms
+
+Retrieve a paginated list of all created users in the database.
+
+- URL: `https://localhost:3000/api/v1/rooms`
+- Method: GET
+- Content Type: application/json
+
+
+#### Successful Response
+
+Status Code: 200 OK
+
+
+``` json
+{
+  "results": {
+    "count": 2,
+    "totalPages": 1,
+    "currentPage": 1,
+    "results": [
+      {
+        "id": "475921e3-2d82-414c-abd9-c121778ffe3e",
+        "room_type": "Standard Room",
+        "description": "Cozy and affordable room for a comfortable stay.",
+        "address": "456 Elm Street, Townsville",
+        "price": 100,
+        "check_in": "2023-05-15T00:00:00.000Z",
+        "check_out": "2023-05-20T00:00:00.000Z",
+        "num_bathrooms": 1,
+        "num_beds": 1,
+        "extras": [
+          "TV with cable channels",
+          "Air conditioning",
+          "Mini fridge"
+        ],
+        "created_at": "2023-05-17T03:19:13.759Z",
+        "updated_at": "2023-05-17T03:19:13.759Z"
+      },
+      {
+        "id": "912de97f-82f1-4d79-bd79-16b3de40dcdf",
+        "room_type": "Suite",
+        "description": "Luxurious suite with a separate living area and stunning views.",
+        "address": "789 Oak Street, Villagetown",
+        "price": 250,
+        "check_in": "2023-05-15T00:00:00.000Z",
+        "check_out": "2023-05-20T00:00:00.000Z",
+        "num_bathrooms": 2,
+        "num_beds": 2,
+        "extras": [
+          "Private balcony",
+          "Jacuzzi",
+          "24-hour room service"
+        ],
+        "created_at": "2023-05-17T03:19:13.759Z",
+        "updated_at": "2023-05-17T03:19:13.759Z"
+      }
+    ]
   }
 }
 ```
+
+### Create a New Tour
+
+Creates a new tour with the provided information.
+
+- **URL**: `/api/v1/tours`
+- **Method**: `POST`
+- **Data Parameters**:
+
+  | Parameter              | Type       | Description                                        |
+  |------------------------|------------|----------------------------------------------------|
+  | `tour_name`            | String     | The name of the tour.                              |
+  | `tour_description`     | Text       | The description of the tour.                       |
+  | `extras`               | String     | Additional extras or features of the tour.         |
+  | `location`             | String     | The location of the tour.                          |
+  | `duration`             | String     | The duration of the tour.                          |
+  | `difficulty`           | String     | The difficulty level of the tour.                  |
+  | `languages`            | Array      | The languages spoken during the tour.              |
+  | `number_of_people`     | String     | The number of people allowed on the tour.          |
+  | `ages`                 | String     | The age group suitable for the tour.               |
+  | `tour_info`            | Object     | Additional information about the tour.             |
+  | `tour_details`         | Object     | Detailed information about the tour.               |
+
+##### tour_info Object
+
+The `tour_info` object should include the following parameters:
+
+| `tour_info`       | Object     | Additional information about the tour.                                         |
+|-------------------|------------|------------------------------------------------------------------------------|
+| `what_to_do`      | Text       | Activities to do during the tour.                                             |
+| `good_choice_for` | Text       | Target audience or type of traveler for whom the tour is a good choice.       |
+| `cancellation_policy` | Text   | Cancellation policy of the tour.                                              |
+| `price_per_person` | Number    | Price per person for the tour.                                                |
+| `available_dates` | Array      | Array of available dates for the tour.                                        |
+| `schedule`        | String     | Schedule or itinerary of the tour.                                            |
+
+
+##### tour_details Object
+
+The `tour_details` object should include the following parameters:
+
+| `tour_details`    | Object     | Detailed information about the tour.                                          |
+|-------------------|------------|------------------------------------------------------------------------------|
+| `what_is_included` | Text      | List of what is included in the tour package.                                 |
+| `what_is_not_included` | Text  | List of what is not included in the tour package.                             |
+| `itinerary`       | Array      | Array of itinerary items or activities during the tour.                       |
+| `departure_details` | String   | Departure details or instructions for the tour.                               |
+| `return_details`  | String     | Return details or instructions after the tour.                                |
+| `accessibility`   | Text       | Information about the accessibility of the tour for individuals with mobility issues. |
+
+
+
+
+- **Success Response**:
+  - **Status Code**: 201
+  - **Content**:
+
+    ```json
+    {
+      "tour": {
+        "id": "345fd2de-7c53-4c82-b399-04c9b3e3fc25",
+        "tour_name": "Amazing Adventure Tour",
+        "tour_description": "Embark on an unforgettable adventure in the wilderness.",
+        "extras": "Photography equipment, Snacks",
+        "location": "Mountainous region",
+        "duration": "3 days",
+        "difficulty": "Intermediate",
+        "languages": ["English", "Spanish"],
+        "number_of_people": "10",
+        "ages": "18+",
+        "tour_info": {
+          "what_to_do": "Hiking, Camping, Wildlife spotting",
+          "good_choice_for": "Nature lovers, Adventure enthusiasts",
+          "cancellation_policy": "Free cancellation up to 48 hours before the tour",
+          "price_per_person": 250.00,
+          "available_dates": ["2023-06-15", "2023-06-22", "2023-06-29"],
+          "schedule": "Day 1: Arrival and orientation, Day 2: Hiking to scenic viewpoints, Day 3: Wildlife safari",
+        },
+        "tour_details": {
+          "what_is_included": "Accommodation, Meals, Transportation",
+          "what_is_not_included": "Personal expenses, Travel insurance",
+          "itinerary": ["Day 1: Arrival and orientation", "Day 2: Hiking to scenic viewpoints", "Day 3: Wildlife safari"],
+          "departure_details": "Meeting point: Visitor Center at 9:00 AM",
+          "return_details": "Drop-off at Visitor Center at 5:00 PM",
+          "accessibility": "Not suitable for individuals with mobility issues",
+        },
+        "created_at": "2023-05-18T09:30:00.000Z",
+        "updated_at": "2023-05-18T09:30:00.000Z"
+      }
+    }
+    ```
+
+-     
