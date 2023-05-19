@@ -1,7 +1,4 @@
 'use strict'
-
-const { CustomError } = require("../../utils/custom-error")
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
@@ -40,6 +37,7 @@ module.exports = {
             type: Sequelize.STRING,
           },
           languages: {
+            allowNull: false,
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
           number_of_people: {
@@ -66,7 +64,7 @@ module.exports = {
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()
-      throw CustomError('Error')
+      throw error
     }
   },
   down: async (queryInterface, Sequelize) => {
@@ -76,7 +74,7 @@ module.exports = {
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()
-      throw {message:error}
+      throw error
     }
   },
 }

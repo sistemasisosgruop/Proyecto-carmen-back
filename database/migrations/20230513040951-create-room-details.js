@@ -23,15 +23,15 @@ module.exports = {
             }
           },
           type_room: {
-            allowNull:false,
+            // allowNull:false,
             type: Sequelize.STRING,
           },
           num_bed: {
-            allowNull:false,
+            // allowNull:false,
             type: Sequelize.INTEGER,
           },
           type_bed: {
-            allowNull:false,
+            // allowNull:false,
             type: Sequelize.STRING,
           },
           type_bed_2: {

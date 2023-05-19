@@ -58,15 +58,16 @@ class TourService {
           location: tourData.location,
           duration: tourData.duration,
           difficulty: tourData.difficulty,
-          // languages: tourData.languages,
+          languages: tourData.languages,
           number_of_people: tourData.number_of_people,
           ages: tourData.ages
         },
         { transaction }
       )
-      console.log('AQUI')
-      const tourInfo = await models.Tour_Info.create(
+      console.log('AQUI', tour)
+      const tourInfo = await models.Tours_Info.create(
         {
+          id: uuid4(),
           tour_id: tour.dataValues.id,
           // photos: tourData.tour_info.photos,
           what_to_do: tourData.tour_info.what_to_do,
@@ -79,8 +80,9 @@ class TourService {
         { transaction }
       )
 
-      const tourDetail = await models.Tour_Details.create(
+      const tourDetail = await models.Tours_Details.create(
         {
+          id: uuid4(),
           tour_id: tour.dataValues.id,
           what_is_included: tourData.tour_details.what_is_included,
           what_is_not_included: tourData.tour_details.what_is_not_included,

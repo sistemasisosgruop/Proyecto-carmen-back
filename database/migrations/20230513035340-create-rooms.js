@@ -13,48 +13,48 @@ module.exports = {
             type: Sequelize.UUID
           },
           room_type: {
-            allowNull: false,
+            // allowNull: false,
             type: Sequelize.STRING
           },
           description: {
-            allowNull: false,
+            // allowNull: false,
             type: Sequelize.TEXT
           },
           address: {
-            allowNull: false,
+            // allowNull: false,
             type: Sequelize.STRING
           },
           price: {
-            allowNull: false,
+            // allowNull: false,
             type: Sequelize.FLOAT
           },
           check_in: {
-            allowNull:false,
+            // allowNull:false,
             type: Sequelize.DATE,
           },
           check_out: {
-            allowNull: false,
+            // allowNull: false,
             type: Sequelize.DATE,
           },
           num_bathrooms: {
-            allowNull: false,
+            // allowNull: false,
             type: Sequelize.INTEGER
           },
           num_beds: {
-            allowNull: false,
+            // allowNull: false,
             type: Sequelize.INTEGER
           },         
           extras: {
-            allowNull: false,
+            // allowNull: false,
             type: Sequelize.ARRAY(Sequelize.STRING)
           },
           createdAt: {
-            allowNull: false,
+            // allowNull: false,
             type: Sequelize.DATE,
             field: 'created_at',
           },
           updatedAt: {
-            allowNull: false,
+            // allowNull: false,
             type: Sequelize.DATE,
             field: 'updated_at',
           },

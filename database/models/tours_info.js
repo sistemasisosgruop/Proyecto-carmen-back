@@ -3,17 +3,14 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Tour_Info extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+  class Tours_Info extends Model {
+    
+    
     static associate(models) {
-      Tour_Info.belongsTo(models.Tours, { foreignKey: 'tour_id', as: 'Tours' });
+      Tours_Info.belongsTo(models.Tours, { foreignKey: 'tour_id', as: 'Tours' });
     }
   }
-  Tour_Info.init({
+  Tours_Info.init({
     tour_id: {
       type: DataTypes.UUID,
       foreignKey: true
@@ -24,12 +21,11 @@ module.exports = (sequelize, DataTypes) => {
     cancellation_policy: DataTypes.TEXT,
     price_per_person: DataTypes.FLOAT,
     available_dates: DataTypes.ARRAY(DataTypes.DATE),
-    schedule: DataTypes.STRING,
+    schedule: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'Tour_Info', 
-    tableName: 'Tour_Info', 
-    underscored: true
+    modelName: 'Tours_Info',
+    tableName: 'Tours_Info'
   });
-  return Tour_Info;
+  return Tours_Info;
 };

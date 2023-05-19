@@ -4,15 +4,15 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       await queryInterface.createTable(
-        'Tour_Info',
+        'Tours_Details',
         {
           id: {
             allowNull: false,
             primaryKey: true,
-            defaultValue: Sequelize.UUIDV4,
             type: Sequelize.UUID,
           },
           tour_id: {
+            allowNull: false,
             type: Sequelize.UUID,
             references: {
               model: 'Tours',
@@ -21,30 +21,27 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          photos: {
+          what_is_included: {
+            allowNull: false,
+            type: Sequelize.TEXT,
+          },
+          what_is_not_included: {
+            allowNull: false,
+            type: Sequelize.TEXT,
+          },
+          itinerary: {
+            allowNull: false,
+            type: Sequelize.ARRAY(Sequelize.STRING),
+          },
+          departure_details: {
+            allowNull: false,
             type: Sequelize.STRING,
           },
-          what_to_do: {
+          return_details: {
             allowNull: false,
-            type: Sequelize.TEXT,
+            type: Sequelize.STRING,
           },
-          good_choise_for: {
-            allowNull: false,
-            type: Sequelize.TEXT,
-          },
-          cancellation_policy: {
-            allowNull: false,
-            type: Sequelize.TEXT,
-          },
-          price_per_person: {
-            allowNull: false,
-            type: Sequelize.FLOAT,
-          },
-          available_dates: {
-            allowNull: false,
-            type: Sequelize.ARRAY(Sequelize.DATE),
-          },
-          schedule: {
+          accessibility: {
             allowNull: false,
             type: Sequelize.STRING,
           },
@@ -70,7 +67,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Tour_Info', { transaction })
+      await queryInterface.dropTable('Tours_Details', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

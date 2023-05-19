@@ -1,5 +1,7 @@
+const { uploadFile } = require('../s3')
 const RoomsService = require('../services/rooms.services')
 const { getPagination, getPagingData } = require('../utils/pagination')
+// const { AWS_DOMAIN } = require('../config');
 
 const roomsService = new RoomsService()
 
@@ -17,7 +19,7 @@ const getAllRooms = async (req, res) => {
     const results = getPagingData(rooms, page, limit)
     return res.json({ results: results })
   } catch (error) {
-    return res.status(401).json({ message: 'Unauthorized'})
+    return res.status(401).json({ message: 'Unauthorized' })
   }
 }
 
@@ -28,48 +30,147 @@ const getRoom = async (req, res) => {
     let room = await roomsService.getRoomOr404(roomId)
     return res.json({ results: room })
   } catch (error) {
-    return res.status(404).json({message: 'Invalid ID'})
+    return res.status(404).json({ message: 'Invalid ID' })
   }
 }
 
 //? Create a new Room with details being a admin
+// const postRoom = async (req, res) => {
+//   const userId = req.user.id
+//   const files = req.files
+
+//   const { room_type, description, address, price, check_in, check_out, num_bathrooms, num_beds, extras, num_room, details } = req.body
+//   // const { photos }
+//   try {
+//     const room = await roomsService.createRoom(userId, { room_type, description, address, price, check_in, check_out, num_bathrooms, num_beds, extras, num_room, details })
+//     res.status(201).json(room)
+//   } catch (error) {
+//     res.status(401).json({
+//       message: error.message,
+//       fields: {
+//         'room_type': 'String',
+//         'description': 'Text',
+//         'address': 'String',
+//         'price': 'Number',
+//         'check_in': 'Date',
+//         'check_out': 'Date',
+//         'num_bathrooms': 'Number',
+//         'num_beds': 'Number',
+//         'extras': '[Strings]',
+//         'details': {
+//           'photos': '[Strings]',
+//           'amenities': '[Strings]',
+//           'not_included': '[String]',
+//           'services': '[String]'
+//         },
+//         'num_room': {
+//           'type_room': 'String',
+//           'num_bed': 'Number',
+//           'type_bed': 'String',
+//           'type_bed_2': 'String',
+//           'photos': 'String',
+//         },
+//       },
+//     })
+//   }
+// }
+
 const postRoom = async (req, res) => {
   const userId = req.user.id
-  const { room_type, description, address, price, check_in, check_out, num_bathrooms, num_beds, extras, num_room, details } = req.body
+  const files = req.files
+  const {
+    room_type,
+    description,
+    address,
+    price,
+    check_in,
+    check_out,
+    num_bathrooms,
+    num_beds,
+    extras,
+    num_room,
+    details,
+  } = req.body
 
   try {
-    const room = await roomsService.createRoom(userId, { room_type, description, address, price, check_in, check_out, num_bathrooms, num_beds, extras, num_room, details })
+    const photos = files.map((file) => ({
+      fieldname: file.fieldname,
+      originalname: file.originalname,
+      mimetype: file.mimetype,
+      filename: file.filename,
+      path: file.path,
+    }))
+    const room = await roomsService.createRoom(userId, {
+      room_type,
+      description,
+      address,
+      price,
+      check_in,
+      check_out,
+      num_bathrooms,
+      num_beds,
+      extras,
+      num_room,
+      details,
+      photos,
+    })
+
     res.status(201).json(room)
   } catch (error) {
     res.status(401).json({
       message: error.message,
       fields: {
-        'room_type': 'String',
-        'description': 'Text',
-        'address': 'String',
-        'price': 'Number',
-        'check_in': 'Date',
-        'check_out': 'Date',
-        'num_bathrooms': 'Number',
-        'num_beds': 'Number',
-        'extras': '[Strings]',
-        'details': {
-          'photos': '[Strings]', 
-          'amenities': '[Strings]',
-          'not_included': '[String]',
-          'services': '[String]'
+        room_type: 'String',
+        description: 'Text',
+        address: 'String',
+        price: 'Number',
+        check_in: 'Date',
+        check_out: 'Date',
+        num_bathrooms: 'Number',
+        num_beds: 'Number',
+        extras: '[Strings]',
+        details: {
+          photos: '[Strings]',
+          amenities: '[Strings]',
+          not_included: '[String]',
+          services: '[String]',
         },
-        'num_room': {
-          'type_room': 'String',
-          'num_bed': 'Number',
-          'type_bed': 'String',
-          'type_bed_2': 'String',
-          'photos': 'String',
+        num_room: {
+          type_room: 'String',
+          num_bed: 'Number',
+          type_bed: 'String',
+          type_bed_2: 'String',
+          photos: 'String',
         },
       },
     })
   }
 }
+
+// const postRoom = async (req, res) => {
+//   const userId = req.user.id;
+//   const files = req.files;
+
+//   const { room_type, description, address, price, check_in, check_out, num_bathrooms, num_beds, extras, num_room, details } = req.body;
+
+//   try {
+//     const room = await roomService.createRoom(userId, { room_type, description, address, price, check_in, check_out, num_bathrooms, num_beds, extras, num_room, details }, files);
+
+//     const roomWithPhotoUrls = {
+//       ...room,
+//       photos: room.photos.map((photoKey) => AWS_DOMAIN + photoKey),
+//     };
+
+//     res.status(201).json(roomWithPhotoUrls);
+//   } catch (error) {
+//     res.status(401).json({
+//       message: error.message,
+//       fields: {
+//         // ... Resto de los campos de validación ...
+//       },
+//     });
+//   }
+// };
 
 module.exports = {
   getAllRooms,

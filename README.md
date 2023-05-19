@@ -399,27 +399,27 @@ URL: `https://localhost:3000/api/v1/rooms`
 
 ```json
 {
-  "room_type": "Room Type",
-  "description": "Room description",
-  "address": "Room address",
-  "price": 100,
-  "check_in": "2023-05-15",
-  "check_out": "2023-05-20",
-  "num_bathrooms": 2,
-  "num_beds": 3,
-  "extras": ["Soap", "Towels", "Shampoo"],
+  "room_type": "Deluxe Suite",
+    "description": "Spacious and luxurious suite with a stunning view of the city.",
+    "address": "123 Main Street, Cityville",
+    "price": 200,
+    "check_in": "2023-05-15T00:00:00.000Z",
+    "check_out": "2023-05-20T00:00:00.000Z",
+    "num_bathrooms": 2,
+    "num_beds": 1,
+    "extras": ["Breakfast included", "Free Wi-Fi", "Gym access"],
   "details": {
     // "photos": ["Photo 1", "Photo 2"],
-    "amenities": ["WiFi", "Heating"],
-    "not_included": ["Pet entry", "Swimming pool"],
-    "services": ["Free cancellation up to 10 days in advance"]
+    "amenities": ["Swimming pool", "Restaurant", "Room service"],
+    "not_included": ["Pets not allowed", "Smoking not allowed"],
+    "services": ["24/7 concierge", "Laundry service"],
   },
   "num_room": {
-    "type_room": "Room Type",
+    "type_room": "Deluxe Suite",
     "num_bed": 1,
-    "type_bed": "Single Bed",
-    "type_bed_2": "Double Bed",
-    // "photos": "Room Photo"
+    "type_bed": "King Bed",
+    "type_bed_2": "Sofa Bed",
+    // "photos": null,
   }
 }
 ```
@@ -431,7 +431,6 @@ The room has been successfully created.
 
 
 ``` json
-{
   {
   "room": {
     "id": "475921e3-2d82-414c-abd9-c121778ffe3e",
@@ -469,7 +468,6 @@ The room has been successfully created.
     // "photos": null
   }
 }
-
 ```
 
 ### Get All Rooms

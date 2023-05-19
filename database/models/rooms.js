@@ -35,3 +35,189 @@ module.exports = (sequelize, DataTypes) => {
 
   return Rooms;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+'use strict'
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    const transaction = await queryInterface.sequelize.transaction()
+    try {
+      await queryInterface.createTable(
+        'Tours',
+        },
+        { transaction }
+      )
+      await transaction.commit()
+    } catch (error) {
+      await transaction.rollback()
+      throw error
+    }
+  },
+  down: async (queryInterface, Sequelize) => {
+    const transaction = await queryInterface.sequelize.transaction()
+    try {
+      await queryInterface.dropTable('Tours', { transaction })
+      await transaction.commit()
+    } catch (error) {
+      await transaction.rollback()
+      throw error
+    }
+  },
+}
+
+
+'use strict'
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    const transaction = await queryInterface.sequelize.transaction()
+    try {
+      await queryInterface.createTable(
+        'Tour_Info',
+        ,
+        { transaction }
+      )
+      await transaction.commit()
+    } catch (error) {
+      await transaction.rollback()
+      throw error
+    }
+  },
+  down: async (queryInterface, Sequelize) => {
+    const transaction = await queryInterface.sequelize.transaction()
+    try {
+      await queryInterface.dropTable('Tour_Info', { transaction })
+      await transaction.commit()
+    } catch (error) {
+      await transaction.rollback()
+      throw error
+    }
+  },
+}
+
+
+
+'use strict'
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    const transaction = await queryInterface.sequelize.transaction()
+    try {
+      await queryInterface.createTable(
+        'Tour_Details',
+        ,
+        { transaction }
+      )
+      await transaction.commit()
+    } catch (error) {
+      await transaction.rollback()
+      throw error
+    }
+  },
+  down: async (queryInterface, Sequelize) => {
+    const transaction = await queryInterface.sequelize.transaction()
+    try {
+      await queryInterface.dropTable('Info_Tours', { transaction })
+      await transaction.commit()
+    } catch (error) {
+      await transaction.rollback()
+      throw error
+    }
+  },
+}
+
+
+
+*/
+
+
+
+//! MODELS
+
+/*
+
+'use strict'
+const {
+    Model
+} = require('sequelize')
+
+module.exports = (sequelize, DataTypes) => {
+  class Tours extends Model {
+
+    static associate(models) {
+
+    }
+  }
+  Tours.init({
+
+  }, {
+    sequelize,
+    modelName: 'Tours',
+    tableName: 'Tours',
+    underscored: true
+  });
+  return Tours;
+};
+
+'use strict'
+const { Model } = require('sequelize')
+module.exports = (sequelize, DataTypes) => {
+  class Tour_Details extends Model {
+
+    static associate(models) {
+    }
+  }
+  Tour_Details.init(
+    {
+    },
+    {
+      sequelize,
+      modelName: 'Tour_Details',
+      tableName: 'Tour_Details',
+      underscored: true,
+    }
+  )
+  return Tour_Details
+}
+
+
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class Tour_Info extends Model {
+
+    static associate(models) {
+    }
+  }
+  Tour_Info.init({
+
+  }, {
+    sequelize,
+    modelName: 'Tour_Info', 
+    tableName: 'Tour_Info', 
+    underscored: true
+  });
+  return Tour_Info;
+};
+
+*/
