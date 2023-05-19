@@ -22,28 +22,28 @@ module.exports = {
             }
           },
           photos: {
-            // allowNull: false, 
+            allowNull: false, 
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
           amenities: {
-            // allowNull: false, 
+            allowNull: false, 
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
           not_included: {
-            // allowNull: false, 
+            allowNull: false, 
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
           services: {
-            // allowNull: false, 
+            allowNull: false, 
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
           createdAt: {
-            // allowNull: false,
+            allowNull: false,
             type: Sequelize.DATE,
             field: 'created_at',
           },
           updatedAt: {
-            // allowNull: false,
+            allowNull: false,
             type: Sequelize.DATE,
             field: 'updated_at',
           },
