@@ -41,57 +41,6 @@ class RoomService {
   }
 
   //? Create a new Room with details being a admin
-  //   async createRoom(userId, roomData) {
-  //     const transaction = await models.Rooms.sequelize.transaction()
-  //     const user = await models.Users.findByPk(userId)
-
-  //     try {
-  //       if(user.dataValues.role_id !== 1){
-  //         throw new Error ('Only admins can create New Rooms')
-  //       }
-  //       console.log(roomData.description)
-  //       const room = await models.Rooms.create(
-  //         {
-  //           id: uuid4(),
-  //           // room_type: roomData.room_type,
-  //           // description: roomData.description,
-  //           // address: roomData.address,
-  //           // price: roomData.price,
-  //           // check_in: roomData.check_in,
-  //           // check_out: roomData.check_out,
-  //           // num_bathrooms: roomData.num_bathrooms,
-  //           // num_beds: roomData.num_beds,
-  //           // extras: roomData.extras,
-  //         },
-  //         { transaction }
-  //       )
-
-  //       const roomDetails = await models.Room_Details.create({
-  //         room_id: room.dataValues.id,
-  //         // type_room: roomData.num_room.type_room,
-  //         // num_bed: roomData.num_room.num_bed,
-  //         // type_bed: roomData.num_room.type_bed,
-  //         // type_bed_2: roomData.num_room.type_bed_2,
-  //         photos: roomData.num_room.photos,
-  //       }, { transaction }
-  //       )
-  //       const roomDetails2 = await models.Room_Details_2.create({
-  //         room_id: room.dataValues.id,
-  //         photos: roomData.details.photos,
-  //         // amenities: roomData.details.amenities,
-  //         // not_included: roomData.details.not_included,
-  //         // services: roomData.details.services,
-  //       }, { transaction }
-  //       )
-  //       await transaction.commit()
-  //       return {room, roomDetails, roomDetails2}
-  //     } catch (error) {
-  //       await transaction.rollback()
-  //       throw error
-  //     }
-  //   }
-  // }
-
   async createRoom(userId, roomData) {
     const transaction = await models.Rooms.sequelize.transaction()
     const user = await models.Users.findByPk(userId)
@@ -104,20 +53,19 @@ class RoomService {
       const room = await models.Rooms.create(
         {
           id: uuid4(),
-          // room_type: roomData.room_type,
-          // description: roomData.description,
-          // address: roomData.address,
-          // price: roomData.price,
-          // check_in: roomData.check_in,
-          // check_out: roomData.check_out,
-          // num_bathrooms: roomData.num_bathrooms,
-          // num_beds: roomData.num_beds,
-          // extras: roomData.extras,
+          room_type: roomData.room_type,
+          description: roomData.description,
+          address: roomData.address,
+          price: roomData.price,
+          check_in: roomData.check_in,
+          check_out: roomData.check_out,
+          num_bathrooms: roomData.num_bathrooms,
+          num_beds: roomData.num_beds,
+          extras: roomData.extras
         },
         { transaction }
       )
 
-      console.log('PHOUIASIJA', roomData.photos)
       // Guardar las fotos en S3 en lugar de almacenarlas localmente
       const uploadedPhotos = []
       for (const photo of roomData.photos) {
@@ -139,10 +87,10 @@ class RoomService {
       const roomDetails = await models.Room_Details.create(
         {
           room_id: room.dataValues.id,
-          // type_room: roomData.num_room.type_room,
-          // num_bed: roomData.num_room.num_bed,
-          // type_bed: roomData.num_room.type_bed,
-          // type_bed_2: roomData.num_room.type_bed_2,
+          type_room: roomData.num_room.type_room,
+          num_bed: roomData.num_room.num_bed,
+          type_bed: roomData.num_room.type_bed,
+          type_bed_2: roomData.num_room.type_bed_2,
           photos: roomData.photo,
         },
         { transaction }
@@ -152,9 +100,9 @@ class RoomService {
         {
           room_id: room.dataValues.id,
           photos: roomData.photo,
-          // amenities: roomData.details.amenities,
-          // not_included: roomData.details.not_included,
-          // services: roomData.details.services,
+          amenities: roomData.details.amenities,
+          not_included: roomData.details.not_included,
+          services: roomData.details.services,
         },
         { transaction }
       )

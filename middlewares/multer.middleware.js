@@ -1,8 +1,6 @@
 const multer = require('multer')
-const { uploadFile } = require('../s3')
 
 const multerRoomsPhotos = multer({
-  dest: uploadFile,
   limits: {
     fileSize: 1048576, // 1 Mb
   },
@@ -24,7 +22,6 @@ const multerRoomsPhotos = multer({
 })
 
 const multerToursPhotos= multer({
-  dest: 'uploads/tours/photos/',
   limits: {
     fileSize: 1048576, // 1 Mb
   },

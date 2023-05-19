@@ -1,7 +1,5 @@
-const { uploadFile } = require('../s3')
 const RoomsService = require('../services/rooms.services')
 const { getPagination, getPagingData } = require('../utils/pagination')
-// const { AWS_DOMAIN } = require('../config');
 
 const roomsService = new RoomsService()
 
@@ -35,46 +33,6 @@ const getRoom = async (req, res) => {
 }
 
 //? Create a new Room with details being a admin
-// const postRoom = async (req, res) => {
-//   const userId = req.user.id
-//   const files = req.files
-
-//   const { room_type, description, address, price, check_in, check_out, num_bathrooms, num_beds, extras, num_room, details } = req.body
-//   // const { photos }
-//   try {
-//     const room = await roomsService.createRoom(userId, { room_type, description, address, price, check_in, check_out, num_bathrooms, num_beds, extras, num_room, details })
-//     res.status(201).json(room)
-//   } catch (error) {
-//     res.status(401).json({
-//       message: error.message,
-//       fields: {
-//         'room_type': 'String',
-//         'description': 'Text',
-//         'address': 'String',
-//         'price': 'Number',
-//         'check_in': 'Date',
-//         'check_out': 'Date',
-//         'num_bathrooms': 'Number',
-//         'num_beds': 'Number',
-//         'extras': '[Strings]',
-//         'details': {
-//           'photos': '[Strings]',
-//           'amenities': '[Strings]',
-//           'not_included': '[String]',
-//           'services': '[String]'
-//         },
-//         'num_room': {
-//           'type_room': 'String',
-//           'num_bed': 'Number',
-//           'type_bed': 'String',
-//           'type_bed_2': 'String',
-//           'photos': 'String',
-//         },
-//       },
-//     })
-//   }
-// }
-
 const postRoom = async (req, res) => {
   const userId = req.user.id
   const files = req.files
@@ -91,6 +49,8 @@ const postRoom = async (req, res) => {
     num_room,
     details,
   } = req.body
+
+  console.log(files)
 
   try {
     const photos = files.map((file) => ({
@@ -146,31 +106,6 @@ const postRoom = async (req, res) => {
     })
   }
 }
-
-// const postRoom = async (req, res) => {
-//   const userId = req.user.id;
-//   const files = req.files;
-
-//   const { room_type, description, address, price, check_in, check_out, num_bathrooms, num_beds, extras, num_room, details } = req.body;
-
-//   try {
-//     const room = await roomService.createRoom(userId, { room_type, description, address, price, check_in, check_out, num_bathrooms, num_beds, extras, num_room, details }, files);
-
-//     const roomWithPhotoUrls = {
-//       ...room,
-//       photos: room.photos.map((photoKey) => AWS_DOMAIN + photoKey),
-//     };
-
-//     res.status(201).json(roomWithPhotoUrls);
-//   } catch (error) {
-//     res.status(401).json({
-//       message: error.message,
-//       fields: {
-//         // ... Resto de los campos de validación ...
-//       },
-//     });
-//   }
-// };
 
 module.exports = {
   getAllRooms,
