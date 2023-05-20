@@ -23,7 +23,6 @@ console.log('FILEMULTER: ', fileMulterObject.path)
 console.log('FILENAME: ', fileName)
 
   const fileStream = fs.createReadStream(fileMulterObject.path)
-  console.log('FILESTREAM: ', fileStream.path)
 
   const uploadParams = {
     Bucket: bucketName,

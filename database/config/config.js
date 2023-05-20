@@ -2,7 +2,7 @@
 require('dotenv').config()
 module.exports = {
   development: {
-    use_env_variable: process.env.DATABASE_URI_DEV,
+    use_env_variable: 'DATABASE_URI_DEV',
     define: {
       timestamps: true,
       underscored: true,

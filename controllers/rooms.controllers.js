@@ -53,13 +53,15 @@ const postRoom = async (req, res) => {
   console.log(files)
 
   try {
-    const photos = files.map((file) => ({
+    const photos = files.slice(0, 10).map((file) => ({
       fieldname: file.fieldname,
       originalname: file.originalname,
       mimetype: file.mimetype,
       filename: file.filename,
       path: file.path,
     }))
+
+    console.log('PHOTOS: ', photos)
     const room = await roomsService.createRoom(userId, {
       room_type,
       description,

@@ -49,7 +49,11 @@ class RoomService {
       if (user.dataValues.role_id !== 1) {
         throw new Error('Only admins can create New Rooms')
       }
-
+      
+      if (!roomData.photos || roomData.photos.length === 0) {
+        throw new Error('Debe proporcionar al menos una imagen para el tour.')
+      }
+      
       const room = await models.Rooms.create(
         {
           id: uuid4(),
@@ -82,8 +86,9 @@ class RoomService {
           // Puedes optar por lanzar una excepción, guardar información sobre el error, etc.
         }
       }
-
       // const photos = roomPhoto.photos
+      console.log('ROOMdata: ', roomData.num_room)
+
       const roomDetails = await models.Room_Details.create(
         {
           room_id: room.dataValues.id,
