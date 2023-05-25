@@ -8,16 +8,13 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         defaultValue: Sequelize.UUIDV4,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       image_url: {
         type: Sequelize.STRING
       },
-      description: {
-        type: Sequelize.TEXT
-      },
       record_id: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,

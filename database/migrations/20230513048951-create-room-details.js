@@ -1,17 +1,18 @@
 'use strict'
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       await queryInterface.createTable(
-        'Room_Details_2',
+        'Room_Details',
         {
           id: {
             allowNull: false,
-            autoIncrement: true,
             primaryKey: true,
+            autoIncrement: true,
             defaultValues: Sequelize.BIGINT,
-            type: Sequelize.BIGINT,
+            type: Sequelize.BIGINT
           },
           room_id: {
             allowNull: false,
@@ -21,21 +22,23 @@ module.exports = {
               key: 'id'
             }
           },
-          photos: {
-            allowNull: false, 
-            type: Sequelize.ARRAY(Sequelize.STRING),
+          type_room: {
+            allowNull:false,
+            type: Sequelize.STRING,
           },
-          amenities: {
-            allowNull: false, 
-            type: Sequelize.ARRAY(Sequelize.STRING),
+          num_bed: {
+            allowNull:false,
+            type: Sequelize.INTEGER,
           },
-          not_included: {
-            allowNull: false, 
-            type: Sequelize.ARRAY(Sequelize.STRING),
+          type_bed: {
+            allowNull:false,
+            type: Sequelize.STRING,
           },
-          services: {
-            allowNull: false, 
-            type: Sequelize.ARRAY(Sequelize.STRING),
+          type_bed_2: {
+            type: Sequelize.STRING,
+          },
+          image_url: {
+            type: Sequelize.UUID,
           },
           createdAt: {
             allowNull: false,
@@ -59,7 +62,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Room_Details_2', { transaction })
+      await queryInterface.dropTable('Room_Details', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

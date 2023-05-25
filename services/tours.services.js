@@ -46,8 +46,6 @@ class TourService {
           'Only admins can create new Tours'
         )
       }
-      console.log('USER: ', user.dataValues.role_id)
-      console.log('TOUR DATA', tourData)
 
       const tour = await models.Tours.create(
         {
@@ -64,7 +62,7 @@ class TourService {
         },
         { transaction }
       )
-      console.log('AQUI', tour)
+      
       const tourInfo = await models.Tours_Info.create(
         {
           id: uuid4(),

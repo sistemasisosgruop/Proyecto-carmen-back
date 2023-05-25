@@ -4,14 +4,12 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Room_Details extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+    
     static associate(models) {
-      Room_Details.belongsTo(models.Rooms, { foreignKey: 'room_id', as: 'Rooms' })
-      Room_Details.hasMany(models.Images, {foreignKey: 'record_id', as: 'Images'});
+      // Room_Details.hasMany(models.Images, { foreignKey: 'image:_id', as: 'Room_Details' });
+      Room_Details.belongsTo(models.Rooms, { foreignKey: 'room_id', as: 'Rooms' });      
+      Room_Details.hasMany(models.Room_Images, { foreignKey: 'room_id' });      
+      
     }
   }
   Room_Details.init({
@@ -23,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     num_bed: DataTypes.INTEGER,
     type_bed: DataTypes.STRING,
     type_bed_2: DataTypes.STRING,
-    photos: DataTypes.ARRAY(DataTypes.STRING)
+    image_url: []
   }, {
     sequelize,
     modelName: 'Room_Details',
@@ -33,3 +31,4 @@ module.exports = (sequelize, DataTypes) => {
 
   return Room_Details;
 };
+

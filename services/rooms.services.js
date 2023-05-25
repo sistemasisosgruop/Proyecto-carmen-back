@@ -41,7 +41,7 @@ class RoomService {
   }
 
   //? Create a new Room with details being a admin
-  async createRoom(userId, roomData) {
+  async createRoom(userId, roomData, images) {
     const transaction = await models.Rooms.sequelize.transaction()
     const user = await models.Users.findByPk(userId)
 
@@ -49,11 +49,11 @@ class RoomService {
       if (user.dataValues.role_id !== 1) {
         throw new Error('Only admins can create New Rooms')
       }
-      
-      if (!roomData.photos || roomData.photos.length === 0) {
+
+      if (!images || images.length === 0) {
         throw new Error('Debe proporcionar al menos una imagen para el tour.')
       }
-      
+
       const room = await models.Rooms.create(
         {
           id: uuid4(),
@@ -65,14 +65,13 @@ class RoomService {
           check_out: roomData.check_out,
           num_bathrooms: roomData.num_bathrooms,
           num_beds: roomData.num_beds,
-          extras: roomData.extras
+          extras: roomData.extras,
         },
         { transaction }
       )
-
       // Guardar las fotos en S3 en lugar de almacenarlas localmente
       const uploadedPhotos = []
-      for (const photo of roomData.photos) {
+      for (const photo of images) {
         const fileKey = `public/rooms/photos/${room.dataValues.id}/${photo.filename}` // Define la clave del archivo en S3
 
         try {
@@ -86,8 +85,6 @@ class RoomService {
           // Puedes optar por lanzar una excepción, guardar información sobre el error, etc.
         }
       }
-      // const photos = roomPhoto.photos
-      console.log('ROOMdata: ', roomData.num_room)
 
       const roomDetails = await models.Room_Details.create(
         {
@@ -96,15 +93,33 @@ class RoomService {
           num_bed: roomData.num_room.num_bed,
           type_bed: roomData.num_room.type_bed,
           type_bed_2: roomData.num_room.type_bed_2,
-          photos: roomData.photo,
+          images_url: [],
         },
         { transaction }
       )
 
+      let images_room = []
+      for (const photoUrl of uploadedPhotos) {
+        const image = await models.Images.create(
+          {
+            id: uuid4(),
+            image_url: photoUrl,
+            record_id: roomDetails.dataValues.id,
+          },
+          { transaction }
+        )
+        images_room.push(image)
+      }
+      // Obtener las URL de las imágenes del arreglo `images`
+      const imageUrls = images_room.map((image) => image.dataValues.image_url)
+
+      // Almacenar las URL en la propiedad `images_url` de `roomDetails`
+      roomDetails.dataValues.image_url = imageUrls
+      
       const roomDetails2 = await models.Room_Details_2.create(
         {
           room_id: room.dataValues.id,
-          photos: roomData.photo,
+          images_url: [],
           amenities: roomData.details.amenities,
           not_included: roomData.details.not_included,
           services: roomData.details.services,
@@ -112,11 +127,23 @@ class RoomService {
         { transaction }
       )
 
+      let images_room_2 = []
+      // Asociar imágenes a RoomDetails2
+      for (const photoUrl of uploadedPhotos) {
+        const image = await models.Images.create(
+          {
+            id: uuid4(),
+            image_url: photoUrl,
+            record_id: roomDetails2.dataValues.id,
+          },
+          { transaction }
+        )
+        images_room.push(image)
+      }
+      const imageUrls2 = images_room_2.map((image) => image.dataValues.image_url)
+      roomDetails.dataValues.image_url = imageUrls2
+
       await transaction.commit()
-
-      // Upload room photos
-      // const roomId = room.id
-
       return { room, roomDetails, roomDetails2 }
     } catch (error) {
       await transaction.rollback()

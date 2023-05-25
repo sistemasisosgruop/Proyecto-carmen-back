@@ -1,18 +1,17 @@
 'use strict'
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       await queryInterface.createTable(
-        'Room_Details',
+        'Room_Details_2',
         {
           id: {
             allowNull: false,
-            primaryKey: true,
             autoIncrement: true,
+            primaryKey: true,
             defaultValues: Sequelize.BIGINT,
-            type: Sequelize.BIGINT
+            type: Sequelize.BIGINT,
           },
           room_id: {
             allowNull: false,
@@ -22,23 +21,19 @@ module.exports = {
               key: 'id'
             }
           },
-          type_room: {
-            // allowNull:false,
-            type: Sequelize.STRING,
-          },
-          num_bed: {
-            // allowNull:false,
+          image_url: {
             type: Sequelize.INTEGER,
           },
-          type_bed: {
-            // allowNull:false,
-            type: Sequelize.STRING,
+          amenities: {
+            allowNull: false, 
+            type: Sequelize.ARRAY(Sequelize.STRING),
           },
-          type_bed_2: {
-            type: Sequelize.STRING,
+          not_included: {
+            allowNull: false, 
+            type: Sequelize.ARRAY(Sequelize.STRING),
           },
-          photos: {
-            // allowNull:false,
+          services: {
+            allowNull: false, 
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
           createdAt: {
@@ -63,7 +58,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Room_Details', { transaction })
+      await queryInterface.dropTable('Room_Details_2', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

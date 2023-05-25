@@ -41,7 +41,7 @@ Create a new user in the database.
 | Name           | Type     | Description                                       |
 |----------------|----------|---------------------------------------------------|
 | id             | UUID     | Unique identifier of the user (automatically generated). |
-| first_name     | String   | User's first name.                                |
+| first_name   " | String   | User.photo4"s"https://bucket.aws.photo3" first name.                                |
 | last_name      | String   | User's last name.                                 |
 | email          | String   | User's email address.                             |
 | password       | String   | User's password.                                  |
@@ -366,8 +366,8 @@ The request body should include the following parameters:
 | num_bathrooms | Number  | Number of bathrooms in the room.                                                                  |
 | num_beds      | Number  | Number of beds in the room.                                                                       |
 | extras        | Array   | Additional features or extras offered in the room.                                               |
-| details       | Object  | Details about the room, including photos, amenities, not included services, and room services.   |
-| num_room      | Object  | Details about the room type, including room type, number of beds, bed type, and room photos.     |
+| details       | Object  | Details about the room, including images, amenities, not included services, and room services.   |
+| num_room      | Object  | Details about the room type, including room type, number of beds, bed type, and room images.     |
 
 
 ##### details Object
@@ -376,7 +376,7 @@ The `details` object should include the following parameters:
 
 | Name           | Type      | Description                                                    |
 | ------------- | --------- | -------------------------------------------------------------- |
-| photos        | Array     | An array of strings representing the photos of the room.        |
+| images_url        | Array     | An array of strings representing the images of the room.        |
 | amenities     | Array     | An array of strings listing the amenities provided in the room. |
 | not_included  | Array     | An array of strings specifying what is not included.            |
 | services      | Array     | An array of strings listing the services available.             |
@@ -391,7 +391,7 @@ The `num_room` object should include the following parameters:
 | num_bed       | Number | Number of beds in the room number.         |
 | type_bed      | String | Type of the bed in the room number.        |
 | type_bed_2    | String | Additional type of bed in the room number. |
-| Photos        | String | Photos of the room number.                 |
+| images_url        | String | Images of the room number.                 |
 
 #### Example Request
 
@@ -409,7 +409,7 @@ URL: `https://localhost:3000/api/v1/rooms`
     "num_beds": 1,
     "extras": ["Breakfast included", "Free Wi-Fi", "Gym access"],
   "details": {
-    // "photos": ["Photo 1", "Photo 2"],
+    "images_url": ["https://bucket.aws.photo", "https://bucket.aws.photo2"],
     "amenities": ["Swimming pool", "Restaurant", "Room service"],
     "not_included": ["Pets not allowed", "Smoking not allowed"],
     "services": ["24/7 concierge", "Laundry service"],
@@ -419,7 +419,7 @@ URL: `https://localhost:3000/api/v1/rooms`
     "num_bed": 1,
     "type_bed": "King Bed",
     "type_bed_2": "Sofa Bed",
-    // "photos": null,
+    "images_url": ["https://bucket.aws.photo4","https://bucket.aws.photo3" ]
   }
 }
 ```
@@ -453,19 +453,20 @@ The room has been successfully created.
     "num_bed": 1,
     "type_bed": "King Bed",
     "type_bed_2": "Sofa Bed",
-    // "photos": null,
+    "images_url": ["https://bucket.aws.photo","https://bucket.aws.photo1" ]
     "updated_at": "2023-05-17T03:19:13.767Z",
     "created_at": "2023-05-17T03:19:13.767Z"
   },
   "roomDetails2": {
     "id": "1",
     "room_id": "475921e3-2d82-414c-abd9-c121778ffe3e",
+    "images_url": ["https://bucket.aws.photo4","https://bucket.aws.photo3" ],
     "amenities": ["Swimming pool", "Restaurant", "Room service"],
     "not_included": ["Pets not allowed", "Smoking not allowed"],
     "services": ["24/7 concierge", "Laundry service"],
     "updated_at": "2023-05-17T03:19:13.769Z",
     "created_at": "2023-05-17T03:19:13.769Z",
-    // "photos": null
+
   }
 }
 ```

@@ -57,7 +57,7 @@ module.exports = {
             // allowNull: false,
             type: Sequelize.DATE,
             field: 'updated_at',
-          },
+          }
         },
         { transaction }
       )

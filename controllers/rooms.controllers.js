@@ -50,8 +50,6 @@ const postRoom = async (req, res) => {
     details,
   } = req.body
 
-  console.log(files)
-
   try {
     const photos = files.slice(0, 10).map((file) => ({
       fieldname: file.fieldname,
@@ -61,7 +59,6 @@ const postRoom = async (req, res) => {
       path: file.path,
     }))
 
-    console.log('PHOTOS: ', photos)
     const room = await roomsService.createRoom(userId, {
       room_type,
       description,
@@ -74,8 +71,7 @@ const postRoom = async (req, res) => {
       extras,
       num_room,
       details,
-      photos,
-    })
+    }, photos)
 
     res.status(201).json(room)
   } catch (error) {
