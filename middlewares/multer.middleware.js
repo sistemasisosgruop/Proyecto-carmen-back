@@ -2,7 +2,7 @@ const multer = require('multer')
 
 const multerPhotos = multer({
   limits: {
-    fileSize: 1048576, // 1 Mb
+    fileSize: 56623104, // 54 MB
   },
   fileFilter: (req, file, cb) => {
     req.on('aborted', () => {

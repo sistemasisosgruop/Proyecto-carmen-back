@@ -34,6 +34,7 @@ class TourController {
 
   async postTour(req, res) {
     const userId = req.user.id
+    const files = req.files
     const {
       tour_name,
       tour_description,
@@ -48,20 +49,15 @@ class TourController {
       tour_details,
     } = req.body
 
-    // console.log('USER', userId)
-    // console.log('DATA', {
-    //   tour_name,
-    //   tour_description,
-    //   extras,
-    //   location,
-    //   duration,
-    //   difficulty,
-    //   languages,
-    //   number_of_people,
-    //   ages,
-    //   tour_info,
-    //   tour_details})
     try {
+      const photos = files.slice(0, 10).map((file) => ({
+        fieldname: file.fieldname,
+        originalname: file.originalname,
+        mimetype: file.mimetype,
+        filename: file.filename,
+        path: file.path,
+      }))
+
       const tour = await tourService.createTour(userId, {
         tour_name,
         tour_description,
@@ -74,10 +70,10 @@ class TourController {
         ages,
         tour_info,
         tour_details
-      })
+      }, photos)
       return res.status(201).json(tour)
     } catch (error) {
-      return res.status(404).json({
+      return res.status(401).json({
         message: error.message,
         fields: {
           'tour_name': 'String',

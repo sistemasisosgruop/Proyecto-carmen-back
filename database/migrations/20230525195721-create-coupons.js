@@ -4,44 +4,47 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       await queryInterface.createTable(
-        'Room_Details_2',
+        'Coupons',
         {
           id: {
             allowNull: false,
-            autoIncrement: true,
             primaryKey: true,
-            defaultValues: Sequelize.BIGINT,
-            type: Sequelize.BIGINT,
+            type: Sequelize.UUID,
+          },
+          coupon_code: {
+            allowNull: false,
+            type: Sequelize.STRING,
+          },
+          discount: {
+            allowNull: false,
+            type: Sequelize.FLOAT,
           },
           room_id: {
-            allowNull: false,
+            allowNull: true,
             type: Sequelize.UUID,
             references: {
-              model: 'Rooms',
-              key: 'id'
-            }
+              model: 'Rooms', // Name of the products table (Rooms, Tours, etc.)
+              key: 'id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'SET NULL',
           },
-          image_url: {
-            type: Sequelize.ARRAY(Sequelize.STRING),
+          tour_id: {
+            allowNull: true,
+            type: Sequelize.UUID,
+            references: {
+              model: 'Tours', // Name of the products table (Rooms, Tours, etc.)
+              key: 'id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'SET NULL',
           },
-          amenities: {
-            allowNull: false, 
-            type: Sequelize.ARRAY(Sequelize.STRING),
-          },
-          not_included: {
-            allowNull: false, 
-            type: Sequelize.ARRAY(Sequelize.STRING),
-          },
-          services: {
-            allowNull: false, 
-            type: Sequelize.ARRAY(Sequelize.STRING),
-          },
-          createdAt: {
+          created_at: {
             allowNull: false,
             type: Sequelize.DATE,
             field: 'created_at',
           },
-          updatedAt: {
+          updated_at: {
             allowNull: false,
             type: Sequelize.DATE,
             field: 'updated_at',
@@ -58,7 +61,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Room_Details_2', { transaction })
+      await queryInterface.dropTable('Coupons', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

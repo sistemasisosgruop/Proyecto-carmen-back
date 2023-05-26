@@ -7,15 +7,19 @@ module.exports = (sequelize, DataTypes) => {
     
     
     static associate(models) {
-      Tours_Info.belongsTo(models.Tours, { foreignKey: 'tour_id', as: 'Tours' });
+      Tours_Info.belongsTo(models.Tours, { foreignKey: 'tour_id', as: 'Tours' })
     }
   }
   Tours_Info.init({
+    id: {
+      type: DataTypes.UUID, 
+      primaryKey: true
+    },
     tour_id: {
       type: DataTypes.UUID,
       foreignKey: true
     }, 
-    photos: DataTypes.STRING,
+    image_url: [],
     what_to_do: DataTypes.TEXT,
     good_choise_for: DataTypes.TEXT,
     cancellation_policy: DataTypes.TEXT,

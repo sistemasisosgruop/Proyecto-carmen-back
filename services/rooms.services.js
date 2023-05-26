@@ -93,7 +93,7 @@ class RoomService {
           num_bed: roomData.num_room.num_bed,
           type_bed: roomData.num_room.type_bed,
           type_bed_2: roomData.num_room.type_bed_2,
-          images_url: [],
+          image_url: [],
         },
         { transaction }
       )
@@ -119,7 +119,7 @@ class RoomService {
       const roomDetails2 = await models.Room_Details_2.create(
         {
           room_id: room.dataValues.id,
-          images_url: [],
+          image_url: [],
           amenities: roomData.details.amenities,
           not_included: roomData.details.not_included,
           services: roomData.details.services,

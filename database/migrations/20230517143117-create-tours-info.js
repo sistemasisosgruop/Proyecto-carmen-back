@@ -21,8 +21,8 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          photos: {
-            type: Sequelize.STRING,
+          image_url: {
+            type: Sequelize.ARRAY(Sequelize.STRING),
           },
           what_to_do: {
             allowNull: false,

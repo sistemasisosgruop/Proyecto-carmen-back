@@ -6,9 +6,9 @@ module.exports = (sequelize, DataTypes) => {
   class Rooms extends Model {
     static associate(models) {
 
-      Rooms.hasMany(models.Room_Images, { foreignKey: 'room_id', as: 'Room_Images' });
       Rooms.hasMany(models.Room_Details, { foreignKey: 'room_id', as: 'Room_Details' });
       Rooms.hasMany(models.Room_Details_2, { foreignKey: 'room_id', as: 'Room_Details_2' });
+      Rooms.hasMany(models.Coupons, { foreignKey: 'room_id', as: 'Coupons' });
       Rooms.hasMany(models.Reservations, { foreignKey: 'room_id', as: 'Reservations' });
     }
   }

@@ -38,7 +38,7 @@ module.exports = {
             type: Sequelize.STRING,
           },
           image_url: {
-            type: Sequelize.UUID,
+            type: Sequelize.ARRAY(Sequelize.STRING),
           },
           createdAt: {
             allowNull: false,

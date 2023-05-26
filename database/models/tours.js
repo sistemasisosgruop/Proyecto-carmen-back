@@ -6,8 +6,9 @@ module.exports = (sequelize, DataTypes) => {
   class Tours extends Model {
     
     static associate(models) {
-      Tours.hasOne(models.Tours_Info, { foreignKey: 'tour_id', as: 'Tours_Info' });
-      Tours.hasOne(models.Tours_Details, { foreignKey: 'tour_id', as: 'Tours_Details' });
+      Tours.hasMany(models.Tours_Info, { foreignKey: 'tour_id', as: 'Tours_Info' });
+      Tours.hasMany(models.Tours_Details, { foreignKey: 'tour_id', as: 'Tours_Details' });
+      Tours.hasMany(models.Coupons, { foreignKey: 'tour_id', as: 'Coupons' });
     }
   }
   Tours.init({

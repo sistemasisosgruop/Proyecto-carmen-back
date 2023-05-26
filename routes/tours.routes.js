@@ -2,14 +2,15 @@ const express = require('express')
 const router = express.Router()
 const passport = require('passport')
 require('../middlewares/auth.middleware')(passport)
+const { multerPhotos } = require('../middlewares/multer.middleware')
 const ToursController = require('../controllers/tours.controllers')
 
 const tourController = new ToursController() 
 
 
 router.get('/', tourController.getAllTours)
-router.get('/:tourId', tourController.getTour)
+router.post('/', passport.authenticate('jwt', { session: false }), multerPhotos.array('image', 10), tourController.postTour)
 
-router.post('/', passport.authenticate('jwt', { session: false }), tourController.postTour)
+router.get('/:tourId', tourController.getTour)
 
 module.exports = router
