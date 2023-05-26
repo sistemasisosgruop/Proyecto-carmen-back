@@ -2,7 +2,11 @@ const models = require('../database/models')
 const { Op } = require('sequelize')
 const { CustomError } = require('../utils/custom-error')
 const { v4: uuid4 } = require('uuid')
+const { uploadFile } = require('../s3')
+require('dotenv').config()
 
+const bucketName = process.env.AWS_BUCKET_NAME
+const region = process.env.AWS_BUCKET_REGION
 
 class TourService {
   constructor() {}
@@ -82,17 +86,16 @@ class TourService {
       const tourInfo = await models.Tours_Info.create(
         {
           tour_id: tour.dataValues.id,
-          // image_url: [],
-          // what_to_do: 'tourData.tour_info.what_to_do',
-          // good_choise_for: 'tourData.tour_info.good_choise_for',
-          // cancellation_policy: 'tourData.tour_info.cancellation_policy',
-          // price_per_person: 'tourData.tour_info.price_per_person',
-          // available_dates: tourData.tour_info.available_dates,
-          // schedule: tourData.tour_info.schedule
+          what_to_do: tourData.tour_info.what_to_do,
+          good_choise_for: tourData.tour_info.good_choise_for,
+          cancellation_policy: tourData.tour_info.cancellation_policy,
+          price_per_person: tourData.tour_info.price_per_person,
+          available_dates: tourData.tour_info.available_dates,
+          schedule: tourData.tour_info.schedule
         },
         { transaction }
       )
-
+      
       let images_tour = []
       for (const photoUrl of uploadedPhotos) {
         const image = await models.Images.create(
@@ -107,23 +110,21 @@ class TourService {
       }
       // Obtener las URL de las imágenes del arreglo `images`
       const imageUrls = images_tour.map((image) => image.dataValues.image_url)
-
       // Almacenar las URL en la propiedad `images_url` de `tourDetails`
       tourInfo.dataValues.image_url = imageUrls
       
       const tourDetails = await models.Tours_Details.create(
         {
-          // tour_id: 'tour.dataValues.id',
-          // what_is_included: 'tourData.tour_details.what_is_included',
-          // what_is_not_included: 'tourData.tour_details.what_is_not_included',
-          // itinerary: 'tourData.tour_details.itinerary',
-          // departure_details: 'tourData.tour_details.departure_details',
-          // return_details: 'tourData.tour_details.return_details',
-          // accessibility: 'tourData.tour_details.accessibility'
+          tour_id: tour.dataValues.id,
+          what_is_included: tourData.tour_details.what_is_included,
+          what_is_not_included: tourData.tour_details.what_is_not_included,
+          itinerary: tourData.tour_details.itinerary,
+          departure_details: tourData.tour_details.departure_details,
+          return_details: tourData.tour_details.return_details,
+          accessibility: tourData.tour_details.accessibility
         },
         { transaction }
       )
-
       await transaction.commit()
       return { tour, tourInfo, tourDetails }
     } catch (error) {

@@ -22,6 +22,7 @@ module.exports = {
             }
           },
           image_url: {
+            allowNull: false, 
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
           amenities: {

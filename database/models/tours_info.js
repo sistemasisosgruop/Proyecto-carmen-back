@@ -11,10 +11,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Tours_Info.init({
-    id: {
-      type: DataTypes.UUID, 
-      primaryKey: true
-    },
     tour_id: {
       type: DataTypes.UUID,
       foreignKey: true
@@ -24,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     good_choise_for: DataTypes.TEXT,
     cancellation_policy: DataTypes.TEXT,
     price_per_person: DataTypes.FLOAT,
-    available_dates: DataTypes.ARRAY(DataTypes.DATE),
+    available_dates: DataTypes.ARRAY(DataTypes.STRING),
     schedule: DataTypes.STRING
   }, {
     sequelize,

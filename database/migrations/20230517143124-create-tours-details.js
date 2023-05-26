@@ -8,9 +8,10 @@ module.exports = {
         {
           id: {
             allowNull: false,
-            defaultValue: Sequelize.UUIDV4,
+            defaultValue: Sequelize.BIGINT,
+            autoIncrement: true,
             primaryKey: true,
-            type: Sequelize.UUID,
+            type: Sequelize.BIGINT,
           },
           tour_id: {
             allowNull: false,

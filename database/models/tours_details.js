@@ -10,10 +10,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Tours_Details.init({
-    id: {
-      type: DataTypes.UUID, 
-      primaryKey: true
-    },
     tour_id: {
       type: DataTypes.UUID,
       foreignKey: true,

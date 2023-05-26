@@ -7,45 +7,44 @@ module.exports = {
         'Tours',
         {
           id: {
-            // allowNull: false,
+            allowNull: false,
             primaryKey: true,
             defaultValue: Sequelize.UUIDV4,
             type: Sequelize.UUID,
           },
           tour_name: {
-            // allowNull: false,
+            allowNull: false,
             type: Sequelize.STRING,
           },
           tour_description: {
-            // allowNull: false,
+            allowNull: false,
             type: Sequelize.TEXT,
           },
           extras: {
-            // allowNull: false,
             type: Sequelize.STRING,
           },
           location: {
-            // allowNull: false,
+            allowNull: false,
             type: Sequelize.STRING,
           },
           duration: {
-            // allowNull: false,
+            allowNull: false,
             type: Sequelize.STRING,
           },
           difficulty: {
-            // allowNull: false,
+            allowNull: false,
             type: Sequelize.STRING,
           },
           languages: {
-            // allowNull: false,
+            allowNull: false,
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
           number_of_people: {
-            // allowNull: false,
+            allowNull: false,
             type: Sequelize.STRING,
           },
           ages: {
-            // allowNull: false,
+            allowNull: false,
             type: Sequelize.STRING,
           },
           createdAt: {

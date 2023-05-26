@@ -9,8 +9,9 @@ module.exports = {
           id: {
             allowNull: false,
             primaryKey: true,
-            defaultValue: Sequelize.UUIDV4,
-            type: Sequelize.UUID,
+            defaultValue: Sequelize.BIGINT, 
+            autoIncrement: true,
+            type: Sequelize.BIGINT,
           },
           tour_id: {
             type: Sequelize.UUID,
@@ -42,7 +43,7 @@ module.exports = {
           },
           available_dates: {
             allowNull: false,
-            type: Sequelize.ARRAY(Sequelize.DATE),
+            type: Sequelize.ARRAY(Sequelize.STRING),
           },
           schedule: {
             allowNull: false,

@@ -476,7 +476,7 @@ The room has been successfully created.
 
 ### Get All Rooms
 
-Retrieve a paginated list of all created users in the database.
+Retrieve a paginated list of all created rooms in the database.
 
 - URL: `https://localhost:3000/api/v1/rooms`
 - Method: GET
@@ -554,6 +554,7 @@ The `tour_info` object should include the following parameters:
 
 | `tour_info`           | Object | Additional information about the tour.                                  |
 | --------------------- | ------ | ----------------------------------------------------------------------- |
+| `image_url`           | String | Images of tour.                                                         |
 | `what_to_do`          | Text   | Activities to do during the tour.                                       |
 | `good_choice_for`     | Text   | Target audience or type of traveler for whom the tour is a good choice. |
 | `cancellation_policy` | Text   | Cancellation policy of the tour.                                        |
@@ -593,6 +594,7 @@ The `tour_details` object should include the following parameters:
         "number_of_people": "10",
         "ages": "18+",
         "tour_info": {
+          "images_url": ["https://bucket.aws.photo4","https://bucket.aws.photo3" ],
           "what_to_do": "Hiking, Camping, Wildlife spotting",
           "good_choice_for": "Nature lovers, Adventure enthusiasts",
           "cancellation_policy": "Free cancellation up to 48 hours before the tour",
@@ -618,7 +620,48 @@ The `tour_details` object should include the following parameters:
     }
     ```
 
--
+### Get All Tours
+
+Retrieve a paginated list of all created tours in the database.
+
+- URL: `https://localhost:3000/api/v1/tours`
+- Method: GET
+- Content Type: application/json
+
+#### Successful Response
+
+Status Code: 200 OK
+
+```json
+{
+  "results": {
+    "count": 1,
+    "totalPages": 1,
+    "currentPage": 1,
+    "results": [
+            {
+                "id": "90339517-a3bc-46b9-8822-aca377acaf99",
+                "tour_name": "Machu Picchu Adventure",
+                "tour_description": "Join us on an exciting adventure to Machu Picchu!",
+                "extras": null,
+                "location": "Machu Picchu",
+                "duration": "3 days",
+                "difficulty": "Moderate",
+                "languages": [
+                    "English",
+                    "Spanish"
+                ],
+                "number_of_people": "10",
+                "ages": "18+",
+                "created_at": "2023-05-26T21:53:21.628Z",
+                "updated_at": "2023-05-26T21:53:21.628Z"
+            }
+        ]
+  }
+}
+```
+
+
 
 ### Create a New Coupon
 
