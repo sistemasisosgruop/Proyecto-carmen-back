@@ -37,7 +37,23 @@ class RoomService {
   async getRoomOr404(roomId) {
     let room = await models.Rooms.findByPk(roomId)
     if (!room) throw new CustomError('Not found Room', 404, 'Not Found')
-    return room
+    let roomDetail = await models.Room_Details.findOne({
+      where: {
+        room_id: roomId 
+      }, 
+      attributes: {
+        exclude: ['id', 'room_id', 'created_at', 'updated_at' ]
+      }
+    })
+    let roomDetail2 = await models.Room_Details_2.findOne({
+      where: {
+        room_id: roomId 
+      }, 
+      attributes: {
+        exclude: ['id', 'room_id', 'created_at', 'updated_at' ]
+      }
+    })
+    return {room, roomDetail, roomDetail2}
   }
 
   //? Create a new Room with details being a admin
@@ -150,6 +166,18 @@ class RoomService {
       throw error
     }
   }
+
+  // Obtener las 10 rooms mejor puntuadas
+async ratedRooms(){
+  const topRatedRooms = await Ratings.findAll({
+  where: { product_type: 'room' },
+  include: [{
+    model: Rooms,
+    attributes: ['id', 'name', 'rating'], // Ajusta los atributos según tu modelo de Rooms
+  }],
+  order: [['rating', 'DESC']],
+  limit: 10,
+})};
 }
 
 module.exports = RoomService

@@ -35,7 +35,23 @@ class TourService {
   async getTourOr404(tourId) {
     let tour = await models.Tours.findByPk(tourId)
     if (!tour) throw new CustomError('Not found Tour', 404, 'Not Found')
-    return tour
+    let tourInfo = await models.Tours_Info.findOne({
+      where: {
+        tour_id: tourId 
+      }, 
+      attributes: {
+        exclude: ['id', 'tour_id', 'created_at', 'updated_at' ]
+      }
+    })
+    let tourDetail = await models.Tours_Details.findOne({
+      where: {
+        tour_id: tourId 
+      }, 
+      attributes: {
+        exclude: ['id', 'tour_id', 'created_at', 'updated_at' ]
+      }
+    })
+    return {tour, tourInfo, tourDetail}
   }
 
   async createTour(userId, tourData, images) {
