@@ -1,6 +1,6 @@
 const RoomsService = require('../services/rooms.services')
 const { getPagination, getPagingData } = require('../utils/pagination')
-
+const models = require('../database/models')
 const roomsService = new RoomsService()
 
 //? Get All Rooms with Pagination
@@ -59,23 +59,27 @@ const postRoom = async (req, res) => {
       path: file.path,
     }))
 
-    const room = await roomsService.createRoom(userId, {
-      room_type,
-      description,
-      address,
-      price,
-      check_in,
-      check_out,
-      num_bathrooms,
-      num_beds,
-      extras,
-      num_room,
-      details,
-    }, photos)
+    const room = await roomsService.createRoom(
+      userId,
+      {
+        room_type,
+        description,
+        address,
+        price,
+        check_in,
+        check_out,
+        num_bathrooms,
+        num_beds,
+        extras,
+        num_room,
+        details,
+      },
+      photos
+    )
 
-    res.status(201).json(room)
+    return res.status(201).json(room)
   } catch (error) {
-    res.status(401).json({
+    return res.status(401).json({
       message: error.message,
       fields: {
         room_type: 'String',
@@ -104,9 +108,59 @@ const postRoom = async (req, res) => {
     })
   }
 }
+    const postRoomRating = async (req, res) => {
+      const userId = req.user.id
+      const { roomId } = req.params
+      const { rate, comment } = req.body
 
+      try {
+        const ratingData = {
+          rate,
+          comment,
+        }
+
+        if(!ratingData.rate || !ratingData.comment){
+          throw new Error ('All fields are required!')
+        }
+
+        const rating = await roomsService.createRoomRating(
+          userId,
+          roomId,
+          ratingData
+        )
+        return res.status(201).json({message: 'Rate created succesfully', rating})
+      } catch (error) {
+        return res.status(400).json({ message: error.message })
+      }
+    }
+
+    // // Controlador para obtener los 10 elementos mejor valorados
+    // const getTopRated = async(req, res) => {
+    //   try {
+    //     const topRated = await models.Ratings.findAll({
+    //       order: ['rate', 'DESC'],
+    //       limit: 10
+    //     });
+    
+    //     // Los 10 elementos mejor valorados se han obtenido con éxito
+    //     return res.status(200).json({
+    //       success: true,
+    //       message: 'Los 10 elementos mejor valorados',
+    //       data: topRated
+    //     });
+    //   } catch (error) {
+    //     // Error al obtener los 10 elementos mejor valorados
+    //     return res.status(500).json({
+    //       success: false,
+    //       message: 'Error al obtener los 10 elementos mejor valorados',
+    //       error: error.message
+    //     });
+    //   }
+    // }
+    
 module.exports = {
   getAllRooms,
   getRoom,
   postRoom,
+  postRoomRating
 }

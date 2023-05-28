@@ -167,17 +167,34 @@ class RoomService {
     }
   }
 
-  // Obtener las 10 rooms mejor puntuadas
-async ratedRooms(){
-  const topRatedRooms = await Ratings.findAll({
-  where: { product_type: 'room' },
-  include: [{
-    model: Rooms,
-    attributes: ['id', 'name', 'rating'], // Ajusta los atributos según tu modelo de Rooms
-  }],
-  order: [['rating', 'DESC']],
-  limit: 10,
-})};
+  // Función para crear una nueva valoración y comentario
+  async createRoomRating(userId, roomId, ratingData) {
+    
+    const transaction = await models.Ratings.sequelize.transaction()
+    const user = await models.Users.findByPk(userId)
+    const room = await models.Rooms.findByPk(roomId)
+    
+    console.log('USERID: ', user)
+    console.log('ROOMID: ',  room )
+    try {
+      if(!user) {
+        throw new Error('Only users can rate rooms')
+      }
+      const rating = await models.Ratings.create({
+        id: uuid4(),
+        room_id: room.id, // Opcional si estás valorando una habitación
+        rate: ratingData.rate,
+        comment: ratingData.comment,
+      }, { transaction });
+      await transaction.commit()
+      return rating
+    } catch (error) {
+      await transaction.rollback()
+      // Error al crear la valoración y comentario
+      throw error;
+    }
+  }
+  
 }
 
 module.exports = RoomService

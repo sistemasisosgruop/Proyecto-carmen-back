@@ -3,20 +3,23 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class ratings extends Model {
+  class Ratings extends Model {
     
     static associate(models) {
-      // define association here
+      Ratings.belongsTo(models.Rooms, { foreignKey: 'room_id', as: 'Rooms' });
+      Ratings.belongsTo(models.Tours, { foreignKey: 'tour_id', as: 'Tours' });
     }
   }
-  ratings.init({
-    product_id: DataTypes.UUID,
-    product_type: DataTypes.STRING,
-    rating: DataTypes.FLOAT,
+  Ratings.init({
+    room_id: DataTypes.UUID,
+    tour_id: DataTypes.UUID,
+    rate: DataTypes.FLOAT,
     comment: DataTypes.TEXT
   }, {
     sequelize,
-    modelName: 'ratings',
+    modelName: 'Ratings',
+    tableName: 'Ratings', 
+    underscored: true
   });
-  return ratings;
+  return Ratings;
 };
