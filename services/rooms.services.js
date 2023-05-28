@@ -174,8 +174,6 @@ class RoomService {
     const user = await models.Users.findByPk(userId)
     const room = await models.Rooms.findByPk(roomId)
     
-    console.log('USERID: ', user)
-    console.log('ROOMID: ',  room )
     try {
       if(!user) {
         throw new Error('Only users can rate rooms')

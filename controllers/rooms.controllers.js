@@ -108,59 +108,62 @@ const postRoom = async (req, res) => {
     })
   }
 }
-    const postRoomRating = async (req, res) => {
-      const userId = req.user.id
-      const { roomId } = req.params
-      const { rate, comment } = req.body
+const postRoomRating = async (req, res) => {
+  const userId = req.user.id
+  const { roomId } = req.params
+  const { rate, comment } = req.body
 
-      try {
-        const ratingData = {
-          rate,
-          comment,
-        }
-
-        if(!ratingData.rate || !ratingData.comment){
-          throw new Error ('All fields are required!')
-        }
-
-        const rating = await roomsService.createRoomRating(
-          userId,
-          roomId,
-          ratingData
-        )
-        return res.status(201).json({message: 'Rate created succesfully', rating})
-      } catch (error) {
-        return res.status(400).json({ message: error.message })
-      }
+  try {
+    const ratingData = {
+      rate,
+      comment,
     }
 
-    // // Controlador para obtener los 10 elementos mejor valorados
-    // const getTopRated = async(req, res) => {
-    //   try {
-    //     const topRated = await models.Ratings.findAll({
-    //       order: ['rate', 'DESC'],
-    //       limit: 10
-    //     });
-    
-    //     // Los 10 elementos mejor valorados se han obtenido con éxito
-    //     return res.status(200).json({
-    //       success: true,
-    //       message: 'Los 10 elementos mejor valorados',
-    //       data: topRated
-    //     });
-    //   } catch (error) {
-    //     // Error al obtener los 10 elementos mejor valorados
-    //     return res.status(500).json({
-    //       success: false,
-    //       message: 'Error al obtener los 10 elementos mejor valorados',
-    //       error: error.message
-    //     });
-    //   }
-    // }
-    
+    if (!ratingData.rate || !ratingData.comment) {
+      throw new Error('All fields are required!')
+    }
+
+    const rating = await roomsService.createRoomRating(
+      userId,
+      roomId,
+      ratingData
+    )
+    return res.status(201).json({ message: 'Rate created succesfully', rating })
+  } catch (error) {
+    return res.status(400).json({ message: error.message, fields: {
+      'rate': 'Float', 
+      'comment': 'Text'
+    } })
+  }
+}
+
+// // Controlador para obtener los 10 elementos mejor valorados
+// const getTopRated = async(req, res) => {
+//   try {
+//     const topRated = await models.Ratings.findAll({
+//       order: ['rate', 'DESC'],
+//       limit: 10
+//     });
+
+//     // Los 10 elementos mejor valorados se han obtenido con éxito
+//     return res.status(200).json({
+//       success: true,
+//       message: 'Los 10 elementos mejor valorados',
+//       data: topRated
+//     });
+//   } catch (error) {
+//     // Error al obtener los 10 elementos mejor valorados
+//     return res.status(500).json({
+//       success: false,
+//       message: 'Error al obtener los 10 elementos mejor valorados',
+//       error: error.message
+//     });
+//   }
+// }
+
 module.exports = {
   getAllRooms,
   getRoom,
   postRoom,
-  postRoomRating
+  postRoomRating,
 }

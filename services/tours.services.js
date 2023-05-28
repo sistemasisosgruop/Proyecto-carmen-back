@@ -149,6 +149,34 @@ class TourService {
     }
   }
 
+  async createTourRating(userId, tourId, ratingData) {
+
+    console.log('USER: ', userId)
+    console.log('TOUR: ', tourId)    
+    const transaction = await models.Ratings.sequelize.transaction()
+    const user = await models.Users.findByPk(userId)
+    const tour = await models.Tours.findByPk(tourId)
+
+    
+    try {
+      if(!user) {
+        throw new Error('Only users can rate tours')
+      }
+      const rating = await models.Ratings.create({
+        id: uuid4(),
+        tour_id: tour.id, // Opcional si estás valorando un Tour
+        rate: ratingData.rate,
+        comment: ratingData.comment,
+      }, { transaction });
+      await transaction.commit()
+      return rating
+    } catch (error) {
+      await transaction.rollback()
+      // Error al crear la valoración y comentario
+      throw error;
+    }
+  }
+
 }
 
 module.exports = TourService

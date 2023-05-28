@@ -105,6 +105,38 @@ class TourController {
       })
     }
   }
+
+  async postTourRating (req, res) {
+    const userId = req.user.id
+    const { tourId } = req.params
+    const { rate, comment } = req.body
+
+    try {
+      const ratingData = {
+        rate,
+        comment,
+      }
+
+      if(!ratingData.rate || !ratingData.comment){
+        throw new Error ('All fields are required!')
+      }
+
+      const rating = await tourService.createTourRating(
+        userId,
+        tourId,
+        ratingData
+      )
+      return res.status(201).json({message: 'Rate created succesfully', rating})
+    } catch (error) {
+      return res.status(400).json({ message: error.message, fields: {
+        'rate': 'Float', 
+        'comment': 'Text'
+      } })
+    }
+  }
+
+
+
 }
 
 module.exports = TourController
