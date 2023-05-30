@@ -135,7 +135,16 @@ class TourController {
     }
   }
 
+    async getRatingsByTour(req, res) {
+      const {tourId} = req.params
 
+      try {
+        const ratesTour = await tourService.findRatingsByTour(tourId)
+        return res.status(200).json(ratesTour)
+      } catch (error) {
+        return res.status(401).json({message: error.message})
+      }
+    }
 
 }
 

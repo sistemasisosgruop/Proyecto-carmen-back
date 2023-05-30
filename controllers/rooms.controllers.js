@@ -36,19 +36,7 @@ const getRoom = async (req, res) => {
 const postRoom = async (req, res) => {
   const userId = req.user.id
   const files = req.files
-  const {
-    room_type,
-    description,
-    address,
-    price,
-    check_in,
-    check_out,
-    num_bathrooms,
-    num_beds,
-    extras,
-    num_room,
-    details,
-  } = req.body
+  const { room_type, description, address, price, check_in, check_out, num_bathrooms, num_beds, extras, num_room, details } = req.body
 
   try {
     const photos = files.slice(0, 10).map((file) => ({
@@ -59,23 +47,7 @@ const postRoom = async (req, res) => {
       path: file.path,
     }))
 
-    const room = await roomsService.createRoom(
-      userId,
-      {
-        room_type,
-        description,
-        address,
-        price,
-        check_in,
-        check_out,
-        num_bathrooms,
-        num_beds,
-        extras,
-        num_room,
-        details,
-      },
-      photos
-    )
+    const room = await roomsService.createRoom( userId, { room_type, description, address, price, check_in, check_out, num_bathrooms, num_beds, extras, num_room, details }, photos)
 
     return res.status(201).json(room)
   } catch (error) {
@@ -108,6 +80,8 @@ const postRoom = async (req, res) => {
     })
   }
 }
+
+
 const postRoomRating = async (req, res) => {
   const userId = req.user.id
   const { roomId } = req.params
@@ -137,6 +111,19 @@ const postRoomRating = async (req, res) => {
   }
 }
 
+
+const getRatingsByRoom = async(req, res) => {
+  const { roomId } = req.params
+
+  try {
+    const ratesRoom = await roomsService.findRatingsByRoom(roomId)
+    return res.status(200).json(ratesRoom)
+  } catch (error) {
+    return res.status(401).json({message: error.message})
+  }
+}
+
+
 // // Controlador para obtener los 10 elementos mejor valorados
 // const getTopRated = async(req, res) => {
 //   try {
@@ -163,7 +150,8 @@ const postRoomRating = async (req, res) => {
 
 module.exports = {
   getAllRooms,
-  getRoom,
+  getRoom ,
   postRoom,
   postRoomRating,
+  getRatingsByRoom
 }

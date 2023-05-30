@@ -4,14 +4,17 @@ const passport = require('passport')
 const { multerPhotos } = require('../middlewares/multer.middleware')
 require('../middlewares/auth.middleware')(passport)
 
-const { postRoom, getAllRooms, getRoom, postRoomRating, getTopRated } = require('../controllers/rooms.controllers')
+const { postRoom, getAllRooms, getRoom, postRoomRating, getTopRated, getRatingsByRoom } = require('../controllers/rooms.controllers')
 
 
 router.get('/', passport.authenticate('jwt', { session: false }), getAllRooms)
 router.post('/', passport.authenticate('jwt', {session: false}) , multerPhotos.array('image', 10), postRoom)
 
 router.get('/:roomId', passport.authenticate('jwt', { session: false }), getRoom)
+
 router.post('/:roomId/rating', passport.authenticate('jwt', { session: false }), postRoomRating)
+router.get('/:roomId/rating', getRatingsByRoom)
+
 
 // router.get('/top', getTopRated)
 

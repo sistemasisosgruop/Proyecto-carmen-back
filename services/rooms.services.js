@@ -192,6 +192,16 @@ class RoomService {
       throw error;
     }
   }
+
+  async findRatingsByRoom(roomId) {
+    console.log(roomId);
+    const ratingsRoom = await models.Ratings.findAll({
+      where: {
+        room_id: roomId
+      }
+    })
+    return ratingsRoom
+  }
   
 }
 

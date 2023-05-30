@@ -150,14 +150,11 @@ class TourService {
   }
 
   async createTourRating(userId, tourId, ratingData) {
-
-    console.log('USER: ', userId)
-    console.log('TOUR: ', tourId)    
+    
     const transaction = await models.Ratings.sequelize.transaction()
     const user = await models.Users.findByPk(userId)
     const tour = await models.Tours.findByPk(tourId)
 
-    
     try {
       if(!user) {
         throw new Error('Only users can rate tours')
@@ -177,6 +174,15 @@ class TourService {
     }
   }
 
+  async findRatingsByTour(tourId) {
+    console.log(tourId);
+    const ratingsTour = await models.Ratings.findAll({
+      where: {
+        tour_id: tourId
+      }
+    })
+    return ratingsTour
+  }
 }
 
 module.exports = TourService
