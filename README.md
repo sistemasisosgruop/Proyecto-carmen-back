@@ -48,7 +48,7 @@ Create a new user in the database.
 | Name            | Type    | Description                                              |
 | --------------- | ------- | -------------------------------------------------------- |
 | id              | UUID    | Unique identifier of the user (automatically generated). |
-| first_name "    | String  | User.photo4"s"https://bucket.aws.photo3" first name.     |
+| first_name      | String  | User's first name.                                       |
 | last_name       | String  | User's last name.                                        |
 | email           | String  | User's email address.                                    |
 | password        | String  | User's password.                                         |
