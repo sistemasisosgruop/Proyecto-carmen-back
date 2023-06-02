@@ -13,8 +13,11 @@ router.post('/', passport.authenticate('jwt', { session: false }), multerPhotos.
 
 router.get('/:tourId', tourController.getTour)
 router.delete('/:tourId', passport.authenticate('jwt', { session: false }), tourController.deleteTour)
+router.patch('/:tourId', passport.authenticate('jwt', { session: false }), tourController.updateTour)
 
 router.post('/:tourId/rating', passport.authenticate('jwt', { session: false }), tourController.postTourRating)
 router.get('/:tourId/rating', tourController.getRatingsByTour)
+
+
 
 module.exports = router

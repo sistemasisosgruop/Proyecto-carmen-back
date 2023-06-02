@@ -1,24 +1,25 @@
 const express = require('express')
-const router = express.Router()
 const passport = require('passport')
 const { multerPhotos } = require('../middlewares/multer.middleware')
 require('../middlewares/auth.middleware')(passport)
 
-const { postRoom, getAllRooms, getRoom, postRoomRating, getTopRated, getRatingsByRoom } = require('../controllers/rooms.controllers')
+const RoomsControllers = require('../controllers/rooms.controllers')
+const ReservationsControllers = require('../controllers/reservations.controllers')
+const roomController = new RoomsControllers()
+const reservationController = new ReservationsControllers()
 
+const router = express.Router()
 
-router.get('/', passport.authenticate('jwt', { session: false }), getAllRooms)
-router.post('/', passport.authenticate('jwt', {session: false}) , multerPhotos.array('image', 10), postRoom)
+router.get('/', passport.authenticate('jwt', { session: false }), roomController.getAllRooms)
+router.post('/', passport.authenticate('jwt', {session: false}) , multerPhotos.array('image', 10), roomController.postRoom)
 
-router.get('/:roomId', passport.authenticate('jwt', { session: false }), getRoom)
+router.get('/:roomId', passport.authenticate('jwt', { session: false }), roomController.getRoom)
+router.delete('/:roomId', passport.authenticate('jwt', { session: false }), roomController.deleteRoom)
 
-router.post('/:roomId/rating', passport.authenticate('jwt', { session: false }), postRoomRating)
-router.get('/:roomId/rating', getRatingsByRoom)
+router.post('/:roomId/rating', passport.authenticate('jwt', { session: false }), roomController.postRoomRating)
+router.get('/:roomId/rating', roomController.getRatingsByRoom)
 
-
-// router.get('/top', getTopRated)
-
-
+router.post('/:roomId/reservation', passport.authenticate('jwt', {session: false}), reservationController.postRoomReservation)
 
 
 module.exports = router

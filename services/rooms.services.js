@@ -67,7 +67,7 @@ class RoomService {
       }
 
       if (!images || images.length === 0) {
-        throw new Error('Debe proporcionar al menos una imagen para el tour.')
+        throw new Error('Debe proporcionar al menos una imagen para el room.')
       }
 
       const room = await models.Rooms.create(
@@ -161,6 +161,22 @@ class RoomService {
 
       await transaction.commit()
       return { room, roomDetails, roomDetails2 }
+    } catch (error) {
+      await transaction.rollback()
+      throw error
+    }
+  }
+
+  async removeRoom(roomId) {
+    const transaction = await models.Rooms.sequelize.transaction()
+    try {
+      let room = await models.Rooms.findByPk(roomId)
+
+      if (!room) throw new CustomError('Not found room', 404, 'Not Found')
+
+      await room.destroy({ transaction })
+      await transaction.commit()
+      return room
     } catch (error) {
       await transaction.rollback()
       throw error

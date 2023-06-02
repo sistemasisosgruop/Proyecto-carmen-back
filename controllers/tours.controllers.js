@@ -120,7 +120,7 @@ class TourController {
     }
   }
 
-  async updateUser(req, res) {
+  async updateTour(req, res) {
     let { tourId } = req.params
     let {
       tour_name,
@@ -136,8 +136,7 @@ class TourController {
       tour_details,
     } = req.body
 
-    await tourService
-      .updateTour(tourId, {
+    await tourService.updateTour(tourId, {
         tour_name,
         tour_description,
         extras,

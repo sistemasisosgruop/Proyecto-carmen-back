@@ -1,10 +1,13 @@
 'use strict'
+
+const { INTEGER } = require("sequelize")
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       await queryInterface.createTable(
-        'Reservations',
+        'Reservation_Rooms',
         {
           id: {
             allowNull: false,
@@ -43,12 +46,6 @@ module.exports = {
             allowNull:false, 
             type: Sequelize.STRING,
           },
-          status: {
-            type: Sequelize.STRING
-          },
-          payment_status: {
-            type: Sequelize.STRING
-          },
           purchase_date: {
             allowNull:false, 
             type: Sequelize.DATE,
@@ -56,6 +53,14 @@ module.exports = {
           purchase_time: {
             allowNull:false, 
             type: Sequelize.DATE,
+          },
+          number_of_people: {
+            allowNull: false, 
+            type: Sequelize.INTEGER
+          },
+          price_for_night: {
+            allowNull: false, 
+            type: Sequelize.FLOAT
           },
           createdAt: {
             allowNull: false,
@@ -79,7 +84,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Reservations', { transaction })
+      await queryInterface.dropTable('Reservation_Rooms', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()
