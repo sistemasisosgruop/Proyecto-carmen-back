@@ -22,7 +22,7 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          image_url: {
+          images_url: {
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
           what_to_do: {

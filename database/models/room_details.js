@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     num_bed: DataTypes.INTEGER,
     type_bed: DataTypes.STRING,
     type_bed_2: DataTypes.STRING,
-    image_url: []
+    images_url: []
   }, {
     sequelize,
     modelName: 'Room_Details',

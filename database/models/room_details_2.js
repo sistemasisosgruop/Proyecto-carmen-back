@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.UUID, 
     foreignKey: true
   },
-    image_url: DataTypes.ARRAY(DataTypes.STRING),
+    images_url: DataTypes.ARRAY(DataTypes.STRING),
     amenities: DataTypes.ARRAY(DataTypes.STRING),
     not_included: DataTypes.ARRAY(DataTypes.STRING),
     services: DataTypes.ARRAY(DataTypes.STRING)

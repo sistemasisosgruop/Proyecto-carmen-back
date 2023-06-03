@@ -36,7 +36,7 @@ module.exports = {
         [
           {
             tour_id: tourId,
-            image_url: [
+            images_url: [
               'https://bucket-carmen-travel.s3.us-east-1.amazonaws.com/public/tours/photos/c254fb7f-28ca-4496-a890-43b984d7e713/image-1685135674775-626384606.jpg',
               'https://bucket-carmen-travel.s3.us-east-1.amazonaws.com/public/tours/photos/c254fb7f-28ca-4496-a890-43b984d7e713/image-1685135674778-333714350.jpg',
               'https://bucket-carmen-travel.s3.us-east-1.amazonaws.com/public/tours/photos/c254fb7f-28ca-4496-a890-43b984d7e713/image-1685135674787-7978674.jpg',

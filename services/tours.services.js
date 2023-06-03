@@ -127,7 +127,7 @@ class TourService {
       // Obtener las URL de las imágenes del arreglo `images`
       const imageUrls = images_tour.map((image) => image.dataValues.image_url)
       // Almacenar las URL en la propiedad `images_url` de `tourDetails`
-      tourInfo.dataValues.image_url = imageUrls
+      tourInfo.dataValues.images_url = imageUrls
 
       const tourDetails = await models.Tours_Details.create(
         {

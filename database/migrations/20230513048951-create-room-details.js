@@ -37,7 +37,7 @@ module.exports = {
           type_bed_2: {
             type: Sequelize.STRING,
           },
-          image_url: {
+          images_url: {
             allowNull: false,
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
