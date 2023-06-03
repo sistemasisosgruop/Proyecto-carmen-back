@@ -1,7 +1,4 @@
 'use strict'
-
-const { INTEGER } = require("sequelize")
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()

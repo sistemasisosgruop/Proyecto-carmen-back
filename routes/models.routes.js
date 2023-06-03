@@ -5,6 +5,7 @@ const routesMessages = require('./messages.routes')
 const routesRooms = require('./rooms.routes')
 const routesTours = require('./tours.routes')
 const routesCoupons = require('./coupons.routes')
+const routesReservations = require('./reservations.routes')
 
 function routerModels(app) {
   const router = express.Router()
@@ -17,7 +18,7 @@ function routerModels(app) {
   router.use('/rooms', routesRooms)
   router.use('/tours', routesTours)
   router.use('/coupons', routesCoupons)
-
+  router.use('/reservations', routesReservations)
 }
 
 module.exports = routerModels
