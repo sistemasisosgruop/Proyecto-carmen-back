@@ -7,10 +7,15 @@ const reservationController = new ReservationControllers()
 
 const router = express.Router()
 
-router.get('/myRoomReservations', passport.authenticate('jwt', {session: false}), reservationController.getReservationsByUser)
+router.get('/myReservations', passport.authenticate('jwt', {session: false}), reservationController.getReservationsByUser)
 
-router.get('/:reservationId', passport.authenticate('jwt', {session: false}), reservationController.getReservationRoomById)
-router.patch('/:reservationId', passport.authenticate('jwt', {session: false}), reservationController.patchReservation)
-router.delete('/:reservationId', passport.authenticate('jwt', {session: false}), reservationController.deleteReservation)
+router.get('/:roomReservationId', passport.authenticate('jwt', {session: false}), reservationController.getRoomReservationById)
+router.patch('/:roomReservationId', passport.authenticate('jwt', {session: false}), reservationController.patchRoomReservation)
+router.delete('/:roomReservationId', passport.authenticate('jwt', {session: false}), reservationController.deleteRoomReservation)
+
+
+router.get('/:tourReservationId', passport.authenticate('jwt', {session: false}), reservationController.getRoomReservationById)
+router.patch('/:tourReservationId', passport.authenticate('jwt', {session: false}), reservationController.patchRoomReservation)
+router.delete('/:tourReservationId', passport.authenticate('jwt', {session: false}), reservationController.deleteRoomReservation)
 
 module.exports = router

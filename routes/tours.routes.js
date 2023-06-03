@@ -4,8 +4,10 @@ const passport = require('passport')
 require('../middlewares/auth.middleware')(passport)
 const { multerPhotos } = require('../middlewares/multer.middleware')
 const ToursController = require('../controllers/tours.controllers')
+const ReservationsController = require('../controllers/reservations.controllers')
 
 const tourController = new ToursController() 
+const reservationController = new ReservationsController() 
 
 
 router.get('/', tourController.getAllTours)
@@ -18,6 +20,6 @@ router.patch('/:tourId', passport.authenticate('jwt', { session: false }), tourC
 router.post('/:tourId/rating', passport.authenticate('jwt', { session: false }), tourController.postTourRating)
 router.get('/:tourId/rating', tourController.getRatingsByTour)
 
-
+router.post('/:tourId/reservation', passport.authenticate('jwt', {session: false}), reservationController.postTourReservation)
 
 module.exports = router
