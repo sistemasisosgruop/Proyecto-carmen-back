@@ -1,4 +1,5 @@
 const ReservationsService = require('../services/reservations.services')
+const models = require('../database/models')
 const reservationService = new ReservationsService()
 
 class ReservationsControllers {
@@ -34,35 +35,35 @@ class ReservationsControllers {
   async postRoomReservation(req, res) {
     const userId = req.user.id
     const { roomId } = req.params
-    const { purchase_date, purchase_time, number_of_people } = req.body
+    const { purchase_date, purchase_time, number_of_people, total_price } = req.body
 
     try {
       const reservationRoomData = {
         purchase_date,
         purchase_time,
         number_of_people,
+        total_price
       }
 
-      if (
-        !reservationRoomData.number_of_people ||
-        !reservationRoomData.purchase_time ||
-        !reservationRoomData.purchase_date
-      ) {
+      if (!reservationRoomData) {
         throw new Error('All fields are required!')
       }
-      const data = reservationService.createRoomReservation(
+  
+
+      const reservationRoom = await reservationService.createRoomReservation(
         userId,
         roomId,
         reservationRoomData
       )
-      return res.status(201).json(data)
+      return res.status(201).json({message: 'Room reservation created succesfully'}, reservationRoom)
     } catch (error) {
       return res.status(404).json({
-        mesage: error.message,
+        message: error.message,
         fields: {
           purchase_date: 'Date',
           purchase_time: 'Date',
           number_of_people: 'Integer',
+          total_price: 'Integer'
         },
       })
     }
@@ -70,13 +71,14 @@ class ReservationsControllers {
 
   async patchRoomReservation(req, res) {
     const { roomReservationId } = req.params
-    const { purchase_date, purchase_time, number_of_people } = req.body
+    const { purchase_date, purchase_time, number_of_people, total_price } = req.body
 
     try {
       const reservationData = {
         purchase_date,
         purchase_time,
         number_of_people,
+        total_price
       }
 
       const reservationEdited = await reservationService.updateRoomReservation(
@@ -117,35 +119,37 @@ class ReservationsControllers {
   async postTourReservation(req, res) {
     const userId = req.user.id
     const { tourId } = req.params
-    const { purchase_date, purchase_time, number_of_people } = req.body
-
+    const { purchase_date, purchase_time, number_of_people, total_purchase } = req.body
     try {
       const reservationTourData = {
         purchase_date,
         purchase_time,
         number_of_people,
+        total_purchase
       }
 
       if (
         !reservationTourData.number_of_people ||
         !reservationTourData.purchase_time ||
-        !reservationTourData.purchase_date
+        !reservationTourData.purchase_date ||
+        !reservationTourData.total_purchase
       ) {
         throw new Error('All fields are required!')
       }
-      const data = reservationService.createTourReservation(
+      const reservationTour = await reservationService.createTourReservation(
         userId,
         tourId,
         reservationTourData
       )
-      return res.status(201).json(data)
+      return res.status(201).json({message: 'Tour reservation created succesfully', reservationTour})
     } catch (error) {
       return res.status(404).json({
-        mesage: error.message,
+        message: error.message,
         fields: {
           purchase_date: 'Date',
           purchase_time: 'Date',
           number_of_people: 'Integer',
+          total_purchase: 'Integer'
         },
       })
     }
@@ -153,13 +157,14 @@ class ReservationsControllers {
 
   async patchRoomReservation(req, res) {
     const { tourReservationId } = req.params
-    const { purchase_date, purchase_time, number_of_people } = req.body
+    const { purchase_date, purchase_time, number_of_people, total_purchase } = req.body
 
     try {
       const reservationData = {
         purchase_date,
         purchase_time,
         number_of_people,
+        total_purchase
       }
 
       const reservationEdited = await reservationService.updateRoomReservation(

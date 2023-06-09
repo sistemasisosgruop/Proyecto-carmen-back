@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     good_choise_for: DataTypes.TEXT,
     cancellation_policy: DataTypes.TEXT,
     price_per_person: DataTypes.FLOAT,
-    available_dates: DataTypes.ARRAY(DataTypes.STRING),
+    tour_check_in: DataTypes.STRING,
+    tour_check_out: DataTypes.STRING,
     schedule: DataTypes.STRING
   }, {
     sequelize,

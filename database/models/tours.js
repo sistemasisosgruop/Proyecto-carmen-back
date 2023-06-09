@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       Tours.hasMany(models.Tours_Info, { foreignKey: 'tour_id', as: 'Tours_Info' });
       Tours.hasMany(models.Tours_Details, { foreignKey: 'tour_id', as: 'Tours_Details' });
       Tours.hasMany(models.Coupons, { foreignKey: 'tour_id', as: 'Coupons' });
-      Tours.hasMany(models.Reservation_Tours, { foreignKey: 'room_id', as: 'Reservation_Tours' });
+      Tours.hasMany(models.Reservation_Tours, { foreignKey: 'tour_id', as: 'Reservation_Tours' });
       Tours.hasMany(models.Ratings, { foreignKey: 'tour_id', as: 'Ratings' });
     }
   }

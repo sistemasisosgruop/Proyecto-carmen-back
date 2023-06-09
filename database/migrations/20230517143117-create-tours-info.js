@@ -41,9 +41,13 @@ module.exports = {
             allowNull: false,
             type: Sequelize.FLOAT,
           },
-          available_dates: {
+          tour_check_in: {
             allowNull: false,
-            type: Sequelize.ARRAY(Sequelize.STRING),
+            type: Sequelize.DATE,
+          },
+          tour_check_out: {
+            allowNull: false,
+            type: Sequelize.DATE,
           },
           schedule: {
             allowNull: false,

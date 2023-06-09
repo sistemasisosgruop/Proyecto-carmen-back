@@ -7,15 +7,17 @@ class ReservationsService {
   async findRoomReservationsByUser(userId) {
     const user = await models.Users.findByPk(userId)
     const reservations = await models.Reservation_Rooms.findAll({
-      where:{
-        user_id: user.id
-      }
+      where: {
+        user_id: user.id,
+      },
     })
     return reservations
   }
 
   async findRoomReservationById(roomReservationId) {
-    const reservations = await models.Reservation_Rooms.findByPk(roomReservationId)
+    const reservations = await models.Reservation_Rooms.findByPk(
+      roomReservationId
+    )
     return reservations
   }
 
@@ -42,7 +44,7 @@ class ReservationsService {
           purchase_date: reservationRoomData.purchase_date,
           purchase_time: reservationRoomData.purchase_time,
           number_of_people: reservationRoomData.number_of_people,
-          price_for_night: room.dataValues.price,
+          total_price: reservationRoomData.total_price
         },
         { transaction }
       )
@@ -56,19 +58,23 @@ class ReservationsService {
 
   async updateRoomReservation(roomReservationId, reservationRoomData) {
     const transaction = await models.Reservation_Rooms.sequelize.transaction()
-    
+
     try {
-      const reservation = await models.Reservation_Rooms.findByPk(roomReservationId)
+      const reservation = await models.Reservation_Rooms.findByPk(
+        roomReservationId
+      )
       if (!reservation) {
         throw new Error('Reservation not found!')
       }
 
-      const editedRoom = await reservation.update({
-        purchase_date: reservationRoomData.purchase_date,
-        purchase_time: reservationRoomData.purchase_time,
-        number_of_people: reservationRoomData.number_of_people
-      }, 
-      {transaction})
+      const editedRoom = await reservation.update(
+        {
+          purchase_date: reservationRoomData.purchase_date,
+          purchase_time: reservationRoomData.purchase_time,
+          number_of_people: reservationRoomData.number_of_people,
+        },
+        { transaction }
+      )
       await transaction.commit()
       return editedRoom
     } catch (error) {
@@ -80,9 +86,12 @@ class ReservationsService {
   async removeRoomReservation(roomReservationId) {
     const transaction = await models.Reservation_Rooms.sequelize.transaction()
     try {
-      let reservation = await models.Reservation_Rooms.findByPk(roomReservationId)
+      let reservation = await models.Reservation_Rooms.findByPk(
+        roomReservationId
+      )
 
-      if (!reservation) throw new CustomError('Not found reservation', 404, 'Not Found')
+      if (!reservation)
+        throw new CustomError('Not found reservation', 404, 'Not Found')
 
       await reservation.destroy({ transaction })
       await transaction.commit()
@@ -93,11 +102,12 @@ class ReservationsService {
     }
   }
 
-
   //! ======================================================================
 
   async findTourReservationById(tourReservationId) {
-    const reservations = await models.Reservation_Tours.findByPk(tourReservationId)
+    const reservations = await models.Reservation_Tours.findByPk(
+      tourReservationId
+    )
     return reservations
   }
 
@@ -106,25 +116,32 @@ class ReservationsService {
 
     const user = await models.Users.findByPk(userId)
     const tour = await models.Tours.findByPk(tourId)
+    const infoTour = await models.Tours_Info.findOne({
+      where: {
+      tour_id: tourId
+      }
+    })
 
     if (!user || !tour) {
       throw new Error('Error creating the reservation')
     }
-console.log('AQUUIUUIUKJH');
+    const tourCheckIn = tour.dataValues.tour_check_in
+    const tourCheckout = tour.dataValues.tour_check_out
+    const dateSelected = [tourCheckIn, tourCheckout]
     try {
       const reservation = await models.Reservation_Tours.create(
         {
           id: uuid4(),
           user_id: user.dataValues.id,
           tour_id: tour.dataValues.id,
-          type_tour: tour.dataValues.type_tour,
-          date_selected: tour.dataValues.date_selected,
-          schedule_selected: tour.dataValues.schedule_selected,
+          type_tour: tour.dataValues.tour_name,
+          date_selected: dateSelected,
+          schedule_selected: infoTour.dataValues.schedule,
           location: tour.dataValues.location,
           purchase_date: reservationTourData.purchase_date,
           purchase_time: reservationTourData.purchase_time,
-          number_of_people: reservationTourData.number_of_people,
-          total_purchase: tour.dataValues.price,
+          number_of_people: reservationTourData.number_of_people, 
+          total_purchase: reservationTourData.total_purchase
         },
         { transaction }
       )
@@ -138,19 +155,23 @@ console.log('AQUUIUUIUKJH');
 
   async updateTourReservation(tourReservationId, reservationTourData) {
     const transaction = await models.Reservation_Tours.sequelize.transaction()
-    
+
     try {
-      const reservation = await models.Reservation_Tours.findByPk(tourReservationId)
+      const reservation = await models.Reservation_Tours.findByPk(
+        tourReservationId
+      )
       if (!reservation) {
         throw new Error('Reservation not found!')
       }
 
-      const editedTourReservation = await reservation.update({
-        purchase_date: reservationTourData.purchase_date,
-        purchase_time: reservationTourData.purchase_time,
-        number_of_people: reservationTourData.number_of_people
-      }, 
-      {transaction})
+      const editedTourReservation = await reservation.update(
+        {
+          purchase_date: reservationTourData.purchase_date,
+          purchase_time: reservationTourData.purchase_time,
+          number_of_people: reservationTourData.number_of_people,
+        },
+        { transaction }
+      )
       await transaction.commit()
       return editedTourReservation
     } catch (error) {
@@ -162,9 +183,12 @@ console.log('AQUUIUUIUKJH');
   async removeTourReservation(tourReservationId) {
     const transaction = await models.Reservation_Tours.sequelize.transaction()
     try {
-      let reservation = await models.Reservation_Tours.findByPk(tourReservationId)
+      let reservation = await models.Reservation_Tours.findByPk(
+        tourReservationId
+      )
 
-      if (!reservation) throw new CustomError('Not found reservation', 404, 'Not Found')
+      if (!reservation)
+        throw new CustomError('Not found reservation', 404, 'Not Found')
 
       await reservation.destroy({ transaction })
       await transaction.commit()
@@ -174,9 +198,6 @@ console.log('AQUUIUUIUKJH');
       throw error
     }
   }
-
-
-
 }
 
 module.exports = ReservationsService

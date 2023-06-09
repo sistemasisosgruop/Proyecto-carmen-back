@@ -33,7 +33,7 @@ module.exports = {
           },
           date_selected: {
             allowNull:false, 
-            type: Sequelize.DATE,
+            type: Sequelize.ARRAY(Sequelize.DATE),
           },
           schedule_selected: {
             allowNull:false, 

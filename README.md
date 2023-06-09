@@ -33,15 +33,27 @@ npm install
 npx sequelize-cli db:migrate
 ```
 
+5. Perform Sequelize seed to set up the database seeds.
+
+```
+npx sequelize-cli db:seed:all
+```
+
+6. Run ESlint
+
+```
+npm run lint
+```
+
 ## Endpoints
 
 ### Create a User
 
 Create a new user in the database.
 
-- URL: `https://localhost:3000/api/v1/users`
-- Method: POST
-- Content Type: application/json
+- **URL**: `https://localhost:3000/api/v1/users`
+- **Method**: POST
+- **Content Type**: application/json
 
 #### Parameters
 
@@ -82,7 +94,7 @@ Create a new user in the database.
 
 ### Successful Response
 
-Status Code: 201 Created
+**Status Code: 201 Created**
 
 ```json
 {
@@ -107,17 +119,12 @@ Status Code: 201 Created
 
 Retrieve a paginated list of all created users in the database.
 
-- URL: `https://localhost:3000/api/v1/users`
-- Method: GET
-- Content Type: application/json
-
-#### Parameters
-
-No parameters are required for this request.
+- **URL**: `https://localhost:3000/api/v1/users`
+- **Method**: GET
 
 #### Successful Response
 
-Status Code: 200 OK
+**Status Code: 200 OK**
 
 ```json
 {
@@ -169,9 +176,9 @@ Status Code: 200 OK
 
 Update the data of a user, excluding email and password.
 
-- URL: `https://localhost:3000/api/v1/users`
-- Method: PUT
-- Content Type: application/json
+- **URL**: `https://localhost:3000/api/v1/users`
+- **Method**: PATCH
+- **Content Type**: application/json
 
 #### Parameters
 
@@ -209,9 +216,9 @@ The request body should include the following parameters:
 
 Authenticate a user by providing their email and password.
 
-- URL: `https://localhost:3000/api/v1/auth/login`
-- Method: POST
-- Content Type: application/json
+- **URL**: `https://localhost:3000/api/v1/auth/login`
+- **Method**: POST
+- **Content Type**: application/json
 
 #### Parameters
 
@@ -259,9 +266,9 @@ The request body should include the following parameter:
 
 Reset the user's password using the recovery token received via email.
 
-- URL: `https://localhost:3000/api/v1/auth/recovery-password/:token`
-- Method: PATCH
-- Content Type: application/json
+- **URL**: `https://localhost:3000/api/v1/auth/recovery-password/:token`
+- **Method**: PATCH
+- **Content Type**: application/json
 
 #### Parameters
 
@@ -283,9 +290,9 @@ The request body should include the following parameter:
 
 Send a message to a recipient. Messages can only be sent to administrators, not between regular users.
 
-- URL: `https://localhost:3000/api/v1/message/:id`
-- Method: POST
-- Content Type: application/json
+- **URL**: `https://localhost:3000/api/v1/message/:id`
+- **Method**: POST
+- **Content Type**: application/json
 
 #### Parameters
 
@@ -309,8 +316,6 @@ The request body should include the following parameters:
 
 #### Example Request
 
-URL: `https://localhost:3000/api/v1/message/recipientId`
-
 ```json
 {
   "senderId": "senderId",
@@ -321,7 +326,7 @@ URL: `https://localhost:3000/api/v1/message/recipientId`
 
 #### Successful Response
 
-Status Code: 200 OK
+**Status Code: 200 OK**
 
 ```json
 {
@@ -348,17 +353,13 @@ Status Code: 200 OK
 
 Create a new room. This endpoint is only accessible to administrators.
 
-- URL: `https://localhost:3000/api/v1/rooms`
-- Method: POST
-- Content Type: application/json
+- **URL**: `https://localhost:3000/api/v1/rooms`
+- **Method**: POST
+- **Content Type**: application/json
 
 #### Parameters
 
-The request should include the following parameters:
-
-##### Request Body
-
-The request body should include the following parameters:
+The request should include the following parameters
 
 | Name          | Type   | Description                                                                                    |
 | ------------- | ------ | ---------------------------------------------------------------------------------------------- |
@@ -399,8 +400,6 @@ The `num_room` object should include the following parameters:
 
 #### Example Request
 
-URL: `https://localhost:3000/api/v1/rooms`
-
 ```json
 {
   "room_type": "Deluxe Suite",
@@ -430,8 +429,8 @@ URL: `https://localhost:3000/api/v1/rooms`
 
 #### Successful Response
 
-Status Code: 200 OK
-The room has been successfully created.
+**Status Code: 200 OK**
+**The room has been successfully created.**
 
 ```json
   {
@@ -478,9 +477,8 @@ The room has been successfully created.
 
 Retrieve a paginated list of all created rooms in the database.
 
-- URL: `https://localhost:3000/api/v1/rooms`
-- Method: GET
-- Content Type: application/json
+- **URL**: `https://localhost:3000/api/v1/rooms`
+- **Method**: GET
 
 #### Successful Response
 
@@ -577,8 +575,7 @@ The `tour_details` object should include the following parameters:
 
 - **Success Response**:
 
-  - **Status Code**: 201
-  - **Content**:
+  - **Status Code: 201**
 
     ```json
     {
@@ -594,7 +591,10 @@ The `tour_details` object should include the following parameters:
         "number_of_people": "10",
         "ages": "18+",
         "tour_info": {
-          "images_url": ["https://bucket.aws.photo4","https://bucket.aws.photo3" ],
+          "images_url": [
+            "https://bucket.aws.photo4",
+            "https://bucket.aws.photo3"
+          ],
           "what_to_do": "Hiking, Camping, Wildlife spotting",
           "good_choice_for": "Nature lovers, Adventure enthusiasts",
           "cancellation_policy": "Free cancellation up to 48 hours before the tour",
@@ -624,13 +624,12 @@ The `tour_details` object should include the following parameters:
 
 Retrieve a paginated list of all created tours in the database.
 
-- URL: `https://localhost:3000/api/v1/tours`
-- Method: GET
-- Content Type: application/json
+- **URL**: `https://localhost:3000/api/v1/tours`
+- **Method**: GET
 
 #### Successful Response
 
-Status Code: 200 OK
+**Status Code: 200 OK**
 
 ```json
 {
@@ -639,29 +638,24 @@ Status Code: 200 OK
     "totalPages": 1,
     "currentPage": 1,
     "results": [
-            {
-                "id": "90339517-a3bc-46b9-8822-aca377acaf99",
-                "tour_name": "Machu Picchu Adventure",
-                "tour_description": "Join us on an exciting adventure to Machu Picchu!",
-                "extras": null,
-                "location": "Machu Picchu",
-                "duration": "3 days",
-                "difficulty": "Moderate",
-                "languages": [
-                    "English",
-                    "Spanish"
-                ],
-                "number_of_people": "10",
-                "ages": "18+",
-                "created_at": "2023-05-26T21:53:21.628Z",
-                "updated_at": "2023-05-26T21:53:21.628Z"
-            }
-        ]
+      {
+        "id": "90339517-a3bc-46b9-8822-aca377acaf99",
+        "tour_name": "Machu Picchu Adventure",
+        "tour_description": "Join us on an exciting adventure to Machu Picchu!",
+        "extras": null,
+        "location": "Machu Picchu",
+        "duration": "3 days",
+        "difficulty": "Moderate",
+        "languages": ["English", "Spanish"],
+        "number_of_people": "10",
+        "ages": "18+",
+        "created_at": "2023-05-26T21:53:21.628Z",
+        "updated_at": "2023-05-26T21:53:21.628Z"
+      }
+    ]
   }
 }
 ```
-
-
 
 ### Create a New Coupon
 
@@ -680,8 +674,6 @@ Creates a new coupons with the provided information.
 
 #### Example Request
 
-URL: `https://localhost:3000/api/v1/coupons`
-
 ```json
 {
   "coupon_code": "NEWCOUPON",
@@ -693,8 +685,7 @@ URL: `https://localhost:3000/api/v1/coupons`
 
 - **Success Response**:
 
-  - **Status Code**: 201
-  - **Content**:
+  - **Status Code: 201**
 
     ```json
     {
@@ -707,17 +698,17 @@ URL: `https://localhost:3000/api/v1/coupons`
       "updated_at": "2023-05-26T03:52:46.273Z"
     }
     ```
+
 ### Get All Coupons
 
 Retrieve a paginated list of all created coupons in the database.
 
-- URL: `https://localhost:3000/api/v1/coupons`
-- Method: GET
-- Content Type: application/json
+- **URL**: `https://localhost:3000/api/v1/coupons`
+- **Method**: GET
 
 #### Successful Response
 
-Status Code: 200 OK
+**Status Code: 200 OK**
 
 ```json
 {
@@ -760,13 +751,12 @@ Status Code: 200 OK
 
 Retrieve a paginated list of coupon search by Id in the database.
 
-- URL: `https://localhost:3000/api/v1/coupons/:couponId`
-- Method: GET
-- Content Type: application/json
+- **URL**: `https://localhost:3000/api/v1/coupons/:couponId`
+- **Method**: GET
 
 #### Successful Response
 
-Status Code: 200 OK
+**Status Code: 200 OK**
 
 ```json
 {
@@ -778,6 +768,249 @@ Status Code: 200 OK
   "created_at": "2023-05-26T03:52:46.273Z",
   "updated_at": "2023-05-26T03:52:46.273Z"
 }
-
 ```
 
+### Create New Reservations
+
+## ROOMS RESERVATION
+
+Create a new room reservation.
+
+- **URL**: `http://localhost:3000/api/v1/rooms/:roomId/reservation`
+- **Method**: POST
+- **Data Parameters**:
+
+  | Parameter          | Type    | Description             |
+  | ------------------ | ------- | ----------------------- |
+  | `purchase_date`    | Date    | Date of purchase        |
+  | `purchase_time`    | Date    | Time of purchase        |
+  | `number_of_people` | Integer | Number of people        |
+  | `total_price`      | Integer | Total price in currency |
+
+#### Example Request
+
+```json
+{
+  "purchase_date": "2025-12-09T21:18:48.952Z",
+  "purchase_time": "2028-10-10T10:10:20.952Z",
+  "number_of_people": 7,
+  "total_price": 16000
+}
+```
+
+#### Successful Response
+
+**Status Code: 200 OK**
+
+```json
+{
+  "results": {
+    "id": "f4a02cae-8b2b-4db9-b16a-d01e9fea9422",
+    "user_id": "0a8793e3-de48-4492-8dae-d2816ebf882d",
+    "room_id": "a18a807e-2353-4c1c-ad96-262e2d805f08",
+    "type_room": "Standard Room",
+    "check_in": "2023-06-09T16:47:02.736Z",
+    "check_out": "2023-06-09T16:47:02.736Z",
+    "address": "456 Elm Street, Townsville",
+    "purchase_date": "2025-12-09T21:18:48.952Z",
+    "purchase_time": "2028-10-10T10:10:20.952Z",
+    "number_of_people": 7,
+    "price_for_night": 100,
+    "updated_at": "2023-06-09T19:50:47.830Z",
+    "created_at": "2023-06-09T19:50:47.830Z"
+  }
+}
+```
+
+### Get Room Reservation by Id
+
+- **URL**: `http://localhost:3000/api/v1/reservations/:roomId`
+- **Method**: GET
+
+#### Successful Response
+
+**Status Code: 200 OK**
+
+```json
+{
+  "id": "f4a02cae-8b2b-4db9-b16a-d01e9fea9422",
+  "user_id": "0a8793e3-de48-4492-8dae-d2816ebf882d",
+  "room_id": "a18a807e-2353-4c1c-ad96-262e2d805f08",
+  "type_room": "Standard Room",
+  "check_in": "2023-06-09T16:47:02.736Z",
+  "check_out": "2023-06-09T16:47:02.736Z",
+  "address": "456 Elm Street, Townsville",
+  "purchase_date": "2025-12-09T21:18:48.952Z",
+  "purchase_time": "2028-10-10T10:10:20.952Z",
+  "number_of_people": 7,
+  "price_for_night": 100,
+  "updated_at": "2023-06-09T19:50:47.830Z",
+  "created_at": "2023-06-09T19:50:47.830Z"
+}
+```
+
+### DELETE Room Reservation by Id
+
+- **URL**: `http://localhost:3000/api/v1/reservations/:roomId`
+- **Method**: DELETE
+
+#### Successful Response
+
+No response body returned.
+
+### Update Room Reservation
+
+Update the room reservation.
+
+- **URL**: `https://localhost:3000/api/v1/reservations/:roomId`
+- **Method**: PATCH
+- **Content Type**: application/json
+
+#### Parameters
+
+The request body should include the following parameters:
+
+| Parameter          | Type    | Description             |
+| ------------------ | ------- | ----------------------- |
+| `purchase_date`    | Date    | Date of purchase        |
+| `purchase_time`    | Date    | Time of purchase        |
+| `number_of_people` | Integer | Number of people        |
+| `total_price`      | Integer | Total price in currency |
+
+#### Example Request
+
+```json
+{
+  "purchase_date": "2025-12-09T21:18:48.952Z",
+  "purchase_time": "2028-10-10T10:10:20.952Z",
+  "number_of_people": 5,
+  "total_price": 15000
+}
+```
+
+#### Successful Response
+
+Room Reservation updated.
+
+## TOURS RESERVATION
+
+Create a new tour reservation.
+
+- **URL**: `http://localhost:3000/api/v1/tours/:tourId/reservation`
+- **Method**: POST
+- **Data Parameters**:
+
+  | Parameter          | Type    | Description                |
+  | ------------------ | ------- | -------------------------- |
+  | `purchase_date`    | Date    | Date of purchase           |
+  | `purchase_time`    | Date    | Time of purchase           |
+  | `number_of_people` | Integer | Number of people           |
+  | `total_purchase`   | Integer | Total purchase in currency |
+
+#### Example Request
+
+```json
+{
+  "purchase_date": "2025-12-09T21:18:48.952Z",
+  "purchase_time": "2028-10-10T10:10:20.952Z",
+  "number_of_people": 7,
+  "total_purchase": 16000
+}
+```
+
+#### Successful Response
+
+**Status Code: 200 OK**
+
+```json
+{
+  "results": {
+    "id": "887e4aca-42fa-498b-807b-f9949fa0cb9c",
+    "user_id": "0a8793e3-de48-4492-8dae-d2816ebf882d",
+    "tour_id": "17456809-bc5a-4910-aabc-7fff120f0838",
+    "type_tour": "Machu Picchu Adventure",
+    "date_selected": ["2023-06-09T21:05:17.098Z", "2023-06-09T21:05:17.100Z"],
+    "schedule_selected": "Day 1: Arrival and orientation. Day 2: Machu Picchu guided tour. Day 3: Return journey.",
+    "location": "Machu Picchu",
+    "purchase_date": "2023-12-09T21:18:48.952Z",
+    "purchase_time": "2023-10-10T10:10:20.952Z",
+    "number_of_people": 7,
+    "total_purchase": 16000,
+    "updated_at": "2023-06-09T21:05:17.094Z",
+    "created_at": "2023-06-09T21:05:17.094Z"
+  }
+}
+```
+
+### Get Tour Reservation by Id
+
+- **URL**: `http://localhost:3000/api/v1/reservations/:tourId`
+- **Method**: GET
+
+#### Successful Response
+
+**Status Code: 200 OK**
+
+```json
+"results": {
+    "id": "887e4aca-42fa-498b-807b-f9949fa0cb9c",
+    "user_id": "0a8793e3-de48-4492-8dae-d2816ebf882d",
+    "tour_id": "17456809-bc5a-4910-aabc-7fff120f0838",
+    "type_tour": "Machu Picchu Adventure",
+    "date_selected": [
+        "2023-06-09T21:05:17.098Z",
+        "2023-06-09T21:05:17.100Z"
+    ],
+    "schedule_selected": "Day 1: Arrival and orientation. Day 2: Machu Picchu guided tour. Day 3: Return journey.",
+    "location": "Machu Picchu",
+    "purchase_date": "2023-12-09T21:18:48.952Z",
+    "purchase_time": "2023-10-10T10:10:20.952Z",
+    "number_of_people": 7,
+    "total_purchase": 16000,
+    "updated_at": "2023-06-09T21:05:17.094Z",
+    "created_at": "2023-06-09T21:05:17.094Z"
+}
+```
+
+### DELETE Tour Reservation by Id
+
+- **URL**: `http://localhost:3000/api/v1/reservations/:tourId`
+- **Method**: DELETE
+
+#### Successful Response
+
+No response body returned.
+
+### Update Tour Reservation
+
+Update the Tour reservation.
+
+- **URL**: `https://localhost:3000/api/v1/reservations/:tourId`
+- **Method**: PATCH
+- **Content Type**: application/json
+
+#### Parameters
+
+The request body should include the following parameters:
+
+| Parameter          | Type    | Description             |
+| ------------------ | ------- | ----------------------- |
+| `purchase_date`    | Date    | Date of purchase        |
+| `purchase_time`    | Date    | Time of purchase        |
+| `number_of_people` | Integer | Number of people        |
+| `total_price`      | Integer | Total price in currency |
+
+#### Example Request
+
+```json
+{
+  "purchase_date": "2025-12-09T21:18:48.952Z",
+  "purchase_time": "2028-10-10T10:10:20.952Z",
+  "number_of_people": 5,
+  "total_price": 15000
+}
+```
+
+#### Successful Response
+
+Tour Reservation updated.

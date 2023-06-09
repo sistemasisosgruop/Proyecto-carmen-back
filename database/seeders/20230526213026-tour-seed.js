@@ -48,7 +48,8 @@ module.exports = {
             cancellation_policy:
               'Full refund if canceled at least 48 hours before the tour.',
             price_per_person: 250.0,
-            available_dates: [new Date(), new Date()],
+            tour_check_in: new Date(),
+            tour_check_out: new Date(),
             schedule:
               'Day 1: Arrival and orientation. Day 2: Machu Picchu guided tour. Day 3: Return journey.',
             created_at: new Date(),
