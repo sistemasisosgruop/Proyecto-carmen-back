@@ -6,20 +6,40 @@ const { multerPhotos } = require('../middlewares/multer.middleware')
 const ToursController = require('../controllers/tours.controllers')
 const ReservationsController = require('../controllers/reservations.controllers')
 
-const tourController = new ToursController() 
-const reservationController = new ReservationsController() 
-
+const tourController = new ToursController()
+const reservationController = new ReservationsController()
 
 router.get('/', tourController.getAllTours)
-router.post('/', passport.authenticate('jwt', { session: false }), multerPhotos.array('image', 10), tourController.postTour)
+router.post(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  multerPhotos.array('image', 10),
+  tourController.postTour
+)
 
 router.get('/:tourId', tourController.getTour)
-router.delete('/:tourId', passport.authenticate('jwt', { session: false }), tourController.deleteTour)
-router.patch('/:tourId', passport.authenticate('jwt', { session: false }), tourController.updateTour)
+router.delete(
+  '/:tourId',
+  passport.authenticate('jwt', { session: false }),
+  tourController.deleteTour
+)
+router.patch(
+  '/:tourId',
+  passport.authenticate('jwt', { session: false }),
+  tourController.updateTour
+)
 
-router.post('/:tourId/rating', passport.authenticate('jwt', { session: false }), tourController.postTourRating)
+router.post(
+  '/:tourId/rating',
+  passport.authenticate('jwt', { session: false }),
+  tourController.postTourRating
+)
 router.get('/:tourId/rating', tourController.getRatingsByTour)
 
-router.post('/:tourId/reservation', passport.authenticate('jwt', {session: false}), reservationController.postTourReservation)
+router.post(
+  '/:tourId/reservation',
+  passport.authenticate('jwt', { session: false }),
+  reservationController.postTourReservation
+)
 
 module.exports = router

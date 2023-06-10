@@ -7,32 +7,36 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.createTable('Roles', {
-        id: {
-          allowNull: false,
-          autoIncrement: true,
-          primaryKey: true,
-          type: Sequelize.INTEGER
+      await queryInterface.createTable(
+        'Roles',
+        {
+          id: {
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
+            type: Sequelize.INTEGER,
+          },
+          name: {
+            allowNull: false,
+            type: Sequelize.STRING,
+          },
+          permissions: {
+            allowNull: false,
+            type: Sequelize.JSONB,
+          },
+          createdAt: {
+            allowNull: false,
+            type: Sequelize.DATE,
+            field: 'created_at',
+          },
+          updatedAt: {
+            allowNull: false,
+            type: Sequelize.DATE,
+            field: 'updated_at',
+          },
         },
-        name: {
-          allowNull:false,
-          type: Sequelize.STRING
-        },
-        permissions: {
-          allowNull: false, 
-          type: Sequelize.JSONB
-        },
-        createdAt: {
-          allowNull: false,
-          type: Sequelize.DATE, 
-          field: 'created_at'
-        },
-        updatedAt: {
-          allowNull: false,
-          type: Sequelize.DATE, 
-          field: 'updated_at'
-        }
-      }, { transaction })
+        { transaction }
+      )
 
       await transaction.commit()
     } catch (error) {
@@ -43,11 +47,11 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Roles',{ transaction })
+      await queryInterface.dropTable('Roles', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()
       throw error
     }
-  }
+  },
 }

@@ -4,9 +4,7 @@ const { CustomError } = require('../utils/custom-error')
 const { hash } = require('../utils/crypto')
 const models = require('../database/models')
 
-
 class UsersService {
-
   constructor() {}
 
   async findAndCount(query) {
@@ -49,7 +47,7 @@ class UsersService {
           birthday: userData.birthday,
           student: userData.student,
           country_code: userData.country_code,
-          role_id: userData.role_id
+          role_id: userData.role_id,
         },
         { transaction }
       )
@@ -60,7 +58,7 @@ class UsersService {
       throw error
     }
   }
-  
+
   //Return Instance if we do not converted to json (or raw:true)
   async getUserOr404(id) {
     let user = await models.Users.findByPk(id)
@@ -71,18 +69,31 @@ class UsersService {
   }
 
   //Return not an Instance raw:true | we also can converted to Json instead
-  async getUser(id) {    
+  async getUser(id) {
     let user = await models.Users.findByPk(id, { raw: true })
     return user
   }
 
-  async updateUser(id, {first_name, last_name, genre, phone_number, document_type, document_number, password, birthday, student}) {
+  async updateUser(
+    id,
+    {
+      first_name,
+      last_name,
+      genre,
+      phone_number,
+      document_type,
+      document_number,
+      password,
+      birthday,
+      student,
+    }
+  ) {
     const transaction = await models.sequelize.transaction()
     try {
       let user = await models.Users.findByPk(id)
-      
+
       if (!user) throw new CustomError('Not found user', 404, 'Not Found')
-      
+
       let updatedUser = await user.update(
         {
           first_name,
@@ -93,7 +104,7 @@ class UsersService {
           document_number,
           password,
           birthday,
-          student
+          student,
         },
         { transaction }
       )
@@ -128,12 +139,11 @@ class UsersService {
   async getUserByEmail(email) {
     const user = await models.Users.findOne({
       where: {
-        email: email
-      }
+        email: email,
+      },
     })
     return user
   }
 }
-
 
 module.exports = UsersService

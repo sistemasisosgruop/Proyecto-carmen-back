@@ -39,25 +39,25 @@ class RoomService {
     if (!room) throw new CustomError('Not found Room', 404, 'Not Found')
     let roomDetail = await models.Room_Details.findOne({
       where: {
-        room_id: roomId 
-      }, 
+        room_id: roomId,
+      },
       attributes: {
-        exclude: ['id', 'room_id', 'created_at', 'updated_at' ]
-      }
+        exclude: ['id', 'room_id', 'created_at', 'updated_at'],
+      },
     })
     let roomDetail2 = await models.Room_Details_2.findOne({
       where: {
-        room_id: roomId 
-      }, 
+        room_id: roomId,
+      },
       attributes: {
-        exclude: ['id', 'room_id', 'created_at', 'updated_at' ]
-      }
+        exclude: ['id', 'room_id', 'created_at', 'updated_at'],
+      },
     })
-    return {room, roomDetail, roomDetail2}
+    return { room, roomDetail, roomDetail2 }
   }
 
   //? Create a new Room with details being a admin
-  async createRoom(userId, roomData/*, images*/) {
+  async createRoom(userId, roomData /*, images*/) {
     const transaction = await models.Rooms.sequelize.transaction()
     const user = await models.Users.findByPk(userId)
 
@@ -149,7 +149,6 @@ class RoomService {
         }
       }
 
-      
       const roomDetails2 = await models.Room_Details_2.create(
         {
           room_id: room.dataValues.id,
@@ -174,7 +173,9 @@ class RoomService {
         )
         images_room.push(image)
       }
-      const imageUrls2 = images_room_2.map((image) => image.dataValues.image_url)
+      const imageUrls2 = images_room_2.map(
+        (image) => image.dataValues.image_url
+      )
       roomDetails.dataValues.images_url = imageUrls2
 
       await transaction.commit()
@@ -203,40 +204,41 @@ class RoomService {
 
   // Función para crear una nueva valoración y comentario
   async createRoomRating(userId, roomId, ratingData) {
-    
     const transaction = await models.Ratings.sequelize.transaction()
     const user = await models.Users.findByPk(userId)
     const room = await models.Rooms.findByPk(roomId)
-    
+
     try {
-      if(!user) {
+      if (!user) {
         throw new Error('Only users can rate rooms')
       }
-      const rating = await models.Ratings.create({
-        id: uuid4(),
-        room_id: room.id, // Opcional si estás valorando una habitación
-        rate: ratingData.rate,
-        comment: ratingData.comment,
-      }, { transaction });
+      const rating = await models.Ratings.create(
+        {
+          id: uuid4(),
+          room_id: room.id, // Opcional si estás valorando una habitación
+          rate: ratingData.rate,
+          comment: ratingData.comment,
+        },
+        { transaction }
+      )
       await transaction.commit()
       return rating
     } catch (error) {
       await transaction.rollback()
       // Error al crear la valoración y comentario
-      throw error;
+      throw error
     }
   }
 
   async findRatingsByRoom(roomId) {
-    console.log(roomId);
+    console.log(roomId)
     const ratingsRoom = await models.Ratings.findAll({
       where: {
-        room_id: roomId
-      }
+        room_id: roomId,
+      },
     })
     return ratingsRoom
   }
-  
 }
 
 module.exports = RoomService

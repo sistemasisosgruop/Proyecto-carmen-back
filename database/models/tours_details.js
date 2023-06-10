@@ -23,7 +23,14 @@ module.exports = (sequelize, DataTypes) => {
 }, {
     sequelize,
     modelName: 'Tours_Details',
-    tableName: 'Tours_Details'
+    tableName: 'Tours_Details',
+    underscored: true,
+    timestamps: true,
+    scopes: {
+      public_view: {
+        attributes: ['what_is_included', 'what_is_not_included', 'itinerary', 'departure_details', 'return_details', 'accessibility']
+      }
+    },
   });
   return Tours_Details;
 };

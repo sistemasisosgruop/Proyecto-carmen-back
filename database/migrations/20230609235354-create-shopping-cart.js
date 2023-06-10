@@ -4,7 +4,7 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       await queryInterface.createTable(
-        'Reservation_Rooms',
+        'Shoping_Cart',
         {
           id: {
             allowNull: false,
@@ -21,47 +21,27 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          room_id: {
+          product_id: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
-              model: 'Rooms',
+              model: 'User_Products',
               key: 'id',
             },
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          type_room: {
+          product_type: {
             allowNull: false,
             type: Sequelize.STRING,
           },
-          check_in: {
-            allowNull: false,
-            type: Sequelize.DATE,
-          },
-          check_out: {
-            allowNull: false,
-            type: Sequelize.DATE,
-          },
-          address: {
-            allowNull: false,
-            type: Sequelize.STRING,
-          },
-          purchase_date: {
-            allowNull: false,
-            type: Sequelize.DATE,
-          },
-          purchase_time: {
-            allowNull: false,
-            type: Sequelize.DATE,
-          },
-          number_of_people: {
+          quantity: {
             allowNull: false,
             type: Sequelize.INTEGER,
           },
-          price_for_night: {
+          payment_method: {
             allowNull: false,
-            type: Sequelize.FLOAT,
+            type: Sequelize.STRING,
           },
           createdAt: {
             allowNull: false,
@@ -76,6 +56,7 @@ module.exports = {
         },
         { transaction }
       )
+
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()
@@ -85,7 +66,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Reservation_Rooms', { transaction })
+      await queryInterface.dropTable('Shoping_Cart', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

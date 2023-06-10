@@ -10,26 +10,26 @@ module.exports = {
             allowNull: false,
             primaryKey: true,
             defaultValue: Sequelize.UUIDV4,
-            type: Sequelize.UUID
+            type: Sequelize.UUID,
           },
           room_type: {
             allowNull: false,
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
           },
           description: {
             allowNull: false,
-            type: Sequelize.TEXT
+            type: Sequelize.TEXT,
           },
           address: {
             allowNull: false,
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
           },
           price: {
             allowNull: false,
-            type: Sequelize.FLOAT
+            type: Sequelize.FLOAT,
           },
           check_in: {
-            allowNull:false,
+            allowNull: false,
             type: Sequelize.DATE,
           },
           check_out: {
@@ -38,15 +38,15 @@ module.exports = {
           },
           num_bathrooms: {
             allowNull: false,
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
           },
           num_beds: {
             allowNull: false,
-            type: Sequelize.INTEGER
-          },         
+            type: Sequelize.INTEGER,
+          },
           extras: {
             allowNull: false,
-            type: Sequelize.ARRAY(Sequelize.STRING)
+            type: Sequelize.ARRAY(Sequelize.STRING),
           },
           createdAt: {
             allowNull: false,
@@ -57,7 +57,7 @@ module.exports = {
             allowNull: false,
             type: Sequelize.DATE,
             field: 'updated_at',
-          }
+          },
         },
         { transaction }
       )

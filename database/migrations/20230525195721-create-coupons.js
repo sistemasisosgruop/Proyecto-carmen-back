@@ -23,21 +23,21 @@ module.exports = {
             allowNull: true,
             type: Sequelize.UUID,
             references: {
-              model: 'Rooms', // Name of the products table (Rooms, Tours, etc.)
+              model: 'Rooms',
               key: 'id',
             },
+            onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
-            onDelete: 'SET NULL',
           },
           tour_id: {
             allowNull: true,
             type: Sequelize.UUID,
             references: {
-              model: 'Tours', // Name of the products table (Rooms, Tours, etc.)
+              model: 'Tours',
               key: 'id',
             },
             onUpdate: 'CASCADE',
-            onDelete: 'SET NULL',
+            onDelete: 'CASCADE',
           },
           created_at: {
             allowNull: false,

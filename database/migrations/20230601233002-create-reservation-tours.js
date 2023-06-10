@@ -9,54 +9,58 @@ module.exports = {
           id: {
             allowNull: false,
             primaryKey: true,
-            type: Sequelize.UUID
+            type: Sequelize.UUID,
           },
           user_id: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
               model: 'Users',
-              key: 'id'
-            }
+              key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
           },
           tour_id: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
               model: 'Tours',
-              key: 'id'
-            }
+              key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
           },
           type_tour: {
-            allowNull:false, 
+            allowNull: false,
             type: Sequelize.STRING,
           },
           date_selected: {
-            allowNull:false, 
+            allowNull: false,
             type: Sequelize.ARRAY(Sequelize.DATE),
           },
           schedule_selected: {
-            allowNull:false, 
+            allowNull: false,
             type: Sequelize.STRING,
           },
           location: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
           },
           purchase_date: {
-            allowNull:false, 
+            allowNull: false,
             type: Sequelize.DATE,
           },
           purchase_time: {
-            allowNull:false, 
+            allowNull: false,
             type: Sequelize.DATE,
           },
           number_of_people: {
-            allowNull: false, 
-            type: Sequelize.INTEGER
+            allowNull: false,
+            type: Sequelize.INTEGER,
           },
           total_purchase: {
-            allowNull: false, 
-            type: Sequelize.FLOAT
+            allowNull: false,
+            type: Sequelize.FLOAT,
           },
           createdAt: {
             allowNull: false,

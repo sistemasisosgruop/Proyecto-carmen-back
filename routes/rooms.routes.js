@@ -10,16 +10,40 @@ const reservationController = new ReservationsControllers()
 
 const router = express.Router()
 
-router.get('/', passport.authenticate('jwt', { session: false }), roomController.getAllRooms)
-router.post('/', passport.authenticate('jwt', {session: false}) , multerPhotos.array('image', 10), roomController.postRoom)
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  roomController.getAllRooms
+)
+router.post(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  multerPhotos.array('image', 10),
+  roomController.postRoom
+)
 
-router.get('/:roomId', passport.authenticate('jwt', { session: false }), roomController.getRoom)
-router.delete('/:roomId', passport.authenticate('jwt', { session: false }), roomController.deleteRoom)
+router.get(
+  '/:roomId',
+  passport.authenticate('jwt', { session: false }),
+  roomController.getRoom
+)
+router.delete(
+  '/:roomId',
+  passport.authenticate('jwt', { session: false }),
+  roomController.deleteRoom
+)
 
-router.post('/:roomId/rating', passport.authenticate('jwt', { session: false }), roomController.postRoomRating)
+router.post(
+  '/:roomId/rating',
+  passport.authenticate('jwt', { session: false }),
+  roomController.postRoomRating
+)
 router.get('/:roomId/rating', roomController.getRatingsByRoom)
 
-router.post('/:roomId/reservation', passport.authenticate('jwt', {session: false}), reservationController.postRoomReservation)
-
+router.post(
+  '/:roomId/reservation',
+  passport.authenticate('jwt', { session: false }),
+  reservationController.postRoomReservation
+)
 
 module.exports = router

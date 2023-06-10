@@ -6,12 +6,17 @@ class MessagesService {
 
   async sendMessage(senderId, recipientId, subject, content) {
     const transaction = await models.Messages.sequelize.transaction()
-   
+
     try {
       const sender = await models.Users.findByPk(senderId)
       const recipient = await models.Users.findByPk(recipientId.id)
-      if ((!sender || sender.role_id !== 1) && (!recipient || recipient.role_id !== 1)) {
-        throw new Error('Unauthorized: Messages can only be sent to administrators.')
+      if (
+        (!sender || sender.role_id !== 1) &&
+        (!recipient || recipient.role_id !== 1)
+      ) {
+        throw new Error(
+          'Unauthorized: Messages can only be sent to administrators.'
+        )
       }
 
       const message = await models.Messages.create(
@@ -41,4 +46,3 @@ class MessagesService {
   }
 }
 module.exports = MessagesService
-

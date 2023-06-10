@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       Rooms.hasMany(models.Coupons, { foreignKey: 'room_id', as: 'Coupons' });
       Rooms.hasMany(models.Reservation_Rooms, { foreignKey: 'room_id', as: 'Reservation_Rooms' });
       Rooms.hasMany(models.Ratings, { foreignKey: 'room_id', as: 'Ratings' });
+      Rooms.hasMany(models.User_Products, { as: 'User_Products', foreignKey: 'room_id' })
     }
   }
   Rooms.init({
@@ -31,8 +32,13 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Rooms',
     tableName: 'Rooms',
-    underscored: true
+    underscored: true,
+    timestamps: true,
+    scopes: {
+      public_view: {
+        attributes: ['room_type', 'description', 'address', 'price', 'check_id', 'check_out', 'num_bathrooms', 'num_beds', 'extras']
+      }
+    },
   });
-
   return Rooms;
 };

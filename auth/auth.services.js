@@ -1,12 +1,11 @@
 const { comparePassword, hash } = require('../utils/crypto')
 const UsersServices = require('../services/users.services')
 const models = require('../database/models')
-const { v4: uuid4} = require('uuid')
+const { v4: uuid4 } = require('uuid')
 
 const UsersService = new UsersServices()
 
 const verifyUser = async (email, password) => {
-
   try {
     const user = await UsersService.getUserByEmail(email)
     const compare = comparePassword(password, user.password)
@@ -21,37 +20,38 @@ const verifyUser = async (email, password) => {
 }
 
 const createRecoveryToken = async (email) => {
-
   try {
     const user = await UsersService.getUserByEmail(email)
     const data = await models.Recovery_Passwords.create({
       id: uuid4(),
       user_id: user.id,
-      used: false
+      used: false,
     })
     return data
   } catch (error) {
-    console.log(error)  //  DEBUG -------------------------------------------------
+    console.log(error) //  DEBUG -------------------------------------------------
     return null
   }
 }
 
 const changePassword = async (tokenId, newPassword) => {
-
   const changeData = await models.Recovery_Passwords.findOne({
     where: {
       id: tokenId,
-      used: false
-    }
+      used: false,
+    },
   })
-  if(changeData) {
-    await models.Recovery_Passwords.update({used: true}, {
-      where: {
-        id: tokenId
+  if (changeData) {
+    await models.Recovery_Passwords.update(
+      { used: true },
+      {
+        where: {
+          id: tokenId,
+        },
       }
-    })
+    )
     const data = await UsersService.updateUser(changeData.dataValues.user_id, {
-      password: hash(newPassword)
+      password: hash(newPassword),
     })
     return data
   } else {
@@ -61,6 +61,6 @@ const changePassword = async (tokenId, newPassword) => {
 
 module.exports = {
   verifyUser,
-  createRecoveryToken, 
-  changePassword
+  createRecoveryToken,
+  changePassword,
 }

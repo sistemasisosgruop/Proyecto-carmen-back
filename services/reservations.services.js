@@ -1,5 +1,6 @@
 const models = require('../database/models')
 const { v4: uuid4 } = require('uuid')
+const { CustomError } = require('../utils/custom-error')
 
 class ReservationsService {
   constructor() {}
@@ -44,7 +45,7 @@ class ReservationsService {
           purchase_date: reservationRoomData.purchase_date,
           purchase_time: reservationRoomData.purchase_time,
           number_of_people: reservationRoomData.number_of_people,
-          total_price: reservationRoomData.total_price
+          total_price: reservationRoomData.total_price,
         },
         { transaction }
       )
@@ -118,8 +119,8 @@ class ReservationsService {
     const tour = await models.Tours.findByPk(tourId)
     const infoTour = await models.Tours_Info.findOne({
       where: {
-      tour_id: tourId
-      }
+        tour_id: tourId,
+      },
     })
 
     if (!user || !tour) {
@@ -140,8 +141,8 @@ class ReservationsService {
           location: tour.dataValues.location,
           purchase_date: reservationTourData.purchase_date,
           purchase_time: reservationTourData.purchase_time,
-          number_of_people: reservationTourData.number_of_people, 
-          total_purchase: reservationTourData.total_purchase
+          number_of_people: reservationTourData.number_of_people,
+          total_purchase: reservationTourData.total_purchase,
         },
         { transaction }
       )

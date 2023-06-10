@@ -9,7 +9,7 @@ module.exports = {
           id: {
             allowNull: false,
             primaryKey: true,
-            defaultValue: Sequelize.BIGINT, 
+            defaultValue: Sequelize.BIGINT,
             autoIncrement: true,
             type: Sequelize.BIGINT,
           },

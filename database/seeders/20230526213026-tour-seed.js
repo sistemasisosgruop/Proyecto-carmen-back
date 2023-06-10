@@ -13,8 +13,6 @@ module.exports = {
         [
           {
             id: tourId,
-            updated_at: new Date(),
-            created_at: new Date(),
             tour_name: 'Machu Picchu Adventure',
             tour_description:
               'Join us on an exciting adventure to Machu Picchu!',

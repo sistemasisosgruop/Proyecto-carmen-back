@@ -11,7 +11,11 @@ const multerPhotos = multer({
       })
       file.stream.emit('end')
     })
-    if (file.mimetype == 'image/png' || file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg') {
+    if (
+      file.mimetype == 'image/png' ||
+      file.mimetype == 'image/jpg' ||
+      file.mimetype == 'image/jpeg'
+    ) {
       cb(null, true)
     } else {
       cb(null, false)
@@ -22,12 +26,17 @@ const multerPhotos = multer({
     filename: (req, file, cb) => {
       // Genera un nombre de archivo único para evitar conflictos
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
-      const fileName = file.fieldname + '-' + uniqueSuffix + '.' + file.originalname.split('.').pop()
+      const fileName =
+        file.fieldname +
+        '-' +
+        uniqueSuffix +
+        '.' +
+        file.originalname.split('.').pop()
       cb(null, fileName)
-    }
-  })
+    },
+  }),
 })
 
 module.exports = {
-  multerPhotos
+  multerPhotos,
 }

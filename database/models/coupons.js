@@ -24,7 +24,13 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Coupons',
     tableName: 'Coupons', 
-    underscored: true
+    underscored: true, 
+    timestamps: true, 
+    scopes:{
+      public_view: {
+        attributes: ['coupon_code', 'discount', 'room_id', 'tour_id']
+      }
+    }
   });
   return Coupons;
 };

@@ -12,26 +12,28 @@ module.exports = {
             primaryKey: true,
             autoIncrement: true,
             defaultValues: Sequelize.BIGINT,
-            type: Sequelize.BIGINT
+            type: Sequelize.BIGINT,
           },
           room_id: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
               model: 'Rooms',
-              key: 'id'
-            }
+              key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
           },
           type_room: {
-            allowNull:false,
+            allowNull: false,
             type: Sequelize.STRING,
           },
           num_bed: {
-            allowNull:false,
+            allowNull: false,
             type: Sequelize.INTEGER,
           },
           type_bed: {
-            allowNull:false,
+            allowNull: false,
             type: Sequelize.STRING,
           },
           type_bed_2: {

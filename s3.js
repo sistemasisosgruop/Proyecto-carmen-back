@@ -1,6 +1,11 @@
 const fs = require('fs')
 
-const { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3')
+const {
+  S3Client,
+  PutObjectCommand,
+  DeleteObjectCommand,
+  GetObjectCommand,
+} = require('@aws-sdk/client-s3')
 
 require('dotenv').config()
 
@@ -13,14 +18,14 @@ const s3Client = new S3Client({
   region,
   credentials: {
     accessKeyId,
-    secretAccessKey
-  }
+    secretAccessKey,
+  },
 })
 
 //Returns a Promise
 const uploadFile = (fileMulterObject, fileName) => {
-console.log('FILEMULTER: ', fileMulterObject.path)
-console.log('FILENAME: ', fileName)
+  console.log('FILEMULTER: ', fileMulterObject.path)
+  console.log('FILENAME: ', fileName)
 
   const fileStream = fs.createReadStream(fileMulterObject.path)
 
@@ -43,7 +48,6 @@ const deleteFile = (fileName) => {
 
   return s3Client.send(new DeleteObjectCommand(deleteParams))
 }
-
 
 module.exports = {
   uploadFile,

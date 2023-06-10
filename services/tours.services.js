@@ -193,12 +193,12 @@ class TourService {
           check_out: tourData.check_out,
           num_bathrooms: tourData.num_bathrooms,
           num_beds: tourData.num_beds,
-          extras: tourData.extras
+          extras: tourData.extras,
         },
         { transaction }
       )
       let updatedTourDetail
-      if (Object.keys(obj).length == 9 ) {
+      if (Object.keys(obj).length == 9) {
         updatedTourDetail = await tourDetails.update(
           {
             what_is_included: tourData.tour_details.what_is_included,
@@ -212,7 +212,7 @@ class TourService {
         )
       }
       let updatedTourInfo
-      if (Object.keys(obj).length == 8 ) {
+      if (Object.keys(obj).length == 8) {
         updatedTourInfo = await tourInfo.update(
           {
             what_is_included: tourData.tour_details.what_is_included,
@@ -227,7 +227,7 @@ class TourService {
       }
       await transaction.commit()
 
-      return {updatedTour, updatedTourDetail, updatedTourInfo }
+      return { updatedTour, updatedTourDetail, updatedTourInfo }
     } catch (error) {
       await transaction.rollback()
       throw error

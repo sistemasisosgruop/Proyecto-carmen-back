@@ -56,18 +56,18 @@ const addUser = async (req, res, next) => {
     return res.status(401).json({
       message: error.message,
       fields: {
-        'first_name': 'String',
-        'last_name': 'String',
-        'email': 'example@example.com',
-        'password': 'String',
-        'genre': 'String',
-        'phone_number': 'Integer',
-        'country_code': 'String',
-        'document_type': 'String',
-        'document_number': 'Number',
-        'birthday': 'Date',
-        'student': 'Boolean',
-        'role_id': 'String',
+        first_name: 'String',
+        last_name: 'String',
+        email: 'example@example.com',
+        password: 'String',
+        genre: 'String',
+        phone_number: 'Integer',
+        country_code: 'String',
+        document_type: 'String',
+        document_number: 'Number',
+        birthday: 'Date',
+        student: 'Boolean',
+        role_id: 'String',
       },
     })
   }
@@ -79,19 +79,39 @@ const getUser = async (req, res) => {
     let users = await usersService.getUserOr404(id)
     return res.json({ results: users })
   } catch (error) {
-    return res.status(401).json({message: 'Invalid ID'})
+    return res.status(401).json({ message: 'Invalid ID' })
   }
 }
 
 const updateUser = async (req, res) => {
   try {
     let { id } = req.params
-    let { first_name, last_name, genre, phone_number, document_type, document_number, password, birthday, student } = req.body
+    let {
+      first_name,
+      last_name,
+      genre,
+      phone_number,
+      document_type,
+      document_number,
+      password,
+      birthday,
+      student,
+    } = req.body
 
-    let user = await usersService.updateUser(id, {first_name, last_name, genre, phone_number, document_type, document_number, password, birthday, student})
+    let user = await usersService.updateUser(id, {
+      first_name,
+      last_name,
+      genre,
+      phone_number,
+      document_type,
+      document_number,
+      password,
+      birthday,
+      student,
+    })
     return res.json({ results: user })
   } catch (error) {
-    return res.status(401).json({message: 'Invalid ID'})
+    return res.status(401).json({ message: 'Invalid ID' })
   }
 }
 
@@ -104,7 +124,6 @@ const removeUser = async (req, res, next) => {
     next(error)
   }
 }
-
 
 module.exports = {
   getUsers,

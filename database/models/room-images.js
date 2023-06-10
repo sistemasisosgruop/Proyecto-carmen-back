@@ -30,9 +30,13 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Room_Images',
     tableName: 'Room_Images',
-    underscored: true
+    underscored: true,
+    timestamps: true,
+    scopes: {
+      public_view: {
+        attributes: ['image_id', 'room_id']
+      }
+    },
   });
-
   return Room_Images;
 };
-

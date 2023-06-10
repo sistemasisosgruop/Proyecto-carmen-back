@@ -17,7 +17,7 @@ module.exports = {
             last_name: 'Pantoja',
             email: 'algofobico@gmail.com',
             password: hash('root'),
-            genre: 'Male', 
+            genre: 'Male',
             phone_number: '3104252781',
             country_code: '1',
             document_type: 'Passport',
@@ -26,7 +26,7 @@ module.exports = {
             student: 'True',
             role_id: 1,
             created_at: new Date(),
-            updated_at: new Date()
+            updated_at: new Date(),
           },
           {
             id: uuid4(),
@@ -43,7 +43,7 @@ module.exports = {
             student: 'True',
             role_id: 2,
             created_at: new Date(),
-            updated_at: new Date()
+            updated_at: new Date(),
           },
           {
             id: uuid4(),
@@ -60,7 +60,7 @@ module.exports = {
             student: 'False',
             role_id: 2,
             created_at: new Date(),
-            updated_at: new Date()
+            updated_at: new Date(),
           },
         ],
         { transaction }

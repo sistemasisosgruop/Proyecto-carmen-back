@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
 
     scopes: {
       public_view: {
-        attributes: ['id', 'role']
+        attributes: ['id', 'name']
       }
     },
   });

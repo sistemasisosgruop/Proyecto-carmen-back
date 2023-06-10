@@ -1,32 +1,35 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+'use strict'
+const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Countries extends Model {
-    
     static associate(models) {
-      Countries.hasMany(models.Users, { as: 'Users', foreignKey: 'country_code' })
+      Countries.hasMany(models.Users, {
+        as: 'Users',
+        foreignKey: 'country_code',
+      })
     }
   }
-  Countries.init({
-    id: {
-      type: DataTypes.INTEGER, 
-      primaryKey: true
+  Countries.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+      },
+      code: DataTypes.STRING,
+      name: DataTypes.STRING,
     },
-    code: DataTypes.STRING, 
-    name: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Countries',
-    tableName: 'Countries',
-    underscored: true,
-    timestamps: true,
-    scopes: {
-      public_view: {
-        attributes: ['name']
-      }
-    },
-  });
-  return Countries;
-};
+    {
+      sequelize,
+      modelName: 'Countries',
+      tableName: 'Countries',
+      underscored: true,
+      timestamps: true,
+      scopes: {
+        public_view: {
+          attributes: ['name'],
+        },
+      },
+    }
+  )
+  return Countries
+}

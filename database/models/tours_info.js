@@ -4,8 +4,6 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Tours_Info extends Model {
-    
-    
     static associate(models) {
       Tours_Info.belongsTo(models.Tours, { foreignKey: 'tour_id', as: 'Tours' })
     }
@@ -26,7 +24,14 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Tours_Info',
-    tableName: 'Tours_Info'
+    tableName: 'Tours_Info',  
+    underscored: true, 
+    timestamps: true,
+    scopes: {
+      public_view: {
+        attributes: ['images_url', 'what_to_do', 'good_choise_for', 'cancellation_policy', 'price_per_person', 'tour_check_in', 'tour_check_out', 'schedule']
+      }
+    },
   });
   return Tours_Info;
 };

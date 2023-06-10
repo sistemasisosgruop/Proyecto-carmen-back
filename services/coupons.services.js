@@ -1,12 +1,13 @@
-const models = require('../database/models');
-const UsersService = require('./users.services');
+const models = require('../database/models')
+const UsersService = require('./users.services')
 const userService = new UsersService()
-const RoomsService = require('./rooms.services');
+const RoomsService = require('./rooms.services')
+const { CustomError } = require('../utils/custom-error')
+const { Op } = require('sequelize')
 const roomService = new RoomsService()
 
 class CouponService {
-
-    constructor() {}
+  constructor() {}
 
   //? Get All Coupons with pagination
   async findAndCount(query) {
@@ -37,7 +38,6 @@ class CouponService {
     return coupon
   }
 
-
   async createCoupon(userId, couponData) {
     const transaction = await models.Coupons.sequelize.transaction()
     const user = await userService.getUserOr404(userId)
@@ -45,29 +45,31 @@ class CouponService {
       if (user.dataValues.role_id !== 1) {
         throw new Error('Only admins can create New Coupons')
       }
-      
+
       const room = await roomService.getRoomOr404(couponData.room_id)
-      if(!room){
+      if (!room) {
         throw new Error('Room not finded.')
       }
 
       const coupon = await models.Coupons.create(
-        { 
-            coupon_code: couponData.coupon_code,
-            discount: couponData.discount,
-            room_id: room.id,
-            tour_id: couponData.tour_id  
-        }, { transaction });
+        {
+          coupon_code: couponData.coupon_code,
+          discount: couponData.discount,
+          room_id: room.id,
+          tour_id: couponData.tour_id,
+        },
+        { transaction }
+      )
 
-      await transaction.commit();
-      return coupon;
+      await transaction.commit()
+      return coupon
     } catch (error) {
       if (transaction) {
-        await transaction.rollback();
+        await transaction.rollback()
       }
-      throw error;
+      throw error
     }
   }
 }
 
-module.exports = CouponService;
+module.exports = CouponService

@@ -20,7 +20,14 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Images',
-    tableName: 'Images'
+    tableName: 'Images',
+    underscored: true,
+    timestamps: true,
+    scopes: {
+      public_view: {
+        attributes: ['image_url', 'record_id']
+      }
+    },
   });
-  return Images;
-};
+  return Images
+}

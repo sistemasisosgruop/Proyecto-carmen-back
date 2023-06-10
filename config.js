@@ -8,13 +8,13 @@ module.exports = {
     emailPass: process.env.MAIL_PASS,
     user: process.env.MAIL_USER,
     jwtSecret: process.env.JWT_SECRET,
-  },  
+  },
   db: {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     pass: process.env.DB_PASSWORD,
     name: process.env.DB_NAME,
     port: process.env.DB_PORT,
-    emailPass: process.env.MAIL_PASS
-  }
+    emailPass: process.env.MAIL_PASS,
+  },
 }

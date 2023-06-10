@@ -5,20 +5,19 @@ const reservationService = new ReservationsService()
 class ReservationsControllers {
   constructor() {}
 
-  
   async getReservationsByUser(req, res) {
     const userId = req.user.id
-    
+
     try {
       const reservationsUser =
-      await reservationService.findRoomReservationsByUser(userId)
-      
+        await reservationService.findRoomReservationsByUser(userId)
+
       return res.status(200).json(reservationsUser)
     } catch (error) {
       return res.status(401).json({ message: error.mesage })
     }
   }
-  
+
   async getRoomReservationById(req, res) {
     const { roomReservationId } = req.params
 
@@ -35,27 +34,32 @@ class ReservationsControllers {
   async postRoomReservation(req, res) {
     const userId = req.user.id
     const { roomId } = req.params
-    const { purchase_date, purchase_time, number_of_people, total_price } = req.body
+    const { purchase_date, purchase_time, number_of_people, total_price } =
+      req.body
 
     try {
       const reservationRoomData = {
         purchase_date,
         purchase_time,
         number_of_people,
-        total_price
+        total_price,
       }
 
       if (!reservationRoomData) {
         throw new Error('All fields are required!')
       }
-  
 
       const reservationRoom = await reservationService.createRoomReservation(
         userId,
         roomId,
         reservationRoomData
       )
-      return res.status(201).json({message: 'Room reservation created succesfully'}, reservationRoom)
+      return res
+        .status(201)
+        .json(
+          { message: 'Room reservation created succesfully' },
+          reservationRoom
+        )
     } catch (error) {
       return res.status(404).json({
         message: error.message,
@@ -63,7 +67,7 @@ class ReservationsControllers {
           purchase_date: 'Date',
           purchase_time: 'Date',
           number_of_people: 'Integer',
-          total_price: 'Integer'
+          total_price: 'Integer',
         },
       })
     }
@@ -71,14 +75,15 @@ class ReservationsControllers {
 
   async patchRoomReservation(req, res) {
     const { roomReservationId } = req.params
-    const { purchase_date, purchase_time, number_of_people, total_price } = req.body
+    const { purchase_date, purchase_time, number_of_people, total_price } =
+      req.body
 
     try {
       const reservationData = {
         purchase_date,
         purchase_time,
         number_of_people,
-        total_price
+        total_price,
       }
 
       const reservationEdited = await reservationService.updateRoomReservation(
@@ -94,7 +99,9 @@ class ReservationsControllers {
   async deleteRoomReservation(req, res) {
     try {
       let { roomReservationId } = req.params
-      let reservation = await reservationService.removeRoomReservation(roomReservationId)
+      let reservation = await reservationService.removeRoomReservation(
+        roomReservationId
+      )
       return res.json({ results: reservation, message: 'removed' })
     } catch (error) {
       return res.status(401).json({ message: error.message })
@@ -119,13 +126,14 @@ class ReservationsControllers {
   async postTourReservation(req, res) {
     const userId = req.user.id
     const { tourId } = req.params
-    const { purchase_date, purchase_time, number_of_people, total_purchase } = req.body
+    const { purchase_date, purchase_time, number_of_people, total_purchase } =
+      req.body
     try {
       const reservationTourData = {
         purchase_date,
         purchase_time,
         number_of_people,
-        total_purchase
+        total_purchase,
       }
 
       if (
@@ -141,7 +149,10 @@ class ReservationsControllers {
         tourId,
         reservationTourData
       )
-      return res.status(201).json({message: 'Tour reservation created succesfully', reservationTour})
+      return res.status(201).json({
+        message: 'Tour reservation created succesfully',
+        reservationTour,
+      })
     } catch (error) {
       return res.status(404).json({
         message: error.message,
@@ -149,24 +160,23 @@ class ReservationsControllers {
           purchase_date: 'Date',
           purchase_time: 'Date',
           number_of_people: 'Integer',
-          total_purchase: 'Integer'
+          total_purchase: 'Integer',
         },
       })
     }
   }
 
-  async patchRoomReservation(req, res) {
+  async patchTourReservation(req, res) {
+    const { purchase_date, purchase_time, number_of_people, total_purchase } =
+      req.body
     const { tourReservationId } = req.params
-    const { purchase_date, purchase_time, number_of_people, total_purchase } = req.body
-
     try {
       const reservationData = {
         purchase_date,
         purchase_time,
         number_of_people,
-        total_purchase
+        total_purchase,
       }
-
       const reservationEdited = await reservationService.updateRoomReservation(
         tourReservationId,
         reservationData
@@ -177,17 +187,16 @@ class ReservationsControllers {
     }
   }
 
-  async deleteRoomReservation(req, res) {
+  async deleteTourReservation(req, res) {
     try {
       let { tourReservationId } = req.params
-      let reservation = await reservationService.removeRoomReservation(tourReservationId)
+      let reservation = await reservationService.removeTourReservation(
+        tourReservationId
+      )
       return res.json({ results: reservation, message: 'removed' })
     } catch (error) {
       return res.status(401).json({ message: error.message })
     }
   }
-
-
-
 }
 module.exports = ReservationsControllers

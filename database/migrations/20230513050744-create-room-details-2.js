@@ -18,23 +18,25 @@ module.exports = {
             type: Sequelize.UUID,
             references: {
               model: 'Rooms',
-              key: 'id'
-            }
+              key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
           },
           images_url: {
-            allowNull: false, 
+            allowNull: false,
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
           amenities: {
-            allowNull: false, 
+            allowNull: false,
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
           not_included: {
-            allowNull: false, 
+            allowNull: false,
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
           services: {
-            allowNull: false, 
+            allowNull: false,
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
           createdAt: {

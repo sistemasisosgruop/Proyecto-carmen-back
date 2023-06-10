@@ -5,6 +5,10 @@ require('../middlewares/auth.middleware')(passport)
 
 const { postMessage } = require('../controllers/messages.controllers')
 
-router.post('/:id', passport.authenticate('jwt', { session: false }), postMessage)
+router.post(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  postMessage
+)
 
 module.exports = router

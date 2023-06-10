@@ -136,7 +136,8 @@ class TourController {
       tour_details,
     } = req.body
 
-    await tourService.updateTour(tourId, {
+    await tourService
+      .updateTour(tourId, {
         tour_name,
         tour_description,
         extras,

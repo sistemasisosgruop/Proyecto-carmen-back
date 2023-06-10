@@ -44,5 +44,5 @@ const getPagingData = (data, page, limit) => {
 
 module.exports = {
   getPagination,
-  getPagingData
+  getPagingData,
 }
