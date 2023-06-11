@@ -815,7 +815,7 @@ Create a new room reservation.
     "purchase_date": "2025-12-09T21:18:48.952Z",
     "purchase_time": "2028-10-10T10:10:20.952Z",
     "number_of_people": 7,
-    "price_for_night": 100,
+    "total_price": 100,
     "updated_at": "2023-06-09T19:50:47.830Z",
     "created_at": "2023-06-09T19:50:47.830Z"
   }
@@ -843,7 +843,7 @@ Create a new room reservation.
   "purchase_date": "2025-12-09T21:18:48.952Z",
   "purchase_time": "2028-10-10T10:10:20.952Z",
   "number_of_people": 7,
-  "price_for_night": 100,
+  "total_price": 100,
   "updated_at": "2023-06-09T19:50:47.830Z",
   "created_at": "2023-06-09T19:50:47.830Z"
 }

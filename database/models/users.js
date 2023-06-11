@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       Users.belongsTo(models.Roles, { as: 'Roles', foreignKey: 'role_id' })
       Users.belongsTo(models.Countries, { as: 'Countries', foreignKey: 'country_code' })
       Users.hasMany(models.User_Products, { as: 'User_Products', foreignKey: 'user_id' })
+      Users.hasOne(models.Shoping_Cart, { as: 'Shoping_Cart', foreignKey: 'user_id' })
     }
   }
   Users.init({  

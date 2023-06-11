@@ -9,8 +9,9 @@ class ReservationsControllers {
     const userId = req.user.id
 
     try {
-      const reservationsUser =
-        await reservationService.findRoomReservationsByUser(userId)
+      const reservationsUser = await reservationService.findReservationsByUser(
+        userId
+      )
 
       return res.status(200).json(reservationsUser)
     } catch (error) {
@@ -54,12 +55,7 @@ class ReservationsControllers {
         roomId,
         reservationRoomData
       )
-      return res
-        .status(201)
-        .json(
-          { message: 'Room reservation created succesfully' },
-          reservationRoom
-        )
+      return res.status(201).json({ results: reservationRoom })
     } catch (error) {
       return res.status(404).json({
         message: error.message,

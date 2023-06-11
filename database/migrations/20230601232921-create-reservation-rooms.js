@@ -59,7 +59,7 @@ module.exports = {
             allowNull: false,
             type: Sequelize.INTEGER,
           },
-          price_for_night: {
+          total_price: {
             allowNull: false,
             type: Sequelize.FLOAT,
           },

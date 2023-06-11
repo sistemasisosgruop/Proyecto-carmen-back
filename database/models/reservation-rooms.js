@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     purchase_date: DataTypes.DATE,
     purchase_time: DataTypes.DATE,
     number_of_people: DataTypes.INTEGER,
-    price_for_night: DataTypes.FLOAT,
+    total_price: DataTypes.FLOAT,
   }, {
     sequelize,
     modelName: 'Reservation_Rooms',
@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     scopes: {
       public_view: {
-        attributes: ['id', 'user_id', 'room_id', 'type_room', 'check_in', 'check_out', 'address', 'purchase_date', 'purchase_time', 'number_of_people', 'price_for_night' ]
+        attributes: ['id', 'user_id', 'room_id', 'type_room', 'check_in', 'check_out', 'address', 'purchase_date', 'purchase_time', 'number_of_people', 'total_price' ]
       }
     },
   });

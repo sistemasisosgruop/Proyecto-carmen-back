@@ -5,14 +5,19 @@ const { CustomError } = require('../utils/custom-error')
 class ReservationsService {
   constructor() {}
 
-  async findRoomReservationsByUser(userId) {
+  async findReservationsByUser(userId) {
     const user = await models.Users.findByPk(userId)
-    const reservations = await models.Reservation_Rooms.findAll({
+    const roomReservations = await models.Reservation_Rooms.findAll({
       where: {
         user_id: user.id,
       },
     })
-    return reservations
+    const tourReservations = await models.Reservation_Tours.findAll({
+      where: {
+        user_id: user.id,
+      },
+    })
+    return { roomReservations, tourReservations }
   }
 
   async findRoomReservationById(roomReservationId) {

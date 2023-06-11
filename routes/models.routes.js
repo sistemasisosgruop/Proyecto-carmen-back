@@ -6,6 +6,7 @@ const routesRooms = require('./rooms.routes')
 const routesTours = require('./tours.routes')
 const routesCoupons = require('./coupons.routes')
 const routesReservations = require('./reservations.routes')
+const routesShopingCart = require('./shoppingCart.routes')
 
 function routerModels(app) {
   const router = express.Router()
@@ -19,6 +20,7 @@ function routerModels(app) {
   router.use('/tours', routesTours)
   router.use('/coupons', routesCoupons)
   router.use('/reservations', routesReservations)
+  router.use('/cart', routesShopingCart)
 }
 
 module.exports = routerModels
