@@ -22,7 +22,6 @@ module.exports = {
             onUpdate: 'CASCADE',
           },
           room_id: {
-            allowNull: false,
             type: Sequelize.UUID,
             references: {
               model: 'Rooms',
@@ -32,7 +31,6 @@ module.exports = {
             onUpdate: 'CASCADE',
           },
           tour_id: {
-            allowNull: false,
             type: Sequelize.UUID,
             references: {
               model: 'Tours',

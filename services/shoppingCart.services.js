@@ -37,23 +37,35 @@ class ShopingCartsService {
       console.log('ROOM: ', reservationRoom)
       console.log('TOUR: ', reservationTour)
 
-      if (reservationRoom || reservationTour) {
+      if (reservationRoom || reservationRoom) {
+        const transaction = await models.User_Products.sequelize.transaction()
         const products = await models.User_Products.create(
           {
             id: uuid4(),
             user_id: userId,
             room_id: reservationRoom.dataValues.room_id,
-            tour: reservationTour.dataValues.tour_id,
+            tour_id: reservationTour.dataValues.id,
           },
           { transaction }
         )
+        console.log(products)
+        await transaction.commit()
         return products
       }
 
       const userProduct = await this.findUserProductsByUser(userId)
       console.log('USER PRODUCTS: ', userProduct)
-      const cart = await models.Shoping_Cart.create()
+      const cart = await models.Shoping_Cart.create(
+        {
+          product_id: userProduct.dataValues.id,
+          product_type: userProduct.dataValues.product_type,
+          quantity: quantity,
+          payment_method: paymentMethod,
+        },
+        { transaction }
+      )
       await transaction.commit()
+      console.log(cart)
       return cart
     } catch (error) {
       await transaction.rollback()

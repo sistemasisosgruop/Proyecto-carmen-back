@@ -15,6 +15,10 @@ class RoomService {
   async findAndCount(query) {
     const options = {
       where: {},
+      include: [
+        { model: models.Room_Details, as: 'Room_Details', required: false },
+        { model: models.Room_Details_2, as: 'Room_Details_2', required: false },
+      ],
     }
 
     const { limit, offset } = query

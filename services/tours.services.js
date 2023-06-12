@@ -14,6 +14,10 @@ class TourService {
   async findAndCount(query) {
     const options = {
       where: {},
+      include: [
+        { model: models.Tours_Details, as: 'Tours_Details', required: false },
+        { model: models.Tours_Info, as: 'Tours_Info', required: false },
+      ],
     }
 
     const { limit, offset } = query
