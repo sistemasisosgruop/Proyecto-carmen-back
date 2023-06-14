@@ -1,40 +1,42 @@
-const { Op } = require('sequelize')
 const { CustomError } = require('../utils/custom-error')
 const { v4: uuid4 } = require('uuid')
 const models = require('../database/models')
-const { uploadFile } = require('../s3')
 require('dotenv').config()
-
-const bucketName = process.env.AWS_BUCKET_NAME
-const region = process.env.AWS_BUCKET_REGION
-
 class RoomService {
   constructor() {}
 
   //? Get All Rooms with pagination
-  async findAndCount(query) {
-    const options = {
-      where: {},
+  //? Get All Rooms with pagination
+  async findAllRooms() {
+    const rooms = await models.Rooms.findAll({
       include: [
-        { model: models.Room_Details, as: 'Room_Details', required: false },
-        { model: models.Room_Details_2, as: 'Room_Details_2', required: false },
+        { model: models.Room_Details, as: 'Room_Details' },
+        { model: models.Room_Details_2, as: 'Room_Details_2' },
       ],
-    }
+    })
+    const transformedRooms = rooms.map((room) => {
+      const { Room_Details, Room_Details_2, ...rest } = room.toJSON()
 
-    const { limit, offset } = query
-    if (limit && offset) {
-      options.limit = limit
-      options.offset = offset
-    }
+      const transformedRoomDetails = Room_Details
+        ? { ...Room_Details[0], id: undefined, room_id: undefined }
+        : null
 
-    const { name } = query
-    if (name) {
-      options.where.name = { [Op.iLike]: `%${name}%` }
-    }
-    options.distinct = true
+      const transformedRoomDetails2 = Room_Details_2
+        ? { ...Room_Details_2[0], id: undefined, room_id: undefined }
+        : null
 
-    const rooms = await models.Rooms.findAndCountAll(options)
-    return rooms
+      return {
+        ...rest,
+        Room_Details: transformedRoomDetails,
+        Room_Details_2: transformedRoomDetails2,
+      }
+    })
+
+    return transformedRooms
+  }
+  catch(error) {
+    console.error('Error al obtener los rooms:', error)
+    throw new Error('Ocurrió un error al obtener los rooms')
   }
 
   //? Get room by Id
@@ -61,7 +63,7 @@ class RoomService {
   }
 
   //? Create a new Room with details being a admin
-  async createRoom(userId, roomData /*, images*/) {
+  async createRoom(userId, roomData) {
     const transaction = await models.Rooms.sequelize.transaction()
     const user = await models.Users.findByPk(userId)
 
@@ -69,10 +71,6 @@ class RoomService {
       if (user.dataValues.role_id !== 1) {
         throw new Error('Only admins can create New Rooms')
       }
-
-      // if (!images || images.length === 0) {
-      //   throw new Error('Debe proporcionar al menos una imagen para el room.')
-      // }
 
       const room = await models.Rooms.create(
         {
@@ -89,22 +87,6 @@ class RoomService {
         },
         { transaction }
       )
-      // Guardar las fotos en S3 en lugar de almacenarlas localmente
-      const uploadedPhotos = []
-      for (const photo of roomData.details.images_url) {
-        const fileKey = `public/rooms/photos/${room.dataValues.id}/${photo.filename}` // Define la clave del archivo en S3
-
-        try {
-          await uploadFile(photo, fileKey) // Carga la foto en S3
-          const photoUrl = `https://${bucketName}.s3.${region}.amazonaws.com/${fileKey}` // Genera la URL de acceso a la foto en S3
-
-          uploadedPhotos.push(photoUrl) // Agrega la URL de la foto cargada al array de fotos subidas
-        } catch (error) {
-          // Manejo de errores al cargar la foto en S3
-          console.error(`Error uploading photo ${photo.filename} to S3:`, error)
-          // Puedes optar por lanzar una excepción, guardar información sobre el error, etc.
-        }
-      }
 
       const roomDetails = await models.Room_Details.create(
         {
@@ -113,74 +95,19 @@ class RoomService {
           num_bed: roomData.num_room.num_bed,
           type_bed: roomData.num_room.type_bed,
           type_bed_2: roomData.num_room.type_bed_2,
-          images_url: [],
         },
         { transaction }
       )
 
-      let images_room = []
-      for (const photoUrl of uploadedPhotos) {
-        const image = await models.Images.create(
-          {
-            id: uuid4(),
-            image_url: photoUrl,
-            record_id: roomDetails.dataValues.id,
-          },
-          { transaction }
-        )
-        images_room.push(image)
-      }
-      // Obtener las URL de las imágenes del arreglo `images`
-      const imageUrls = images_room.map((image) => image.dataValues.image_url)
-
-      // Almacenar las URL en la propiedad `images_url` de `roomDetails`
-      roomDetails.dataValues.images_url = imageUrls
-
-      // Guardar las fotos en S3 en lugar de almacenarlas localmente
-      const uploadedPhotos2 = []
-      for (const photo of roomData.num_room.images_url) {
-        const fileKey = `public/rooms/photos/${room.dataValues.id}/${photo.filename}` // Define la clave del archivo en S3
-
-        try {
-          await uploadFile(photo, fileKey) // Carga la foto en S3
-          const photoUrl = `https://${bucketName}.s3.${region}.amazonaws.com/${fileKey}` // Genera la URL de acceso a la foto en S3
-
-          uploadedPhotos.push(photoUrl) // Agrega la URL de la foto cargada al array de fotos subidas
-        } catch (error) {
-          // Manejo de errores al cargar la foto en S3
-          console.error(`Error uploading photo ${photo.filename} to S3:`, error)
-          // Puedes optar por lanzar una excepción, guardar información sobre el error, etc.
-        }
-      }
-
       const roomDetails2 = await models.Room_Details_2.create(
         {
           room_id: room.dataValues.id,
-          images_url: [],
           amenities: roomData.details.amenities,
           not_included: roomData.details.not_included,
           services: roomData.details.services,
         },
         { transaction }
       )
-
-      let images_room_2 = []
-      // Asociar imágenes a RoomDetails2
-      for (const photoUrl of uploadedPhotos2) {
-        const image = await models.Images.create(
-          {
-            id: uuid4(),
-            image_url: photoUrl,
-            record_id: roomDetails2.dataValues.id,
-          },
-          { transaction }
-        )
-        images_room.push(image)
-      }
-      const imageUrls2 = images_room_2.map(
-        (image) => image.dataValues.image_url
-      )
-      roomDetails.dataValues.images_url = imageUrls2
 
       await transaction.commit()
       return { room, roomDetails, roomDetails2 }

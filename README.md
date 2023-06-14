@@ -381,7 +381,6 @@ The `details` object should include the following parameters:
 
 | Name         | Type  | Description                                                     |
 | ------------ | ----- | --------------------------------------------------------------- |
-| images_url   | Array | An array of strings representing the images of the room.        |
 | amenities    | Array | An array of strings listing the amenities provided in the room. |
 | not_included | Array | An array of strings specifying what is not included.            |
 | services     | Array | An array of strings listing the services available.             |
@@ -396,7 +395,6 @@ The `num_room` object should include the following parameters:
 | num_bed    | Number | Number of beds in the room number.         |
 | type_bed   | String | Type of the bed in the room number.        |
 | type_bed_2 | String | Additional type of bed in the room number. |
-| images_url | String | Images of the room number.                 |
 
 #### Example Request
 
@@ -472,6 +470,12 @@ The `num_room` object should include the following parameters:
   }
 }
 ```
+### Upload Room Images
+Upload iamges for the new room.
+
+- **URL**: `https://localhost:3000/api/v1/rooms/:roomId/images`
+- **Method**: POST
+- **Content Type**: form-data
 
 ### Get All Rooms
 

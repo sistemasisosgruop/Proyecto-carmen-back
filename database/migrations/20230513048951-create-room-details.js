@@ -21,8 +21,6 @@ module.exports = {
               model: 'Rooms',
               key: 'id',
             },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
           },
           type_room: {
             allowNull: false,
@@ -38,10 +36,6 @@ module.exports = {
           },
           type_bed_2: {
             type: Sequelize.STRING,
-          },
-          images_url: {
-            allowNull: false,
-            type: Sequelize.ARRAY(Sequelize.STRING),
           },
           createdAt: {
             allowNull: false,

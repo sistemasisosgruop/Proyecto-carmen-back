@@ -11,29 +11,32 @@ const region = process.env.AWS_BUCKET_REGION
 class TourService {
   constructor() {}
 
-  async findAndCount(query) {
-    const options = {
-      where: {},
+  async findAllTours() {
+    const tours = await models.Tours.findAll({
       include: [
-        { model: models.Tours_Details, as: 'Tours_Details', required: false },
-        { model: models.Tours_Info, as: 'Tours_Info', required: false },
+        { model: models.Tours_Details, as: 'Tours_Details' },
+        { model: models.Tours_Info, as: 'Tours_Info' },
       ],
-    }
-
-    const { limit, offset } = query
-    if (limit && offset) {
-      options.limit = limit
-      options.offset = offset
-    }
-
-    const { name } = query
-    if (name) {
-      options.where.name = { [Op.iLike]: `%${name}` }
-    }
-    options.distinct = true
-
-    const tours = await models.Tours.findAndCountAll(options)
-    return tours
+    })
+    const transformedTours = tours.map((tour) => {
+      const { Tours_Details, Tours_Info, ...rest } = tour.toJSON()
+      const transformedTourDetails = Tours_Details
+        ? { ...Tours_Details[0], id: undefined, tour_id: undefined }
+        : null
+      const transformedToursInfo = Tours_Info
+        ? { ...Tours_Info[0], id: undefined, tour_id: undefined }
+        : null
+      return {
+        ...rest,
+        Tours_Details: transformedTourDetails,
+        Tours_Info: transformedToursInfo,
+      }
+    })
+    return transformedTours
+  }
+  catch(error) {
+    console.error('Error al obtener los tours:', error)
+    throw new Error('Ocurrió un error al obtener los tours')
   }
 
   async getTourOr404(tourId) {

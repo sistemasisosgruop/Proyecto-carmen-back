@@ -19,18 +19,12 @@ module.exports = (sequelize, DataTypes) => {
     num_bed: DataTypes.INTEGER,
     type_bed: DataTypes.STRING,
     type_bed_2: DataTypes.STRING,
-    images_url: []
   }, {
     sequelize,
     modelName: 'Room_Details',
     tableName: 'Room_Details',
-    underscored: true,
-    timestamps: true,
-    scopes: {
-      public_view: {
-        attributes: ['type_room', 'num_bed', 'type_bed', 'type_bed_2', 'images_url']
-      }
-    },
+    underscored: true
   });
+
   return Room_Details;
 };

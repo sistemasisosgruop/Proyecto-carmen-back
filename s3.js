@@ -49,7 +49,20 @@ const deleteFile = (fileName) => {
   return s3Client.send(new DeleteObjectCommand(deleteParams))
 }
 
+const unlinkFile = (filePath) => {
+  return new Promise((resolve, reject) => {
+    fs.unlink(filePath, (error) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve()
+      }
+    })
+  })
+}
+
 module.exports = {
   uploadFile,
   deleteFile,
+  unlinkFile,
 }

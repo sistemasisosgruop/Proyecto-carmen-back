@@ -1,24 +1,11 @@
 const RoomsService = require('../services/rooms.services')
-const { getPagination, getPagingData } = require('../utils/pagination')
 const roomsService = new RoomsService()
 
 class RoomsControllers {
   //? Get All Rooms with Pagination
   async getAllRooms(req, res) {
-    try {
-      let query = req.query
-      let { page, size } = query
-
-      const { limit, offset } = getPagination(page, size, '10')
-      query.limit = limit
-      query.offset = offset
-
-      let rooms = await roomsService.findAndCount(query)
-      const results = getPagingData(rooms, page, limit)
-      return res.json({ results: results })
-    } catch (error) {
-      return res.status(401).json({ message: 'Unauthorized' })
-    }
+    let rooms = await roomsService.findAllRooms()
+    return res.json({ results: rooms })
   }
 
   //? Get room by Id
@@ -35,7 +22,6 @@ class RoomsControllers {
   //? Create a new Room with details being a admin
   async postRoom(req, res) {
     const userId = req.user.id
-    const files = req.files
     const {
       room_type,
       description,
@@ -51,31 +37,20 @@ class RoomsControllers {
     } = req.body
 
     try {
-      const photos = files.slice(0, 10).map((file) => ({
-        fieldname: file.fieldname,
-        originalname: file.originalname,
-        mimetype: file.mimetype,
-        filename: file.filename,
-        path: file.path,
-      }))
-
-      const room = await roomsService.createRoom(
-        userId,
-        {
-          room_type,
-          description,
-          address,
-          price,
-          check_in,
-          check_out,
-          num_bathrooms,
-          num_beds,
-          extras,
-          num_room,
-          details,
-        },
-        photos
-      )
+      const roomData = {
+        room_type,
+        description,
+        address,
+        price,
+        check_in,
+        check_out,
+        num_bathrooms,
+        num_beds,
+        extras,
+        num_room,
+        details,
+      }
+      const room = await roomsService.createRoom(userId, roomData)
 
       return res.status(201).json(room)
     } catch (error) {
@@ -92,7 +67,6 @@ class RoomsControllers {
           num_beds: 'Number',
           extras: '[Strings]',
           details: {
-            photos: '[Strings]',
             amenities: '[Strings]',
             not_included: '[String]',
             services: '[String]',
@@ -102,7 +76,6 @@ class RoomsControllers {
             num_bed: 'Number',
             type_bed: 'String',
             type_bed_2: 'String',
-            photos: 'String',
           },
         },
       })

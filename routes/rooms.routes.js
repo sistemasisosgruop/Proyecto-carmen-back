@@ -5,7 +5,9 @@ require('../middlewares/auth.middleware')(passport)
 
 const RoomsControllers = require('../controllers/rooms.controllers')
 const ReservationsControllers = require('../controllers/reservations.controllers')
+const ImagesController = require('../controllers/images.controllers')
 const roomController = new RoomsControllers()
+const imageController = new ImagesController()
 const reservationController = new ReservationsControllers()
 
 const router = express.Router()
@@ -18,7 +20,6 @@ router.get(
 router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
-  multerPhotos.array('image', 10),
   roomController.postRoom
 )
 
@@ -31,6 +32,13 @@ router.delete(
   '/:roomId',
   passport.authenticate('jwt', { session: false }),
   roomController.deleteRoom
+)
+
+router.post(
+  '/:roomId/images',
+  passport.authenticate('jwt', { session: false }),
+  multerPhotos.array('image', 10),
+  imageController.uploadImageRoom
 )
 
 router.post(

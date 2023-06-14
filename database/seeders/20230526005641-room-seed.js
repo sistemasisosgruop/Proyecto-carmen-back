@@ -42,11 +42,6 @@ module.exports = {
             num_bed: 1,
             type_bed: 'King Bed',
             type_bed_2: 'Sofa Bed',
-            images_url: [
-              'https://bucket-carmen-travel.s3.us-east-1.amazonaws.com/public/rooms/photos/5200fc1d-44a2-4922-83b0-bfe77d872201/image-1684974091293-584020828.jpg',
-              'https://bucket-carmen-travel.s3.us-east-1.amazonaws.com/public/rooms/photos/5200fc1d-44a2-4922-83b0-bfe77d872201/image-1684974091296-87619833.jpg',
-              'https://bucket-carmen-travel.s3.us-east-1.amazonaws.com/public/rooms/photos/5200fc1d-44a2-4922-83b0-bfe77d872201/image-1684974091298-846744103.jpg',
-            ],
             created_at: new Date(),
             updated_at: new Date(),
           },
@@ -59,11 +54,6 @@ module.exports = {
         [
           {
             room_id: roomId,
-            images_url: [
-              'https://bucket-carmen-travel.s3.us-east-1.amazonaws.com/public/rooms/photos/5200fc1d-44a2-4922-83b0-bfe77d872201/image-1684974091293-584020828.jpg',
-              'https://bucket-carmen-travel.s3.us-east-1.amazonaws.com/public/rooms/photos/5200fc1d-44a2-4922-83b0-bfe77d872201/image-1684974091296-87619833.jpg',
-              'https://bucket-carmen-travel.s3.us-east-1.amazonaws.com/public/rooms/photos/5200fc1d-44a2-4922-83b0-bfe77d872201/image-1684974091298-846744103.jpg',
-            ],
             amenities: ['Swimming pool', 'Restaurant', 'Room service'],
             not_included: ['Pets not allowed', 'Smoking not allowed'],
             services: ['24/7 concierge', 'Laundry service'],

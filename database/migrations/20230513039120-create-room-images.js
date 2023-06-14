@@ -1,16 +1,19 @@
 'use strict'
+
+const { DataTypes } = require('sequelize')
+
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  async up(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       await queryInterface.createTable(
-        'Room-Images',
+        'Room_Images',
         {
           id: {
             allowNull: false,
-            primaryKey: true,
-            defaultValue: Sequelize.UUIDV4,
             type: Sequelize.UUID,
+            primaryKey: true,
           },
           room_id: {
             allowNull: false,
@@ -19,17 +22,17 @@ module.exports = {
               model: 'Rooms',
               key: 'id',
             },
-            onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
+            onDelete: 'RESTRICT',
           },
-          image_id: {
-            type: Sequelize.UUID,
-            references: {
-              model: 'Images',
-              key: 'id',
-            },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
+          image_url: {
+            allowNull: false,
+            type: Sequelize.TEXT,
+            primaryKey: true,
+          },
+          order: {
+            allowNull: false,
+            type: Sequelize.INTEGER,
           },
           createdAt: {
             allowNull: false,
@@ -44,16 +47,17 @@ module.exports = {
         },
         { transaction }
       )
+
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()
       throw error
     }
   },
-  down: async (queryInterface, Sequelize) => {
+  async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Room-Images', { transaction })
+      await queryInterface.dropTable('Room_Images', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

@@ -1,25 +1,12 @@
 const ToursService = require('../services/tours.services')
 const tourService = new ToursService()
-const { getPagination, getPagingData } = require('../utils/pagination')
 
 class TourController {
   constructor() {}
 
   async getAllTours(req, res) {
-    try {
-      let query = req.query
-      let { page, size } = query
-
-      const { limit, offset } = getPagination(page, size, '10')
-      query.limit = limit
-      query.offset = offset
-
-      let tours = await tourService.findAndCount(query)
-      const results = getPagingData(tours, page, limit)
-      return res.status(200).json({ results: results })
-    } catch (error) {
-      return res.status(404).json({ message: 'Tours empty' })
-    }
+    let tours = await tourService.findAllTours()
+    return res.json({ results: tours })
   }
 
   async getTour(req, res) {

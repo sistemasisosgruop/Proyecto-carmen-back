@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   class Room_Details_2 extends Model {
     
     static associate(models) {  
-      Room_Details_2.belongsTo(models.Rooms, { foreignKey: 'room_id', as: 'Rooms' });      
+      Room_Details_2.belongsTo(models.Rooms, { foreignKey: 'room_id', as: 'Rooms' });   
     }
   }
   Room_Details_2.init({
@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.UUID, 
     foreignKey: true
   },
-    images_url: DataTypes.ARRAY(DataTypes.STRING),
     amenities: DataTypes.ARRAY(DataTypes.STRING),
     not_included: DataTypes.ARRAY(DataTypes.STRING),
     services: DataTypes.ARRAY(DataTypes.STRING)
@@ -22,14 +21,8 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Room_Details_2',
     tableName: 'Room_Details_2',
-    underscored: true,
-    timestamps: true,
+    underscored: true
+  })
 
-    scopes: {
-      public_view: {
-        attributes: ['room_id', 'images_url', 'amenities', 'nor_included', 'services']
-      }
-    },
-  });
-  return Room_Details_2;
-};
+  return Room_Details_2
+}

@@ -20,12 +20,6 @@ module.exports = {
               model: 'Rooms',
               key: 'id',
             },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-          },
-          images_url: {
-            allowNull: false,
-            type: Sequelize.ARRAY(Sequelize.STRING),
           },
           amenities: {
             allowNull: false,
