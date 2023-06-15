@@ -1,8 +1,4 @@
 'use strict'
-
-const { DataTypes } = require('sequelize')
-const { sequelize } = require('../models')
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()

@@ -5,9 +5,9 @@ require('../middlewares/auth.middleware')(passport)
 
 const RoomsControllers = require('../controllers/rooms.controllers')
 const ReservationsControllers = require('../controllers/reservations.controllers')
-const ImagesController = require('../controllers/images.controllers')
+const RoomImagesController = require('../controllers/roomImages.controllers')
 const roomController = new RoomsControllers()
-const imageController = new ImagesController()
+const imageController = new RoomImagesController()
 const reservationController = new ReservationsControllers()
 
 const router = express.Router()

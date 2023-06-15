@@ -2,15 +2,14 @@ const models = require('../database/models')
 const { CustomError } = require('../utils/custom-error')
 const { v4: uuid4 } = require('uuid')
 
-class RoomImagesService {
+class TourImagesService {
   constructor() {}
 
-  async getAvailableImageOrders(roomId) {
-    console.log('ROOMID: ', roomId)
+  async getAvailableImageOrders(tourId) {
     let availableValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-    let images = await models.Room_Images.findAll({
-      where: { room_id: roomId },
+    let images = await models.Tour_Images.findAll({
+      where: { tour_id: tourId },
       attributes: { exclude: ['created_at', 'updated_at'] },
       raw: true,
     })
@@ -19,7 +18,7 @@ class RoomImagesService {
     if (images.length == 0) return availableValues
     if (images.length >= availableValues.length)
       throw new CustomError(
-        'Not available spots for images for this Room. First, remove a image',
+        'Not available spots for images for this Tour. First, remove a image',
         409,
         'No Spots Available'
       )
@@ -32,14 +31,18 @@ class RoomImagesService {
     return availableSpots
   }
 
-  async createImage(room_id, image_url, order) {
+  async createImage(tour_id, image_url, order) {
     const transaction = await models.sequelize.transaction()
 
+    console.log(tour_id)
+    console.log(image_url)
+
     try {
-      let newImage = await models.Room_Images.create(
-        { id: uuid4(), room_id, image_url, order },
+      let newImage = await models.Tour_Images.create(
+        { id: uuid4(), tour_id, image_url, order },
         { transaction }
       )
+      console.log(newImage)
       await transaction.commit()
       return newImage
     } catch (error) {
@@ -48,33 +51,33 @@ class RoomImagesService {
     }
   }
 
-  async getImageOr404(room_id, order) {
-    const roomImage = await models.Room_Images.findOne({
-      where: { room_id, order: parseInt(order) },
+  async getImageOr404(tour_id, order) {
+    const tourImage = await models.Tour_Images.findOne({
+      where: { tour_id, order: parseInt(order) },
     })
-    if (!roomImage)
+    if (!tourImage)
       throw new CustomError(
-        'Not Found Room Image with this order',
+        'Not Found Tour Image with this order',
         404,
         'Not Found'
       )
-    return roomImage
+    return tourImage
   }
 
-  async removeImage(room_id, order) {
+  async removeImage(tour_id, order) {
     const transaction = await models.sequelize.transaction()
     try {
-      let room = await models.Room_Images.findOne(
+      let tour = await models.Tour_Images.findOne(
         {
-          where: { room_id, order: parseInt(order) },
+          where: { tour_id, order: parseInt(order) },
         },
         { transaction }
       )
 
-      await room.destroy({ transaction })
+      await tour.destroy({ transaction })
       await transaction.commit()
 
-      return room
+      return tour
     } catch (error) {
       await transaction.rollback()
       throw error
@@ -82,4 +85,4 @@ class RoomImagesService {
   }
 }
 
-module.exports = RoomImagesService
+module.exports = TourImagesService

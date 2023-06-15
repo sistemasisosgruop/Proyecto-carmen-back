@@ -34,20 +34,13 @@ module.exports = {
         [
           {
             tour_id: tourId,
-            images_url: [
-              'https://bucket-carmen-travel.s3.us-east-1.amazonaws.com/public/tours/photos/c254fb7f-28ca-4496-a890-43b984d7e713/image-1685135674775-626384606.jpg',
-              'https://bucket-carmen-travel.s3.us-east-1.amazonaws.com/public/tours/photos/c254fb7f-28ca-4496-a890-43b984d7e713/image-1685135674778-333714350.jpg',
-              'https://bucket-carmen-travel.s3.us-east-1.amazonaws.com/public/tours/photos/c254fb7f-28ca-4496-a890-43b984d7e713/image-1685135674787-7978674.jpg',
-              'https://bucket-carmen-travel.s3.us-east-1.amazonaws.com/public/tours/photos/c254fb7f-28ca-4496-a890-43b984d7e713/image-1685135674789-702266084.jpeg',
-            ],
             what_to_do:
               'Explore the ancient ruins, hike to the Sun Gate, and enjoy breathtaking views.',
             good_choise_for: 'Adventure seekers and history enthusiasts.',
             cancellation_policy:
               'Full refund if canceled at least 48 hours before the tour.',
             price_per_person: 250.0,
-            tour_check_in: new Date(),
-            tour_check_out: new Date(),
+            available_dates: [new Date(), new Date()],
             schedule:
               'Day 1: Arrival and orientation. Day 2: Machu Picchu guided tour. Day 3: Return journey.',
             created_at: new Date(),

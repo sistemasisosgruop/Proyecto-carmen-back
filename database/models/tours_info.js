@@ -12,14 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     tour_id: {
       type: DataTypes.UUID,
       foreignKey: true
-    }, 
-    images_url: [],
+    },
     what_to_do: DataTypes.TEXT,
     good_choise_for: DataTypes.TEXT,
     cancellation_policy: DataTypes.TEXT,
     price_per_person: DataTypes.FLOAT,
-    tour_check_in: DataTypes.STRING,
-    tour_check_out: DataTypes.STRING,
+    available_dates: DataTypes.ARRAY(DataTypes.STRING),
     schedule: DataTypes.STRING
   }, {
     sequelize,
@@ -29,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     scopes: {
       public_view: {
-        attributes: ['images_url', 'what_to_do', 'good_choise_for', 'cancellation_policy', 'price_per_person', 'tour_check_in', 'tour_check_out', 'schedule']
+        attributes: ['what_to_do', 'good_choise_for', 'cancellation_policy', 'price_per_person', 'available_dates', 'schedule']
       }
     },
   });

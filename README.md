@@ -556,7 +556,6 @@ The `tour_info` object should include the following parameters:
 
 | `tour_info`           | Object | Additional information about the tour.                                  |
 | --------------------- | ------ | ----------------------------------------------------------------------- |
-| `image_url`           | String | Images of tour.                                                         |
 | `what_to_do`          | Text   | Activities to do during the tour.                                       |
 | `good_choice_for`     | Text   | Target audience or type of traveler for whom the tour is a good choice. |
 | `cancellation_policy` | Text   | Cancellation policy of the tour.                                        |
@@ -595,10 +594,6 @@ The `tour_details` object should include the following parameters:
         "number_of_people": "10",
         "ages": "18+",
         "tour_info": {
-          "images_url": [
-            "https://bucket.aws.photo4",
-            "https://bucket.aws.photo3"
-          ],
           "what_to_do": "Hiking, Camping, Wildlife spotting",
           "good_choice_for": "Nature lovers, Adventure enthusiasts",
           "cancellation_policy": "Free cancellation up to 48 hours before the tour",
@@ -623,6 +618,14 @@ The `tour_details` object should include the following parameters:
       }
     }
     ```
+
+### Upload Tour Images
+Upload images for the new tour.
+
+- **URL**: `https://localhost:3000/api/v1/tour/:tourId/images`
+- **Method**: POST
+- **Content Type**: form-data
+
 
 ### Get All Tours
 

@@ -1,17 +1,16 @@
 const { uploadFile, unlinkFile, deleteFile } = require('../s3')
-const ImagesService = require('../services/images.services')
+const RoomImagesService = require('../services/roomImages.services')
 const { CustomError } = require('../utils/custom-error')
 
-const imageService = new ImagesService()
+const imageService = new RoomImagesService()
 
-class ImagesController {
+class RoomImagesController {
   constructor() {}
 
   async uploadImageRoom(req, res, next) {
     const { roomId } = req.params
     const files = req.files
 
-    console.log(roomId)
     try {
       if (files.length < 1)
         throw new CustomError('No images received', 400, 'Bad Request')
@@ -45,11 +44,7 @@ class ImagesController {
 
             let bucketURL = process.env.AWS_DOMAIN + fileKey
 
-            let newImageRoom = await imageService.createImage(
-              roomId,
-              bucketURL,
-              spot
-            )
+            await imageService.createImage(roomId, bucketURL, spot)
 
             imagesKeys.push(bucketURL)
           } catch (error) {
@@ -109,4 +104,4 @@ class ImagesController {
   }
 }
 
-module.exports = ImagesController
+module.exports = RoomImagesController

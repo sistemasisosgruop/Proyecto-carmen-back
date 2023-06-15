@@ -6,16 +6,29 @@ class RoomService {
   constructor() {}
 
   //? Get All Rooms with pagination
-  //? Get All Rooms with pagination
   async findAllRooms() {
     const rooms = await models.Rooms.findAll({
       include: [
-        { model: models.Room_Details, as: 'Room_Details' },
-        { model: models.Room_Details_2, as: 'Room_Details_2' },
+        {
+          model: models.Room_Details,
+          as: 'Room_Details',
+          attributes: { exclude: ['created_at', 'updated_at'] },
+        },
+        {
+          model: models.Room_Details_2,
+          as: 'Room_Details_2',
+          attributes: { exclude: ['created_at', 'updated_at'] },
+        },
+        {
+          model: models.Room_Images,
+          as: 'Room_Images',
+          attributes: { exclude: ['created_at', 'updated_at'] },
+        },
       ],
     })
     const transformedRooms = rooms.map((room) => {
-      const { Room_Details, Room_Details_2, ...rest } = room.toJSON()
+      const { Room_Details, Room_Details_2, Room_Images, ...rest } =
+        room.toJSON()
 
       const transformedRoomDetails = Room_Details
         ? { ...Room_Details[0], id: undefined, room_id: undefined }
@@ -25,10 +38,16 @@ class RoomService {
         ? { ...Room_Details_2[0], id: undefined, room_id: undefined }
         : null
 
+      const transformedRoomImages = Room_Images.map((image) => {
+        const { id, room_id, ...imageData } = image
+        return imageData
+      })
+
       return {
         ...rest,
         Room_Details: transformedRoomDetails,
         Room_Details_2: transformedRoomDetails2,
+        Room_Images: transformedRoomImages,
       }
     })
 
@@ -162,7 +181,6 @@ class RoomService {
   }
 
   async findRatingsByRoom(roomId) {
-    console.log(roomId)
     const ratingsRoom = await models.Ratings.findAll({
       where: {
         room_id: roomId,

@@ -18,10 +18,6 @@ class ShopingCartsService {
       if (!user) {
         throw new Error('User does not exist')
       }
-
-      console.log('ROOMID: ', reservationRoomId)
-      console.log('TOURID: ', reservationTourId)
-
       const reservationRoom = await models.Reservation_Rooms.findOne({
         where: {
           id: reservationRoomId,
@@ -34,9 +30,6 @@ class ShopingCartsService {
         },
       })
 
-      console.log('ROOM: ', reservationRoom)
-      console.log('TOUR: ', reservationTour)
-
       if (reservationRoom || reservationRoom) {
         const transaction = await models.User_Products.sequelize.transaction()
         const products = await models.User_Products.create(
@@ -48,13 +41,11 @@ class ShopingCartsService {
           },
           { transaction }
         )
-        console.log(products)
         await transaction.commit()
         return products
       }
 
       const userProduct = await this.findUserProductsByUser(userId)
-      console.log('USER PRODUCTS: ', userProduct)
       const cart = await models.Shoping_Cart.create(
         {
           product_id: userProduct.dataValues.id,
@@ -65,7 +56,6 @@ class ShopingCartsService {
         { transaction }
       )
       await transaction.commit()
-      console.log(cart)
       return cart
     } catch (error) {
       await transaction.rollback()

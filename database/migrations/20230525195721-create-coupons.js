@@ -20,7 +20,6 @@ module.exports = {
             type: Sequelize.FLOAT,
           },
           room_id: {
-            allowNull: true,
             type: Sequelize.UUID,
             references: {
               model: 'Rooms',
@@ -30,7 +29,6 @@ module.exports = {
             onUpdate: 'CASCADE',
           },
           tour_id: {
-            allowNull: true,
             type: Sequelize.UUID,
             references: {
               model: 'Tours',

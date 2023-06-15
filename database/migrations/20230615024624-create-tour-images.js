@@ -1,22 +1,23 @@
 'use strict'
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       await queryInterface.createTable(
-        'Room_Images',
+        'Tour_Images',
         {
           id: {
             allowNull: false,
-            type: Sequelize.UUID,
             primaryKey: true,
+            type: Sequelize.UUID,
           },
-          room_id: {
+          tour_id: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
-              model: 'Rooms',
+              model: 'Tours',
               key: 'id',
             },
             onUpdate: 'CASCADE',
@@ -54,7 +55,7 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Room_Images', { transaction })
+      await queryInterface.dropTable('Tour_Images', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

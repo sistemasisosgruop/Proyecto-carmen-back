@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
       },
       code: DataTypes.STRING,
-      name: DataTypes.STRING,
+      country: DataTypes.STRING,
     },
     {
       sequelize,
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       scopes: {
         public_view: {
-          attributes: ['name'],
+          attributes: ['countrys'],
         },
       },
     }

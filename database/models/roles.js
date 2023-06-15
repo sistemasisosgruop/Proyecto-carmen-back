@@ -7,7 +7,6 @@ module.exports = (sequelize, DataTypes) => {
     
     static associate(models) {
       Roles.hasMany(models.Users, { as: 'Users', foreignKey: 'role_id' })
-
     }
   }
   Roles.init({

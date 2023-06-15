@@ -14,6 +14,7 @@ module.exports = {
             type: Sequelize.BIGINT,
           },
           tour_id: {
+            allowNull: false,
             type: Sequelize.UUID,
             references: {
               model: 'Tours',
@@ -21,9 +22,6 @@ module.exports = {
             },
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
-          },
-          images_url: {
-            type: Sequelize.ARRAY(Sequelize.STRING),
           },
           what_to_do: {
             allowNull: false,
@@ -41,13 +39,9 @@ module.exports = {
             allowNull: false,
             type: Sequelize.FLOAT,
           },
-          tour_check_in: {
+          available_dates: {
             allowNull: false,
-            type: Sequelize.DATE,
-          },
-          tour_check_out: {
-            allowNull: false,
-            type: Sequelize.DATE,
+            type: Sequelize.ARRAY(Sequelize.STRING),
           },
           schedule: {
             allowNull: false,

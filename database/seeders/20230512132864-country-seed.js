@@ -39,8 +39,13 @@ module.exports = {
       await queryInterface.bulkDelete(
         'Countries',
         {
-          name: {
-            [Op.or]: ['Perú'],
+          country: {
+            [Op.or]: ['Colombia'],
+          },
+        },
+        {
+          country: {
+            [Op.or]: ['Sudafrica'],
           },
         },
         { transaction }
