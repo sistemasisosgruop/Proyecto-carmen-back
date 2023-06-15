@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       primaryKey:true,
       type: DataTypes.UUID, 
-      defaultValue: DataTypes.UUIDV4
     },
     coupon_code: DataTypes.STRING,
     discount: DataTypes.FLOAT,

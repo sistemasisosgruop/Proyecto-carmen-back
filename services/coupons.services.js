@@ -4,7 +4,8 @@ const userService = new UsersService()
 const RoomsService = require('./rooms.services')
 const { CustomError } = require('../utils/custom-error')
 const { Op } = require('sequelize')
-const roomService = new RoomsService()
+const { v4: uuid4 } = require('uuid')
+const TourService = require('./tours.services')
 
 class CouponService {
   constructor() {}
@@ -45,22 +46,21 @@ class CouponService {
       if (user.dataValues.role_id !== 1) {
         throw new Error('Only admins can create New Coupons')
       }
-
-      const room = await roomService.getRoomOr404(couponData.room_id)
-      if (!room) {
-        throw new Error('Room not finded.')
+      if (!couponData.room_id && !couponData.tour_id) {
+        throw new Error(
+          'You must enter a roomId or tourId in order to create a coupon.'
+        )
       }
-
       const coupon = await models.Coupons.create(
         {
+          id: uuid4(),
           coupon_code: couponData.coupon_code,
           discount: couponData.discount,
-          room_id: room.id,
+          room_id: couponData.room_id,
           tour_id: couponData.tour_id,
         },
         { transaction }
       )
-
       await transaction.commit()
       return coupon
     } catch (error) {

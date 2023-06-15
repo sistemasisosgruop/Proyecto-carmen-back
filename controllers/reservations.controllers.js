@@ -1,5 +1,4 @@
 const ReservationsService = require('../services/reservations.services')
-const models = require('../database/models')
 const reservationService = new ReservationsService()
 
 class ReservationsControllers {

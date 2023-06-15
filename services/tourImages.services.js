@@ -34,15 +34,12 @@ class TourImagesService {
   async createImage(tour_id, image_url, order) {
     const transaction = await models.sequelize.transaction()
 
-    console.log(tour_id)
-    console.log(image_url)
-
     try {
       let newImage = await models.Tour_Images.create(
         { id: uuid4(), tour_id, image_url, order },
         { transaction }
       )
-      console.log(newImage)
+
       await transaction.commit()
       return newImage
     } catch (error) {
