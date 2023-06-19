@@ -1,61 +1,68 @@
 const { CustomError } = require('../utils/custom-error')
 const { v4: uuid4 } = require('uuid')
 const models = require('../database/models')
+const { Op } = require('sequelize')
 require('dotenv').config()
 class RoomService {
   constructor() {}
 
   //? Get All Rooms with pagination
-  async findAllRooms() {
-    const rooms = await models.Rooms.findAll({
+  async findAllRooms(limit, offset) {
+    const rooms = await models.Rooms.findAndCountAll({
+      limit,
+      offset,
+      distinct: true, // Esta opción es para obtener conteo de habitaciones distintas y no todos los models
       include: [
         {
           model: models.Room_Details,
           as: 'Room_Details',
-          attributes: { exclude: ['created_at', 'updated_at'] },
+          attributes: ['type_room', 'num_bed', 'type_bed', 'type_bed_2'],
+          required: true,
+          duplicating: false,
         },
         {
           model: models.Room_Details_2,
           as: 'Room_Details_2',
-          attributes: { exclude: ['created_at', 'updated_at'] },
+          attributes: ['amenities', 'not_included', 'services'],
+          required: true,
+          duplicating: false,
         },
         {
           model: models.Room_Images,
           as: 'Room_Images',
-          attributes: { exclude: ['created_at', 'updated_at'] },
+          attributes: ['id', 'image_url', 'order'],
+          required: false,
         },
       ],
+      attributes: {
+        exclude: ['created_at', 'updated_at'],
+      },
+      raw: true,
+      nest: true,
     })
-    const transformedRooms = rooms.map((room) => {
-      const { Room_Details, Room_Details_2, Room_Images, ...rest } =
-        room.toJSON()
 
-      const transformedRoomDetails = Room_Details
-        ? { ...Room_Details[0], id: undefined, room_id: undefined }
-        : null
+    const { count, rows: results } = rooms
+    const totalPages = Math.ceil(count / limit)
 
-      const transformedRoomDetails2 = Room_Details_2
-        ? { ...Room_Details_2[0], id: undefined, room_id: undefined }
-        : null
-
-      const transformedRoomImages = Room_Images.map((image) => {
-        const { id, room_id, ...imageData } = image
-        return imageData
-      })
-
-      return {
-        ...rest,
-        Room_Details: transformedRoomDetails,
-        Room_Details_2: transformedRoomDetails2,
-        Room_Images: transformedRoomImages,
+    // Agrupar las imágenes por la habitación
+    const groupedResults = results.reduce((acc, room) => {
+      const roomId = room.id
+      if (!acc[roomId]) {
+        acc[roomId] = {
+          ...room,
+          Room_Images: [],
+        }
       }
-    })
+      if (room.Room_Images.id) {
+        acc[roomId].Room_Images.push(room.Room_Images)
+      }
+      return acc
+    }, {})
 
-    return transformedRooms
-  }
-  catch(error) {
-    console.error('Error al obtener los rooms:', error)
-    throw new Error('Ocurrió un error al obtener los rooms')
+    // Convertir el objeto en un array de resultados
+    const finalResults = Object.values(groupedResults)
+
+    return { count, totalPages, results: finalResults }
   }
 
   //? Get room by Id

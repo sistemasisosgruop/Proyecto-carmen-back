@@ -1,12 +1,20 @@
 const ToursService = require('../services/tours.services')
+const { getPagination } = require('../utils/pagination')
 const tourService = new ToursService()
 
 class TourController {
   constructor() {}
 
   async getAllTours(req, res) {
-    let tours = await tourService.findAllTours()
-    return res.json({ results: tours })
+    const { page, size } = req.query
+
+    try {
+      const { limit, offset } = getPagination(page, size)
+      const tours = await tourService.findAllTours(limit, offset)
+      res.json(tours)
+    } catch (error) {
+      res.status(500).json({ error: 'Error al obtener los Tours' })
+    }
   }
 
   async getTour(req, res) {

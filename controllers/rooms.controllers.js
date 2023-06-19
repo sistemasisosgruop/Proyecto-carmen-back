@@ -1,11 +1,19 @@
 const RoomsService = require('../services/rooms.services')
+const { getPagination } = require('../utils/pagination')
 const roomsService = new RoomsService()
 
 class RoomsControllers {
   //? Get All Rooms with Pagination
   async getAllRooms(req, res) {
-    let rooms = await roomsService.findAllRooms()
-    return res.json({ results: rooms })
+    const { page, size } = req.query
+
+    try {
+      const { limit, offset } = getPagination(page, size)
+      const rooms = await roomsService.findAllRooms(limit, offset)
+      res.json(rooms)
+    } catch (error) {
+      res.status(500).json({ error: 'Error al obtener los Rooms' })
+    }
   }
 
   //? Get room by Id

@@ -6,50 +6,52 @@ require('dotenv').config()
 class TourService {
   constructor() {}
 
-  async findAllTours() {
+  async findAllTours(limit, offset) {
     const tours = await models.Tours.findAll({
+      limit,
+      offset,
       include: [
         {
           model: models.Tours_Details,
           as: 'Tours_Details',
-          attributes: { exclude: ['created_at', 'updated_at'] },
+          attributes: [
+            'what_is_included',
+            'what_is_not_included',
+            'itinerary',
+            'departure_details',
+            'return_details',
+            'accessibility',
+          ],
+          required: true,
         },
         {
           model: models.Tours_Info,
           as: 'Tours_Info',
-          attributes: { exclude: ['created_at', 'updated_at'] },
+          attributes: [
+            'what_to_do',
+            'good_choise_for',
+            'cancellation_policy',
+            'price_per_person',
+            'available_dates',
+            'schedule',
+          ],
+          required: true,
         },
         {
           model: models.Tour_Images,
           as: 'Tour_Images',
-          attributes: { exclude: ['created_at', 'updated_at'] },
+          attributes: ['id', 'tour_id', 'image_url', 'order'],
+          required: false,
         },
       ],
+      attributes: {
+        exclude: ['created_at', 'updated_at'],
+      },
+      raw: true,
+      nest: true,
     })
-    const transformedTours = tours.map((tour) => {
-      const { Tours_Details, Tours_Info, Tour_Images, ...rest } = tour.toJSON()
-      const transformedTourDetails = Tours_Details
-        ? { ...Tours_Details[0], id: undefined, tour_id: undefined }
-        : null
-      const transformedToursInfo = Tours_Info
-        ? { ...Tours_Info[0], id: undefined, tour_id: undefined }
-        : null
-      const transformedToursImages = Tour_Images.map((image) => {
-        const { id, tour_id, ...imageData } = image
-        return imageData
-      })
-      return {
-        ...rest,
-        Tours_Details: transformedTourDetails,
-        Tours_Info: transformedToursInfo,
-        Tour_Images: transformedToursImages,
-      }
-    })
-    return transformedTours
-  }
-  catch(error) {
-    console.error('Error al obtener los tours:', error)
-    throw new Error('Ocurrió un error al obtener los tours')
+
+    return tours
   }
 
   async getTourOr404(tourId) {
