@@ -35,7 +35,6 @@ class CouponController {
   }
 
   async postCoupon(req, res) {
-    const userId = req.user.id
     const { coupon_code, discount, room_id, tour_id } = req.body
 
     try {
@@ -46,7 +45,7 @@ class CouponController {
         tour_id: tour_id,
       }
 
-      const coupon = await couponService.createCoupon(userId, couponData)
+      const coupon = await couponService.createCoupon(couponData)
       res.status(201).json({ message: 'Coupon created succesfully', coupon })
     } catch (error) {
       res.status(500).json({

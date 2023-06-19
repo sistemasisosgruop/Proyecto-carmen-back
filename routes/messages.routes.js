@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const passport = require('passport')
-require('../middlewares/auth.middleware')(passport)
+require('../libs/passport')(passport)
 
 const { postMessage } = require('../controllers/messages.controllers')
 

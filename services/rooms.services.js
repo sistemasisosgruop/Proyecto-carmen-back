@@ -153,15 +153,11 @@ class RoomService {
   }
 
   // Función para crear una nueva valoración y comentario
-  async createRoomRating(userId, roomId, ratingData) {
+  async createRoomRating(roomId, ratingData) {
     const transaction = await models.Ratings.sequelize.transaction()
-    const user = await models.Users.findByPk(userId)
     const room = await models.Rooms.findByPk(roomId)
 
     try {
-      if (!user) {
-        throw new Error('Only users can rate rooms')
-      }
       const rating = await models.Ratings.create(
         {
           id: uuid4(),

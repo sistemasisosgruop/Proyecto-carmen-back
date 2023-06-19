@@ -20,7 +20,7 @@ const getUsers = async (req, res, next) => {
   }
 }
 
-const addUser = async (req, res, next) => {
+const addUser = async (req, res) => {
   try {
     let {
       first_name,

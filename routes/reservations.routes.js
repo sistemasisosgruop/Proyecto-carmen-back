@@ -1,6 +1,6 @@
 const express = require('express')
 const passport = require('passport')
-require('../middlewares/auth.middleware')(passport)
+require('../libs/passport')(passport)
 
 const ReservationControllers = require('../controllers/reservations.controllers')
 const reservationController = new ReservationControllers()

@@ -1,29 +1,31 @@
-const JwtStrategy = require('passport-jwt').Strategy
-const { ExtractJwt } = require('passport-jwt')
+const models = require('../database/models')
 const UsersService = require('../services/users.services')
-require('dotenv').config()
 
-const usersService = new UsersService()
+const userService = new UsersService()
 
-const options = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'),
-  secretOrKey: process.env.JWT_SECRET,
+class RoleAuthorization {
+  constructor() {}
+
+  async isAdmin(req, res, next) {
+    const userId = req.user.id
+
+    try {
+      const user = await userService.getUserOr404(userId)
+      console.log('USERID: ', user)
+      const role = await models.Roles.findOne({
+        where: {
+          id: user.dataValues.role_id,
+        },
+      })
+      console.log(role)
+      if (role.name !== 'admin') {
+        return res.status(401).json({ message: 'You are not admin' })
+      }
+      next()
+    } catch (error) {
+      return res.status(404).json({ message: error.message })
+    }
+  }
 }
 
-module.exports = (passport) =>
-  passport.use(
-    new JwtStrategy(options, (tokenDecoded, done) => {
-      usersService
-        .getUser(tokenDecoded.id)
-        .then((user) => {
-          if (user) {
-            done(null, tokenDecoded)
-          } else {
-            done(null, false)
-          }
-        })
-        .catch((err) => {
-          done(err, false)
-        })
-    })
-  )
+module.exports = RoleAuthorization

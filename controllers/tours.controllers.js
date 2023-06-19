@@ -20,7 +20,6 @@ class TourController {
   }
 
   async postTour(req, res) {
-    const userId = req.user.id
     const {
       tour_name,
       tour_description,
@@ -36,7 +35,7 @@ class TourController {
     } = req.body
 
     try {
-      const tour = await tourService.createTour(userId, {
+      const tour = await tourService.createTour(
         tour_name,
         tour_description,
         extras,
@@ -47,8 +46,8 @@ class TourController {
         number_of_people,
         ages,
         tour_info,
-        tour_details,
-      })
+        tour_details
+      )
       return res.status(201).json(tour)
     } catch (error) {
       return res.status(401).json({

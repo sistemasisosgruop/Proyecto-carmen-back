@@ -39,13 +39,10 @@ class CouponService {
     return coupon
   }
 
-  async createCoupon(userId, couponData) {
+  async createCoupon(couponData) {
     const transaction = await models.Coupons.sequelize.transaction()
-    const user = await userService.getUserOr404(userId)
+
     try {
-      if (user.dataValues.role_id !== 1) {
-        throw new Error('Only admins can create New Coupons')
-      }
       if (!couponData.room_id && !couponData.tour_id) {
         throw new Error(
           'You must enter a roomId or tourId in order to create a coupon.'

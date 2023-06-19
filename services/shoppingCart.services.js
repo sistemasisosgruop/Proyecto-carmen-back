@@ -15,9 +15,6 @@ class ShopingCartsService {
     const user = await models.Users.findByPk(userId)
 
     try {
-      if (!user) {
-        throw new Error('User does not exist')
-      }
       const reservationRoom = await models.Reservation_Rooms.findOne({
         where: {
           id: reservationRoomId,
@@ -35,7 +32,7 @@ class ShopingCartsService {
         const products = await models.User_Products.create(
           {
             id: uuid4(),
-            user_id: userId,
+            user_id: user.dataValues.id,
             room_id: reservationRoom.dataValues.room_id,
             tour_id: reservationTour.dataValues.id,
           },

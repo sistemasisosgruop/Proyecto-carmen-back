@@ -21,7 +21,6 @@ class RoomsControllers {
 
   //? Create a new Room with details being a admin
   async postRoom(req, res) {
-    const userId = req.user.id
     const {
       room_type,
       description,
@@ -50,7 +49,7 @@ class RoomsControllers {
         num_room,
         details,
       }
-      const room = await roomsService.createRoom(userId, roomData)
+      const room = await roomsService.createRoom(roomData)
 
       return res.status(201).json(room)
     } catch (error) {
@@ -93,7 +92,6 @@ class RoomsControllers {
   }
 
   async postRoomRating(req, res) {
-    const userId = req.user.id
     const { roomId } = req.params
     const { rate, comment } = req.body
 
@@ -107,11 +105,7 @@ class RoomsControllers {
         throw new Error('All fields are required!')
       }
 
-      const rating = await roomsService.createRoomRating(
-        userId,
-        roomId,
-        ratingData
-      )
+      const rating = await roomsService.createRoomRating(roomId, ratingData)
       return res
         .status(201)
         .json({ message: 'Rate created succesfully', rating })

@@ -74,15 +74,10 @@ class TourService {
     return { tour, tourInfo, tourDetail }
   }
 
-  async createTour(userId, tourData) {
+  async createTour(tourData) {
     const transaction = await models.Tours.sequelize.transaction()
-    const user = await models.Users.findByPk(userId)
 
     try {
-      if (user.dataValues.role_id !== 1) {
-        throw new Error('Only admins can create New Tours')
-      }
-
       const tour = await models.Tours.create(
         {
           id: uuid4(),
