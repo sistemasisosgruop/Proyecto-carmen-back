@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
     tour_id: {
       type: DataTypes.UUID,
       foreignKey: true
+    }, 
+    quantity: {
+      type: DataTypes.INTEGER, 
+      allowNull: false
     }
   }, {
     sequelize,

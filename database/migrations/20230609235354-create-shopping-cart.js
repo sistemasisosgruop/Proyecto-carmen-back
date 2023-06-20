@@ -21,27 +21,13 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          product_id: {
-            allowNull: false,
-            type: Sequelize.UUID,
-            references: {
-              model: 'User_Products',
-              key: 'id',
-            },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-          },
-          product_type: {
-            allowNull: false,
-            type: Sequelize.STRING,
-          },
-          quantity: {
-            allowNull: false,
-            type: Sequelize.INTEGER,
-          },
           payment_method: {
             allowNull: false,
             type: Sequelize.STRING,
+          },
+          total_price: {
+            allowNull: false,
+            type: Sequelize.FLOAT,
           },
           createdAt: {
             allowNull: false,

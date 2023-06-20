@@ -16,13 +16,8 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true
     },
     user_id: DataTypes.UUID,
-    product_id: {
-      type: DataTypes.UUID,
-      foreignKey: true
-    },
-    product_type: DataTypes.STRING,
-    quantity: DataTypes.INTEGER,
-    payment_method: DataTypes.STRING
+    payment_method: DataTypes.STRING,
+    total_price: DataTypes.FLOAT,
   }, {
     sequelize,
     modelName: 'Shoping_Cart',

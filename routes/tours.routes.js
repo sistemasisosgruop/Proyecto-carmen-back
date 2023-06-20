@@ -14,6 +14,7 @@ const imageController = new TourImagesController()
 const reservationController = new ReservationsController()
 
 router.get('/', tourController.getAllTours)
+
 router.post(
   '/',
   [passport.authenticate('jwt', { session: false }), roleAuth.isAdmin],
@@ -21,6 +22,7 @@ router.post(
 )
 
 router.get('/:tourId', tourController.getTour)
+
 router.delete(
   '/:tourId',
   [passport.authenticate('jwt', { session: false }), roleAuth.isAdmin],
@@ -44,6 +46,7 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   tourController.postTourRating
 )
+
 router.get('/:tourId/rating', tourController.getRatingsByTour)
 
 router.post(

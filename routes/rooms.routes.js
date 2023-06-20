@@ -22,11 +22,8 @@ router.post(
   roomController.postRoom
 )
 
-router.get(
-  '/:roomId',
-  [passport.authenticate('jwt', { session: false }), roleAuth.isAdmin],
-  roomController.getRoom
-)
+router.get('/:roomId', roomController.getRoom)
+
 router.delete(
   '/:roomId',
   [passport.authenticate('jwt', { session: false }), roleAuth.isAdmin],

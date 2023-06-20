@@ -11,16 +11,18 @@ class ShopingCartsController {
 
     try {
       if (!reservationRoomId || !reservationTourId) {
-        return res.status(400).json({ error: 'All fields are required' })
+        return res
+          .status(400)
+          .json({ error: 'Room reservation or Tour reservation are required' })
       }
 
-      const cart = await shopingCartService.addProductsToCart(
-        userId,
+      const cartData = {
         reservationRoomId,
         reservationTourId,
         quantity,
-        paymentMethod
-      )
+        paymentMethod,
+      }
+      const cart = await shopingCartService.addProductsToCart(userId, cartData)
       return res.status(201).json({ results: cart })
     } catch (error) {
       return res.status(401).json({ message: error.message })
