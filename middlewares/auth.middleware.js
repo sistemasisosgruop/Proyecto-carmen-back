@@ -11,13 +11,11 @@ class RoleAuthorization {
 
     try {
       const user = await userService.getUserOr404(userId)
-      console.log('USERID: ', user)
       const role = await models.Roles.findOne({
         where: {
           id: user.dataValues.role_id,
         },
       })
-      console.log(role)
       if (role.name !== 'admin') {
         return res.status(401).json({ message: 'You are not admin' })
       }

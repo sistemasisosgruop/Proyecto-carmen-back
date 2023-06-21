@@ -6,8 +6,7 @@ class ShopingCartsController {
 
   async postShopingCart(req, res) {
     const userId = req.user.id
-    const { reservationRoomId, reservationTourId, quantity, paymentMethod } =
-      req.body
+    const { reservationRoomId, reservationTourId, quantity } = req.body
 
     try {
       if (!reservationRoomId || !reservationTourId) {
@@ -20,12 +19,18 @@ class ShopingCartsController {
         reservationRoomId,
         reservationTourId,
         quantity,
-        paymentMethod,
       }
       const cart = await shopingCartService.addProductsToCart(userId, cartData)
       return res.status(201).json({ results: cart })
     } catch (error) {
-      return res.status(401).json({ message: error.message })
+      return res.status(401).json({
+        message: error.message,
+        fields: {
+          reservationRoomId: 'UUID',
+          reservationTourId: 'UUID',
+          quantity: 'Integer',
+        },
+      })
     }
   }
 }

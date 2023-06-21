@@ -21,12 +21,7 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          payment_method: {
-            allowNull: false,
-            type: Sequelize.STRING,
-          },
           total_price: {
-            allowNull: false,
             type: Sequelize.FLOAT,
           },
           createdAt: {

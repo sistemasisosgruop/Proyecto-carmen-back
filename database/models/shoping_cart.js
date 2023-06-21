@@ -16,7 +16,6 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true
     },
     user_id: DataTypes.UUID,
-    payment_method: DataTypes.STRING,
     total_price: DataTypes.FLOAT,
   }, {
     sequelize,

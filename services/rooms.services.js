@@ -89,15 +89,9 @@ class RoomService {
   }
 
   //? Create a new Room with details being a admin
-  async createRoom(userId, roomData) {
+  async createRoom(roomData) {
     const transaction = await models.Rooms.sequelize.transaction()
-    const user = await models.Users.findByPk(userId)
-
     try {
-      if (user.dataValues.role_id !== 1) {
-        throw new Error('Only admins can create New Rooms')
-      }
-
       const room = await models.Rooms.create(
         {
           id: uuid4(),
@@ -113,6 +107,8 @@ class RoomService {
         },
         { transaction }
       )
+
+      console.log(room)
 
       const roomDetails = await models.Room_Details.create(
         {

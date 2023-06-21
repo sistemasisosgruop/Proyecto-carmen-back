@@ -40,7 +40,7 @@ module.exports = {
             onUpdate: 'CASCADE',
           },
           quantity: {
-            tyepe: Sequelize.INTEGER,
+            type: Sequelize.INTEGER,
             allowNull: false,
           },
           createdAt: {

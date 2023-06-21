@@ -1,52 +1,62 @@
 const models = require('../database/models')
 const { v4: uuid4 } = require('uuid')
-
 class ShopingCartsService {
   constructor() {}
 
-  async addToCart(userId, roomId, tourId, quantity) {
+  async addProductsToCart(userId, cartData) {
     // Iniciar una transacción
     const transacción = await models.Shoping_Cart.sequelize.transaction()
 
     try {
       // Buscar o crear el carrito del usuario
       let cart = await models.Shoping_Cart.findOrCreate({
-        where: { user_id: userId },
+        where: { id: uuid4(), user_id: userId },
         defaults: { user_id: userId },
       })
 
+      console.log(userId)
+      console.log(cartData)
       // Agregar la habitación al carrito si se proporciona un ID de habitación
-      if (roomId) {
-        const room = await models.Rooms.findByPk(roomId)
-        if (!room) {
-          throw new Error('La habitación no existe')
+      // Agregar la habitación al carrito si se proporciona un ID de habitación
+      if (cartData.reservationRoomId) {
+        const reservationRoom = await models.Reservation_Rooms.findOne({
+          where: {
+            room_id: cartData.reservationRoomId.id,
+          },
+        })
+        if (!reservationRoom) {
+          throw new Error(`Room reservation for user ${userId} not found`)
         }
 
         // Crear o actualizar el elemento de carrito para la habitación
         await models.User_Products.findOrCreate({
-          where: { cart_id: cart.id, room_id: roomId },
+          where: { cart_id: cart.id, room_id: cartData.reservationRoomId },
           defaults: {
             cart_id: cart.id,
-            room_id: roomId,
-            quantity: quantity || 1,
+            room_id: cartData.reservationRoomId,
+            quantity: cartData.quantity || 1,
           },
         })
       }
 
       // Agregar el tour al carrito si se proporciona un ID de tour
-      if (tourId) {
-        const tour = await models.Tours.findByPk(tourId)
-        if (!tour) {
-          throw new Error('El tour no existe')
+      if (cartData.reservationTourId) {
+        const reservationTour = await models.Reservation_Tours.findOne({
+          where: {
+            tour_id: cartData.reservationTourId,
+          },
+        })
+        if (!reservationTour) {
+          throw new Error(`Tour reservation for user ${userId} not found`)
         }
 
         // Crear o actualizar el elemento de carrito para el tour
         await models.User_Products.findOrCreate({
-          where: { cart_id: cart.id, tour_id: tourId },
+          where: { cart_id: cart.id, tour_id: cartData.reservationTourId },
           defaults: {
             cart_id: cart.id,
-            tour_id: tourId,
-            quantity: quantity || 1,
+            tour_id: cartData.reservationTourId,
+            quantity: cartData.quantity || 1,
           },
         })
       }
@@ -57,11 +67,11 @@ class ShopingCartsService {
       // Devolver el carrito actualizado
       cart = await models.Shoping_Cart.findByPk(cart.id, {
         include: [
-          { model: models.Rooms, as: 'RoomItems' },
-          { model: models.Tours, as: 'TourItems' },
+          { model: models.Reservation_Rooms, as: 'RoomItems' },
+          { model: models.Reservation_Tours, as: 'TourItems' },
         ],
       })
-
+      console.log(cart)
       return cart
     } catch (error) {
       // Revertir la transacción en caso de error
@@ -70,39 +80,40 @@ class ShopingCartsService {
     }
   }
 
-  async processPayment(cartId, paymentData) {
-    const cart = await models.Shoping_Cart.findByPk(cartId, {
-      include: [
-        { model: models.Rooms, as: 'RoomItems' },
-        { model: models.Tours, as: 'TourItems' },
-      ],
-    })
+  // async processPayment(cartId, paymentData) {
+  // const cart = await models.Shoping_Cart.findByPk(cartId, {
+  // include: [
+  // { model: models.Reservation_Rooms, as: 'RoomItems' },
+  // { model: models.Reservation_Tours, as: 'TourItems' },
+  // ],
+  // })
 
-    if (!cart) {
-      throw new Error('El carrito no existe')
-    }
+  // if (!cart) {
+  // throw new Error('Shoping Cart does not exist')
+  // }
 
-    // Calcular el total_price sumando los precios de las habitaciones y tours en el carrito
-    let totalPrice = 0
-    cart.RoomItems.forEach((roomItem) => {
-      totalPrice += roomItem.Room.price * roomItem.quantity
-    })
-    cart.TourItems.forEach((tourItem) => {
-      totalPrice += tourItem.Tour.price * tourItem.quantity
-    })
+  // // Calcular el total_price sumando los precios de las habitaciones y tours en el carrito
+  // let totalPrice = 0
+  // cart.RoomItems.forEach((roomItem) => {
+  // totalPrice += roomItem.Room.price * roomItem.quantity
+  // })
+  // cart.TourItems.forEach((tourItem) => {
+  // totalPrice += tourItem.Tour.price * tourItem.quantity
+  // })
 
-    // Procesar el pago utilizando la API de Mercado Pago
-    const mercadoPagoAPI = new MercadoPagoAPI()
-    const paymentResult = await mercadoPagoAPI.processPayment(
-      totalPrice,
-      paymentData
-    )
+  // // Procesar el pago utilizando la API de Mercado Pago
+  // const mercadoPagoAPI = new MercadoPagoAPI()
+  // const paymentResult = await mercadoPagoAPI.processPayment(
+  // totalPrice,
+  // paymentData
+  // )
 
-    // Actualizar el estado del carrito y otros datos relevantes
-    // (por ejemplo, guardar información de la transacción)
+  // // Actualizar el estado del carrito y otros datos relevantes
+  // // (por ejemplo, guardar información de la transacción)
 
-    return paymentResult
-  }
+  // return cart
+  // }
+
   async findUserProductsByUser(userId) {
     const product = await models.User_Products.findOne({
       where: {

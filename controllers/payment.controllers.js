@@ -1,4 +1,3 @@
-const { query } = require('express')
 const mercadoPago = require('mercadopago')
 require('dotenv').config()
 
