@@ -17,7 +17,7 @@ class CouponController {
 
       let coupons = await couponService.findAndCount(query)
       const results = getPagingData(coupons, page, limit)
-      return res.json({ results: results })
+      return res.json(results)
     } catch (error) {
       return res.status(401).json({ message: 'Unauthorized' })
     }
@@ -28,7 +28,7 @@ class CouponController {
     try {
       let { couponId } = req.params
       let coupon = await couponService.getCouponOr404(couponId)
-      return res.json({ results: coupon })
+      return res.json(coupon)
     } catch (error) {
       return res.status(404).json({ message: 'Invalid ID' })
     }

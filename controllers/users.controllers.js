@@ -14,7 +14,7 @@ const getUsers = async (req, res, next) => {
 
     let users = await usersService.findAndCount(query)
     const results = getPagingData(users, page, limit)
-    return res.json({ results: results })
+    return res.json(results)
   } catch (error) {
     next(error)
   }
@@ -51,7 +51,7 @@ const addUser = async (req, res) => {
       student,
       role_id,
     })
-    return res.status(201).json({ results: user })
+    return res.status(201).json(user)
   } catch (error) {
     return res.status(401).json({
       message: error.message,
@@ -77,7 +77,7 @@ const getUser = async (req, res) => {
   try {
     let { id } = req.params
     let users = await usersService.getUserOr404(id)
-    return res.json({ results: users })
+    return res.json(users)
   } catch (error) {
     return res.status(401).json({ message: 'Invalid ID' })
   }
@@ -109,7 +109,7 @@ const updateUser = async (req, res) => {
       birthday,
       student,
     })
-    return res.json({ results: user })
+    return res.json(user)
   } catch (error) {
     return res.status(401).json({ message: 'Invalid ID' })
   }
@@ -119,7 +119,7 @@ const removeUser = async (req, res, next) => {
   try {
     let { id } = req.params
     let user = await usersService.removeUser(id)
-    return res.json({ results: user, message: 'removed' })
+    return res.json({ user, message: 'removed' })
   } catch (error) {
     next(error)
   }

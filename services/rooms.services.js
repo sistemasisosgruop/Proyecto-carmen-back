@@ -108,8 +108,6 @@ class RoomService {
         { transaction }
       )
 
-      console.log(room)
-
       const roomDetails = await models.Room_Details.create(
         {
           room_id: room.dataValues.id,

@@ -51,8 +51,10 @@ const postRecoveryToken = (req, res) => {
             from: 'nicolaspantojadi@gmail.com',
             to: email,
             subject: 'Recovery Password',
-            html: `Through this link you'll be able to recover the access by updating your password: <a href='${config.api.host}/api/v1/recovery-password/${data.dataValues.id}'>${config.api.host}/api/v1/recovery-password/${data.dataValues.id}</a>`,
-            text: `Password recovery URL: ${config.api.host}/api/v1/recovery-password/${data.dataValues.id}`,
+            html: `Through this link you'll be able to recover the access by updating your password: <a href=http://localhost:5173/recuperacion/nueva-contrasena/${data.dataValues.id}'>http://localhost:5173/recuperacion/nueva-contrasena/${data.dataValues.id}</a>`,
+            text: `Password recovery URL: http://localhost:5173/recuperacion/nueva-contrasena/${data.dataValues.id}`,
+            // html: `Through this link you'll be able to recover the access by updating your password: <a href='${config.api.host}/api/v1/recovery-password/${data.dataValues.id}'>${config.api.host}/api/v1/recovery-password/${data.dataValues.id}</a>`,
+            // text: `Password recovery URL: ${config.api.host}/api/v1/recovery-password/${data.dataValues.id}`,
           })
           res.status(200).json({ message: 'Email sended. Check your inbox!' })
         } else {

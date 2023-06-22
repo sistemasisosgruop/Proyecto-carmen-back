@@ -21,7 +21,7 @@ class ShopingCartsController {
         quantity,
       }
       const cart = await shopingCartService.addProductsToCart(userId, cartData)
-      return res.status(201).json({ results: cart })
+      return res.status(201).json(cart)
     } catch (error) {
       return res.status(401).json({
         message: error.message,

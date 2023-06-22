@@ -21,7 +21,7 @@ class TourController {
     try {
       let { tourId } = req.params
       let tour = await tourService.getTourOr404(tourId)
-      return res.status(200).json({ results: tour })
+      return res.status(200).json(tour)
     } catch (error) {
       return res.status(404).json({ message: error })
     }

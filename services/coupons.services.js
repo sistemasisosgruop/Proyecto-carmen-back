@@ -1,12 +1,7 @@
 const models = require('../database/models')
-const UsersService = require('./users.services')
-const userService = new UsersService()
-const RoomsService = require('./rooms.services')
 const { CustomError } = require('../utils/custom-error')
 const { Op } = require('sequelize')
 const { v4: uuid4 } = require('uuid')
-const TourService = require('./tours.services')
-
 class CouponService {
   constructor() {}
 

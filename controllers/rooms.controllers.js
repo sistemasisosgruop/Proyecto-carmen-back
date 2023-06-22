@@ -21,7 +21,7 @@ class RoomsControllers {
     try {
       let { roomId } = req.params
       let room = await roomsService.getRoomOr404(roomId)
-      return res.json({ results: room })
+      return res.json(room)
     } catch (error) {
       return res.status(404).json({ message: 'Invalid ID' })
     }

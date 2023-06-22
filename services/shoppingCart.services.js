@@ -14,31 +14,34 @@ class ShopingCartsService {
         defaults: { user_id: userId },
       })
 
-      console.log(userId)
-      console.log(cartData)
       // Agregar la habitación al carrito si se proporciona un ID de habitación
       // Agregar la habitación al carrito si se proporciona un ID de habitación
       if (cartData.reservationRoomId) {
         const reservationRoom = await models.Reservation_Rooms.findOne({
           where: {
-            room_id: cartData.reservationRoomId.id,
+            id: cartData.reservationRoomId,
           },
         })
         if (!reservationRoom) {
           throw new Error(`Room reservation for user ${userId} not found`)
         }
 
+        console.log(userId)
         // Crear o actualizar el elemento de carrito para la habitación
-        await models.User_Products.findOrCreate({
-          where: { cart_id: cart.id, room_id: cartData.reservationRoomId },
+        await models.Shoping_Cart.findOrCreate({
+          where: {
+            id: cart.dataValues.id,
+            room_id: cartData.reservationRoomId,
+          },
           defaults: {
-            cart_id: cart.id,
+            id: cart.dataValues.id,
             room_id: cartData.reservationRoomId,
             quantity: cartData.quantity || 1,
           },
         })
       }
 
+      console.log(cart)
       // Agregar el tour al carrito si se proporciona un ID de tour
       if (cartData.reservationTourId) {
         const reservationTour = await models.Reservation_Tours.findOne({
@@ -51,10 +54,13 @@ class ShopingCartsService {
         }
 
         // Crear o actualizar el elemento de carrito para el tour
-        await models.User_Products.findOrCreate({
-          where: { cart_id: cart.id, tour_id: cartData.reservationTourId },
+        await models.Shoping_Cart.findOrCreate({
+          where: {
+            id: cart.dataValues.id,
+            tour_id: cartData.reservationTourId,
+          },
           defaults: {
-            cart_id: cart.id,
+            id: cart.dataValues.id,
             tour_id: cartData.reservationTourId,
             quantity: cartData.quantity || 1,
           },

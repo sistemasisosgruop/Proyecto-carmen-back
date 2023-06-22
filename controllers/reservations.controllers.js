@@ -54,7 +54,7 @@ class ReservationsControllers {
         roomId,
         reservationRoomData
       )
-      return res.status(201).json({ results: reservationRoom })
+      return res.status(201).json(reservationRoom)
     } catch (error) {
       return res.status(404).json({
         message: error.message,
@@ -188,7 +188,7 @@ class ReservationsControllers {
       let reservation = await reservationService.removeTourReservation(
         tourReservationId
       )
-      return res.json({ results: reservation, message: 'removed' })
+      return res.json({ reservation, message: 'removed' })
     } catch (error) {
       return res.status(401).json({ message: error.message })
     }
