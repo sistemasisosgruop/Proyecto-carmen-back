@@ -11,15 +11,13 @@ module.exports = {
             primaryKey: true,
             type: Sequelize.UUID,
           },
-          user_id: {
+          cart_id: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
-              model: 'Users',
+              model: 'Shoping_Cart',
               key: 'id',
             },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
           },
           room_id: {
             type: Sequelize.UUID,

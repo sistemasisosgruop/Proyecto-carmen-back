@@ -9,12 +9,10 @@ class ShopingCartsService {
 
     try {
       // Buscar o crear el carrito del usuario
-      let cart = await models.Shoping_Cart.findOrCreate({
+      let [cart, created] = await models.Shoping_Cart.findOrCreate({
         where: { id: uuid4(), user_id: userId },
         defaults: { user_id: userId },
       })
-
-      // Agregar la habitación al carrito si se proporciona un ID de habitación
       // Agregar la habitación al carrito si se proporciona un ID de habitación
       if (cartData.reservationRoomId) {
         const reservationRoom = await models.Reservation_Rooms.findOne({
@@ -26,58 +24,59 @@ class ShopingCartsService {
           throw new Error(`Room reservation for user ${userId} not found`)
         }
 
-        console.log(userId)
+        console.log('USER: ', userId)
+        console.log('CART: ', cart)
+        console.log('RESERVSTIONROOM: ', reservationRoom)
         // Crear o actualizar el elemento de carrito para la habitación
-        await models.Shoping_Cart.findOrCreate({
+        await models.User_Products.findOrCreate({
           where: {
-            id: cart.dataValues.id,
-            room_id: cartData.reservationRoomId,
+            id: uuid4(),
+            cart_id: cart.dataValues.id,
+            room_id: reservationRoom.dataValues.room_id,
           },
           defaults: {
-            id: cart.dataValues.id,
-            room_id: cartData.reservationRoomId,
+            cart_id: cart.dataValues.id,
+            room_id: reservationRoom.dataValues.room_id,
             quantity: cartData.quantity || 1,
           },
         })
       }
 
-      console.log(cart)
       // Agregar el tour al carrito si se proporciona un ID de tour
       if (cartData.reservationTourId) {
         const reservationTour = await models.Reservation_Tours.findOne({
           where: {
-            tour_id: cartData.reservationTourId,
+            id: cartData.reservationTourId,
           },
         })
         if (!reservationTour) {
           throw new Error(`Tour reservation for user ${userId} not found`)
         }
 
+        console.log(reservationTour)
         // Crear o actualizar el elemento de carrito para el tour
-        await models.Shoping_Cart.findOrCreate({
+        await models.User_Products.findOrCreate({
           where: {
-            id: cart.dataValues.id,
-            tour_id: cartData.reservationTourId,
+            id: uuid4(),
+            cart_id: cart.id,
+            tour_id: reservationTour.dataValues.tour_id,
           },
           defaults: {
-            id: cart.dataValues.id,
-            tour_id: cartData.reservationTourId,
+            cart_id: cart.id,
+            tour_id: reservationTour.dataValues.tour_id,
             quantity: cartData.quantity || 1,
           },
         })
       }
 
       // Confirmar la transacción
-      await transacción.commit()
-
+      console.log(cart)
       // Devolver el carrito actualizado
-      cart = await models.Shoping_Cart.findByPk(cart.id, {
-        include: [
-          { model: models.Reservation_Rooms, as: 'RoomItems' },
-          { model: models.Reservation_Tours, as: 'TourItems' },
-        ],
+      cart = await models.Shoping_Cart.findByPk(cart.dataValues.id, {
+        include: [{ model: models.User_Products, as: 'User_Products' }],
       })
       console.log(cart)
+      await transacción.commit()
       return cart
     } catch (error) {
       // Revertir la transacción en caso de error

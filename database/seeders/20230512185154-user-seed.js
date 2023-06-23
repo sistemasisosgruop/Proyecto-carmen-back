@@ -76,15 +76,7 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.bulkDelete(
-        'roles',
-        {
-          name: {
-            [Op.or]: ['admin', 'public'],
-          },
-        },
-        { transaction }
-      )
+      await queryInterface.bulkDelete('Users', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

@@ -5,14 +5,13 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class User_Products extends Model {
     static associate(models) {
-      User_Products.belongsTo(models.Users, { as: 'Users', foreignKey: 'user_id'})
       User_Products.belongsTo(models.Rooms, { as: 'Rooms', foreignKey: 'room_id'})
       User_Products.belongsTo(models.Tours, { as: 'Tours', foreignKey: 'tour_id'})
-      // User_Products.belongsTo(models.Shoping_Cart, { as: 'Shoping_Cart', foreignKey: 'product_id'})
+      User_Products.belongsTo(models.Shoping_Cart, { as: 'Shoping_Cart', foreignKey: 'cart_id'})
     }
   }
   User_Products.init({
-    user_id: {
+    cart_id: {
       type: DataTypes.UUID,
       foreignKey: true
     },
