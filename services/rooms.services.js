@@ -92,7 +92,7 @@ class RoomService {
     room.dataValues.roomDetails = roomDetails
     room.dataValues.roomDetails2 = roomDetails2
 
-    return { room }
+    return room
   }
 
   //? Create a new Room with details being a admin
