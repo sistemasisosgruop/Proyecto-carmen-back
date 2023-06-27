@@ -70,7 +70,7 @@ class RoomService {
     let room = await models.Rooms.findByPk(roomId)
     if (!room) throw new CustomError('Not found Room', 404, 'Not Found')
 
-    let roomDetail = await models.Room_Details.findOne({
+    let roomDetails = await models.Room_Details.findOne({
       where: {
         room_id: roomId,
       },
@@ -79,7 +79,7 @@ class RoomService {
       },
     })
 
-    let roomDetail2 = await models.Room_Details_2.findOne({
+    let roomDetails2 = await models.Room_Details_2.findOne({
       where: {
         room_id: roomId,
       },
@@ -89,8 +89,8 @@ class RoomService {
     })
 
     // Agregar roomDetail y roomDetail2 dentro de room
-    room.dataValues.roomDetail = roomDetail
-    room.dataValues.roomDetail2 = roomDetail2
+    room.dataValues.roomDetails = roomDetails
+    room.dataValues.roomDetails2 = roomDetails2
 
     return { room }
   }
