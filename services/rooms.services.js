@@ -69,6 +69,7 @@ class RoomService {
   async getRoomOr404(roomId) {
     let room = await models.Rooms.findByPk(roomId)
     if (!room) throw new CustomError('Not found Room', 404, 'Not Found')
+
     let roomDetail = await models.Room_Details.findOne({
       where: {
         room_id: roomId,
@@ -77,6 +78,7 @@ class RoomService {
         exclude: ['id', 'room_id', 'created_at', 'updated_at'],
       },
     })
+
     let roomDetail2 = await models.Room_Details_2.findOne({
       where: {
         room_id: roomId,
@@ -85,7 +87,12 @@ class RoomService {
         exclude: ['id', 'room_id', 'created_at', 'updated_at'],
       },
     })
-    return { room, roomDetail, roomDetail2 }
+
+    // Agregar roomDetail y roomDetail2 dentro de room
+    room.dataValues.roomDetail = roomDetail
+    room.dataValues.roomDetail2 = roomDetail2
+
+    return { room }
   }
 
   //? Create a new Room with details being a admin
