@@ -88,9 +88,19 @@ class RoomService {
       },
     })
 
+    let roomImages = await models.Room_Images.findOne({
+      where: {
+        room_id: roomId,
+      },
+      attributes: {
+        exclude: ['id', 'room_id', 'created_at', 'updated_at'],
+      },
+    })
+
     // Agregar roomDetail y roomDetail2 dentro de room
     room.dataValues.roomDetails = roomDetails
     room.dataValues.roomDetails2 = roomDetails2
+    room.dataValues.roomImages = roomImages
 
     return room
   }
