@@ -9,12 +9,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Recovery_Passwords.init({
-    user_id: DataTypes.UUID,
+    userId: DataTypes.UUID,
     used: DataTypes.BOOLEAN
   }, {
     sequelize,
-    modelName: 'Recovery_Passwords',
-    tableName: 'Recovery_Passwords',
+    modelName: 'RecoveryPasswords',
+    tableName: 'RecoveryPasswords',
     underscored: true,
     timestamps: true,
     scopes: {

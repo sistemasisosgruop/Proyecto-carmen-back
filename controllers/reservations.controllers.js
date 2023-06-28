@@ -34,15 +34,14 @@ class ReservationsControllers {
   async postRoomReservation(req, res) {
     const userId = req.user.id
     const { roomId } = req.params
-    const { purchase_date, purchase_time, number_of_people, total_price } =
-      req.body
+    const { purchaseDate, purchaseTime, numberOfPeople, totalPrice } = req.body
 
     try {
       const reservationRoomData = {
-        purchase_date,
-        purchase_time,
-        number_of_people,
-        total_price,
+        purchaseDate,
+        purchaseTime,
+        numberOfPeople,
+        totalPrice,
       }
 
       if (!reservationRoomData) {
@@ -59,10 +58,10 @@ class ReservationsControllers {
       return res.status(404).json({
         message: error.message,
         fields: {
-          purchase_date: 'Date',
-          purchase_time: 'Date',
-          number_of_people: 'Integer',
-          total_price: 'Integer',
+          purchaseDate: 'Date',
+          purchaseTime: 'Date',
+          numberOfPeople: 'Integer',
+          totalPrice: 'Integer',
         },
       })
     }
@@ -70,15 +69,14 @@ class ReservationsControllers {
 
   async patchRoomReservation(req, res) {
     const { roomReservationId } = req.params
-    const { purchase_date, purchase_time, number_of_people, total_price } =
-      req.body
+    const { purchaseDate, purchaseTime, numberOfPeople, totalPrice } = req.body
 
     try {
       const reservationData = {
-        purchase_date,
-        purchase_time,
-        number_of_people,
-        total_price,
+        purchaseDate,
+        purchaseTime,
+        numberOfPeople,
+        totalPrice,
       }
 
       const reservationEdited = await reservationService.updateRoomReservation(
@@ -121,21 +119,21 @@ class ReservationsControllers {
   async postTourReservation(req, res) {
     const userId = req.user.id
     const { tourId } = req.params
-    const { purchase_date, purchase_time, number_of_people, total_purchase } =
+    const { purchaseDate, purchaseTime, numberOfPeople, totalPurchase } =
       req.body
     try {
       const reservationTourData = {
-        purchase_date,
-        purchase_time,
-        number_of_people,
-        total_purchase,
+        purchaseDate,
+        purchaseTime,
+        numberOfPeople,
+        totalPurchase,
       }
 
       if (
-        !reservationTourData.number_of_people ||
-        !reservationTourData.purchase_time ||
-        !reservationTourData.purchase_date ||
-        !reservationTourData.total_purchase
+        !reservationTourData.numberOfPeople ||
+        !reservationTourData.purchaseTime ||
+        !reservationTourData.purchaseDate ||
+        !reservationTourData.totalPurchase
       ) {
         throw new Error('All fields are required!')
       }
@@ -152,25 +150,25 @@ class ReservationsControllers {
       return res.status(404).json({
         message: error.message,
         fields: {
-          purchase_date: 'Date',
-          purchase_time: 'Date',
-          number_of_people: 'Integer',
-          total_purchase: 'Integer',
+          purchaseDate: 'Date',
+          purchaseTime: 'Date',
+          numberOfPeople: 'Integer',
+          totalPurchase: 'Integer',
         },
       })
     }
   }
 
   async patchTourReservation(req, res) {
-    const { purchase_date, purchase_time, number_of_people, total_purchase } =
+    const { purchaseDate, purchaseTime, numberOfPeople, totalPurchase } =
       req.body
     const { tourReservationId } = req.params
     try {
       const reservationData = {
-        purchase_date,
-        purchase_time,
-        number_of_people,
-        total_purchase,
+        purchaseDate,
+        purchaseTime,
+        numberOfPeople,
+        totalPurchase,
       }
       const reservationEdited = await reservationService.updateRoomReservation(
         tourReservationId,

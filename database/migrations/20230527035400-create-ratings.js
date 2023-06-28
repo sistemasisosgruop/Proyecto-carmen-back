@@ -13,7 +13,7 @@ module.exports = {
             defaultValue: Sequelize.UUIDV4,
             type: Sequelize.UUID,
           },
-          room_id: {
+          roomId: {
             type: Sequelize.UUID,
             references: {
               model: 'Rooms',
@@ -22,7 +22,7 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          tour_id: {
+          tourId: {
             type: Sequelize.UUID,
             references: {
               model: 'Tours',

@@ -29,61 +29,61 @@ class TourController {
 
   async postTour(req, res) {
     const {
-      tour_name,
-      tour_description,
+      tourName,
+      tourDescription,
       extras,
       location,
       duration,
       difficulty,
       languages,
-      number_of_people,
+      numberdOfPeople,
       ages,
-      tour_info,
-      tour_details,
+      tourInfo,
+      tourDetails,
     } = req.body
 
     try {
       const tour = await tourService.createTour(
-        tour_name,
-        tour_description,
+        tourName,
+        tourDescription,
         extras,
         location,
         duration,
         difficulty,
         languages,
-        number_of_people,
+        numberdOfPeople,
         ages,
-        tour_info,
-        tour_details
+        tourInfo,
+        tourDetails
       )
       return res.status(201).json(tour)
     } catch (error) {
       return res.status(401).json({
         message: error.message,
         fields: {
-          tour_name: 'String',
-          tour_description: 'Text',
+          tourName: 'String',
+          tourDescription: 'Text',
           extras: 'String',
           location: 'String',
           duration: 'String',
           difficulty: 'String',
           languages: ['String'],
-          number_of_people: 'String',
+          numberdOfPeople: 'String',
           ages: 'String',
-          tour_info: {
-            what_to_do: 'Text',
-            good_choise_for: 'Text',
-            cancellation_policy: 'Text',
-            price_per_person: 'Number',
-            available_dates: ['Date'],
+          tourInfo: {
+            whatToDo: 'Text',
+            goodChoiseFor: 'Text',
+            cancellationPolicy: 'Text',
+            pricePerPerson: 'Number',
+            availableDates: ['Date'],
             schedule: 'String',
           },
-          tour_details: {
-            what_is_included: 'Text',
-            what_is_not_included: 'Text',
+          tourDetails: {
+            whatIsIncluded: 'Text',
+            whatIsNotIncluded: 'Text',
             itinerary: ['String'],
-            departure_details: 'String',
-            return_details: 'String',
+            departureDetails: 'String',
+            returnDetails: 'String',
             accessibility: 'Text',
           },
         },
@@ -104,61 +104,61 @@ class TourController {
   async updateTour(req, res) {
     let { tourId } = req.params
     let {
-      tour_name,
-      tour_description,
+      tourName,
+      tourDescription,
       extras,
       location,
       duration,
       difficulty,
       languages,
-      number_of_people,
+      numberdOfPeople,
       ages,
-      tour_info,
-      tour_details,
+      tourInfo,
+      tourDetails,
     } = req.body
 
     await tourService
       .updateTour(tourId, {
-        tour_name,
-        tour_description,
+        tourName,
+        tourDescription,
         extras,
         location,
         duration,
         difficulty,
         languages,
-        number_of_people,
+        numberdOfPeople,
         ages,
-        tour_info,
-        tour_details,
+        tourInfo,
+        tourDetails,
       })
       .then((data) => res.status(200).json(data))
       .catch((err) =>
         res.status(400).json({
           message: err.message,
           fields: {
-            tour_name: 'String',
-            tour_description: 'Text',
+            tourName: 'String',
+            tourDescription: 'Text',
             extras: 'String',
             location: 'String',
             duration: 'String',
             difficulty: 'String',
             languages: ['String'],
-            number_of_people: 'String',
+            numberdOfPeople: 'String',
             ages: 'String',
-            tour_info: {
-              what_to_do: 'Text',
-              good_choise_for: 'Text',
-              cancellation_policy: 'Text',
-              price_per_person: 'Number',
-              available_dates: ['Date'],
+            tourInfo: {
+              whatToDo: 'Text',
+              goodChoiseFor: 'Text',
+              cancellationPolicy: 'Text',
+              pricePerPerson: 'Number',
+              availableDates: ['Date'],
               schedule: 'String',
             },
-            tour_details: {
-              what_is_included: 'Text',
-              what_is_not_included: 'Text',
+            tourDetails: {
+              whatIsIncluded: 'Text',
+              whatIsNotIncluded: 'Text',
               itinerary: ['String'],
-              departure_details: 'String',
-              return_details: 'String',
+              departureDetails: 'String',
+              returnDetails: 'String',
               accessibility: 'Text',
             },
           },

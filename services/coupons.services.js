@@ -38,7 +38,7 @@ class CouponService {
     const transaction = await models.Coupons.sequelize.transaction()
 
     try {
-      if (!couponData.room_id && !couponData.tour_id) {
+      if (!couponData.roomId && !couponData.tourId) {
         throw new Error(
           'You must enter a roomId or tourId in order to create a coupon.'
         )
@@ -46,10 +46,10 @@ class CouponService {
       const coupon = await models.Coupons.create(
         {
           id: uuid4(),
-          coupon_code: couponData.coupon_code,
+          couponCode: couponData.couponCode,
           discount: couponData.discount,
-          room_id: couponData.room_id,
-          tour_id: couponData.tour_id,
+          roomId: couponData.roomId,
+          tourId: couponData.tourId,
         },
         { transaction }
       )

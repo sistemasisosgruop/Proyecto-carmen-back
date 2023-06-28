@@ -11,7 +11,7 @@ module.exports = {
             primaryKey: true,
             type: Sequelize.UUID,
           },
-          user_id: {
+          userId: {
             type: Sequelize.UUID,
           },
           used: {

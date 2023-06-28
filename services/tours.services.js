@@ -15,11 +15,11 @@ class TourService {
           model: models.Tours_Details,
           as: 'Tours_Details',
           attributes: [
-            'what_is_included',
-            'what_is_not_included',
+            'whatIsIncluded',
+            'whatIsNotIncluded',
             'itinerary',
-            'departure_details',
-            'return_details',
+            'departureDetails',
+            'returnDetails',
             'accessibility',
           ],
           required: true,
@@ -28,11 +28,11 @@ class TourService {
           model: models.Tours_Info,
           as: 'Tours_Info',
           attributes: [
-            'what_to_do',
-            'good_choise_for',
-            'cancellation_policy',
-            'price_per_person',
-            'available_dates',
+            'whatToDo',
+            'goodChoiseFor',
+            'cancellationPolicy',
+            'pricePerPerson',
+            'availableDates',
             'schedule',
           ],
           required: true,
@@ -40,7 +40,7 @@ class TourService {
         {
           model: models.Tour_Images,
           as: 'Tour_Images',
-          attributes: ['id', 'tour_id', 'image_url', 'order'],
+          attributes: ['id', 'tourId', 'imageUrl', 'order'],
           required: false,
         },
       ],
@@ -59,18 +59,18 @@ class TourService {
     if (!tour) throw new CustomError('Not found Tour', 404, 'Not Found')
     let tourInfo = await models.Tours_Info.findOne({
       where: {
-        tour_id: tourId,
+        tourId: tourId,
       },
       attributes: {
-        exclude: ['id', 'tour_id', 'created_at', 'updated_at'],
+        exclude: ['id', 'tourId', 'created_at', 'updated_at'],
       },
     })
     let tourDetail = await models.Tours_Details.findOne({
       where: {
-        tour_id: tourId,
+        tourId: tourId,
       },
       attributes: {
-        exclude: ['id', 'tour_id', 'created_at', 'updated_at'],
+        exclude: ['id', 'tourId', 'created_at', 'updated_at'],
       },
     })
     return { tour, tourInfo, tourDetail }
@@ -83,14 +83,14 @@ class TourService {
       const tour = await models.Tours.create(
         {
           id: uuid4(),
-          tour_name: tourData.tour_name,
-          tour_description: tourData.tour_description,
+          tourName: tourData.tourName,
+          tourDescription: tourData.tourDescription,
           extras: tourData.extras,
           location: tourData.location,
           duration: tourData.duration,
           difficulty: tourData.difficulty,
           languages: tourData.languages,
-          number_of_people: tourData.number_of_people,
+          numberOfPeople: tourData.numberOfPeople,
           ages: tourData.ages,
         },
         { transaction }
@@ -98,26 +98,26 @@ class TourService {
 
       const tourInfo = await models.Tours_Info.create(
         {
-          tour_id: tour.dataValues.id,
-          what_to_do: tourData.tour_info.what_to_do,
-          good_choise_for: tourData.tour_info.good_choise_for,
-          cancellation_policy: tourData.tour_info.cancellation_policy,
-          price_per_person: tourData.tour_info.price_per_person,
-          available_dates: tourData.tour_info.available_dates,
-          schedule: tourData.tour_info.schedule,
+          tourId: tour.dataValues.id,
+          whatToDo: tourData.tourInfo.whatToDo,
+          goodChoiseFor: tourData.tourInfo.goodChoiseFor,
+          cancellationPolicy: tourData.tourInfo.cancellationPolicy,
+          pricePerPerson: tourData.tourInfo.pricePerPerson,
+          availableDates: tourData.tourInfo.availableDates,
+          schedule: tourData.tourInfo.schedule,
         },
         { transaction }
       )
 
       const tourDetails = await models.Tours_Details.create(
         {
-          tour_id: tour.dataValues.id,
-          what_is_included: tourData.tour_details.what_is_included,
-          what_is_not_included: tourData.tour_details.what_is_not_included,
-          itinerary: tourData.tour_details.itinerary,
-          departure_details: tourData.tour_details.departure_details,
-          return_details: tourData.tour_details.return_details,
-          accessibility: tourData.tour_details.accessibility,
+          tourId: tour.dataValues.id,
+          whatIsIncluded: tourData.tourDetails.whatIsIncluded,
+          whatIsNotIncluded: tourData.tourDetails.whatIsNotIncluded,
+          itinerary: tourData.tourDetails.itinerary,
+          departureDetails: tourData.tourDetails.departureDetails,
+          returnDetails: tourData.tourDetails.returnDetails,
+          accessibility: tourData.tourDetails.accessibility,
         },
         { transaction }
       )
@@ -157,7 +157,7 @@ class TourService {
       const rating = await models.Ratings.create(
         {
           id: uuid4(),
-          tour_id: tour.id, // Opcional si estás valorando un Tour
+          tourId: tour.id, // Opcional si estás valorando un Tour
           rate: ratingData.rate,
           comment: ratingData.comment,
         },
@@ -175,7 +175,7 @@ class TourService {
   async findRatingsByTour(tourId) {
     const ratingsTour = await models.Ratings.findAll({
       where: {
-        tour_id: tourId,
+        tourId: tourId,
       },
     })
     return ratingsTour

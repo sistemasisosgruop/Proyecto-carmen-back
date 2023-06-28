@@ -13,7 +13,7 @@ class RoleAuthorization {
       const user = await userService.getUserOr404(userId)
       const role = await models.Roles.findOne({
         where: {
-          id: user.dataValues.role_id,
+          id: user.dataValues.roleId,
         },
       })
       if (role.name !== 'admin') {

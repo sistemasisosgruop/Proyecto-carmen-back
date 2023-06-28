@@ -13,7 +13,7 @@ module.exports = {
             primaryKey: true,
             type: Sequelize.UUID,
           },
-          tour_id: {
+          tourId: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
@@ -23,7 +23,7 @@ module.exports = {
             onUpdate: 'CASCADE',
             onDelete: 'RESTRICT',
           },
-          image_url: {
+          imageUrl: {
             allowNull: false,
             type: Sequelize.TEXT,
             primaryKey: true,

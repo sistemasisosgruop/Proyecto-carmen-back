@@ -3,7 +3,7 @@ const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Tour_Images extends Model {
     static associate(models) {
-      Tour_Images.belongsTo(models.Tours, { as: 'Tour', foreignKey: 'tour_id' })
+      Tour_Images.belongsTo(models.Tours, { as: 'Tour', foreignKey: 'tourId' })
     }
   }
   Tour_Images.init(
@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         primaryKey: true,
       },
-      tour_id: {
+      tourId: {
         type: DataTypes.UUID,
         foreignKey: true,
       },
@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       scopes: {
         public_view: {
-          attributes: ['id', 'image_url', 'tour_id'],
+          attributes: ['id', 'imageUrl', 'tourId'],
         },
       },
     }

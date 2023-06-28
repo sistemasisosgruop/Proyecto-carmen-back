@@ -9,7 +9,7 @@ class TourImagesService {
     let availableValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     let images = await models.Tour_Images.findAll({
-      where: { tour_id: tourId },
+      where: { tourId: tourId },
       attributes: { exclude: ['created_at', 'updated_at'] },
       raw: true,
     })
@@ -31,12 +31,12 @@ class TourImagesService {
     return availableSpots
   }
 
-  async createImage(tour_id, image_url, order) {
+  async createImage(tourId, imageUrl, order) {
     const transaction = await models.sequelize.transaction()
 
     try {
       let newImage = await models.Tour_Images.create(
-        { id: uuid4(), tour_id, image_url, order },
+        { id: uuid4(), tourId, imageUrl, order },
         { transaction }
       )
 
@@ -48,9 +48,9 @@ class TourImagesService {
     }
   }
 
-  async getImageOr404(tour_id, order) {
+  async getImageOr404(tourId, order) {
     const tourImage = await models.Tour_Images.findOne({
-      where: { tour_id, order: parseInt(order) },
+      where: { tourId, order: parseInt(order) },
     })
     if (!tourImage)
       throw new CustomError(
@@ -61,12 +61,12 @@ class TourImagesService {
     return tourImage
   }
 
-  async removeImage(tour_id, order) {
+  async removeImage(tourId, order) {
     const transaction = await models.sequelize.transaction()
     try {
       let tour = await models.Tour_Images.findOne(
         {
-          where: { tour_id, order: parseInt(order) },
+          where: { tourId, order: parseInt(order) },
         },
         { transaction }
       )

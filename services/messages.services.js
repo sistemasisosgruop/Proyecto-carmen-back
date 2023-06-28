@@ -11,8 +11,8 @@ class MessagesService {
       const sender = await models.Users.findByPk(senderId)
       const recipient = await models.Users.findByPk(recipientId.id)
       if (
-        (!sender || sender.role_id !== 1) &&
-        (!recipient || recipient.role_id !== 1)
+        (!sender || sender.roleId !== 1) &&
+        (!recipient || recipient.roleId !== 1)
       ) {
         throw new Error(
           'Unauthorized: Messages can only be sent to administrators.'
@@ -22,15 +22,15 @@ class MessagesService {
       const message = await models.Messages.create(
         {
           id: uuid4(),
-          sender_id: senderId,
-          recipient_id: recipientId.id,
-          sender_first_name: sender.first_name,
-          sender_last_name: sender.last_name,
-          sender_email: sender.email,
-          sender_phone_number: sender.phone_number,
-          sender_country_code: sender.country_code,
-          sender_document_type: sender.document_type,
-          sender_document_number: sender.document_number,
+          senderId: senderId,
+          recipientId: recipientId.id,
+          senderFirstName: sender.firstName,
+          senderLastName: sender.lastName,
+          senderEmail: sender.email,
+          senderPhoneNumber: sender.phoneNumber,
+          senderCountryCode: sender.countryCode,
+          senderDocumentType: sender.documentType,
+          senderDocumentNumber: sender.documentNumber,
           subject: subject,
           content: content,
         },

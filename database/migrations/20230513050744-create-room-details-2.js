@@ -13,7 +13,7 @@ module.exports = {
             defaultValues: Sequelize.BIGINT,
             type: Sequelize.BIGINT,
           },
-          room_id: {
+          roomId: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
@@ -25,7 +25,7 @@ module.exports = {
             allowNull: false,
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
-          not_included: {
+          notIncluded: {
             allowNull: false,
             type: Sequelize.ARRAY(Sequelize.STRING),
           },

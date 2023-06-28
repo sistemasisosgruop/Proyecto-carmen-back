@@ -9,12 +9,12 @@ class ReservationsService {
     const user = await models.Users.findByPk(userId)
     const roomReservations = await models.Reservation_Rooms.findAll({
       where: {
-        user_id: user.id,
+        userId: user.id,
       },
     })
     const tourReservations = await models.Reservation_Tours.findAll({
       where: {
-        user_id: user.id,
+        userId: user.id,
       },
     })
     return { roomReservations, tourReservations }
@@ -41,16 +41,16 @@ class ReservationsService {
       const reservation = await models.Reservation_Rooms.create(
         {
           id: uuid4(),
-          user_id: user.dataValues.id,
-          room_id: room.dataValues.id,
-          type_room: room.dataValues.room_type,
-          check_in: room.dataValues.check_in,
-          check_out: room.dataValues.check_out,
+          userId: user.dataValues.id,
+          roomId: room.dataValues.id,
+          typeRoom: room.dataValues.roomType,
+          checkIn: room.dataValues.checkIn,
+          checkOut: room.dataValues.checkOut,
           address: room.dataValues.address,
-          purchase_date: reservationRoomData.purchase_date,
-          purchase_time: reservationRoomData.purchase_time,
-          number_of_people: reservationRoomData.number_of_people,
-          total_price: reservationRoomData.total_price,
+          purchaseDate: reservationRoomData.purchaseDate,
+          purchaseTime: reservationRoomData.purchaseTime,
+          numberOfPeople: reservationRoomData.numberOfPeople,
+          totalPrice: reservationRoomData.totalPrice,
         },
         { transaction }
       )
@@ -75,9 +75,9 @@ class ReservationsService {
 
       const editedRoom = await reservation.update(
         {
-          purchase_date: reservationRoomData.purchase_date,
-          purchase_time: reservationRoomData.purchase_time,
-          number_of_people: reservationRoomData.number_of_people,
+          purchaseDate: reservationRoomData.purchaseDate,
+          purchaseTime: reservationRoomData.purchaseTime,
+          numberOfPeople: reservationRoomData.numberOfPeople,
         },
         { transaction }
       )
@@ -124,30 +124,30 @@ class ReservationsService {
     const tour = await models.Tours.findByPk(tourId)
     const infoTour = await models.Tours_Info.findOne({
       where: {
-        tour_id: tourId,
+        tourId: tourId,
       },
     })
 
     if (!user || !tour) {
       throw new Error('Error creating the reservation')
     }
-    const tourCheckIn = tour.dataValues.tour_check_in
-    const tourCheckout = tour.dataValues.tour_check_out
+    const tourCheckIn = tour.dataValues.tourCheckIn
+    const tourCheckout = tour.dataValues.tourCheckOut
     const dateSelected = [tourCheckIn, tourCheckout]
     try {
       const reservation = await models.Reservation_Tours.create(
         {
           id: uuid4(),
-          user_id: user.dataValues.id,
-          tour_id: tour.dataValues.id,
-          type_tour: tour.dataValues.tour_name,
-          date_selected: dateSelected,
-          schedule_selected: infoTour.dataValues.schedule,
+          userId: user.dataValues.id,
+          tourId: tour.dataValues.id,
+          typeTour: tour.dataValues.tourName,
+          dateSelected: dateSelected,
+          scheduleSelected: infoTour.dataValues.schedule,
           location: tour.dataValues.location,
-          purchase_date: reservationTourData.purchase_date,
-          purchase_time: reservationTourData.purchase_time,
-          number_of_people: reservationTourData.number_of_people,
-          total_purchase: reservationTourData.total_purchase,
+          purchaseDate: reservationTourData.purchaseDate,
+          purchaseTime: reservationTourData.purchaseTime,
+          numberOfPeople: reservationTourData.numberOfPeople,
+          totalPurchase: reservationTourData.totalPurchase,
         },
         { transaction }
       )
@@ -172,9 +172,9 @@ class ReservationsService {
 
       const editedTourReservation = await reservation.update(
         {
-          purchase_date: reservationTourData.purchase_date,
-          purchase_time: reservationTourData.purchase_time,
-          number_of_people: reservationTourData.number_of_people,
+          purchaseDate: reservationTourData.purchaseDate,
+          purchaseTime: reservationTourData.purchaseTime,
+          numberOfPeople: reservationTourData.numberOfPeople,
         },
         { transaction }
       )

@@ -12,7 +12,7 @@ module.exports = {
             defaultValue: Sequelize.UUIDV4,
             type: Sequelize.UUID,
           },
-          room_type: {
+          roomType: {
             allowNull: false,
             type: Sequelize.STRING,
           },
@@ -28,19 +28,19 @@ module.exports = {
             allowNull: false,
             type: Sequelize.FLOAT,
           },
-          check_in: {
+          checkIn: {
             allowNull: false,
             type: Sequelize.DATE,
           },
-          check_out: {
+          checkOut: {
             allowNull: false,
             type: Sequelize.DATE,
           },
-          num_bathrooms: {
+          numBathrooms: {
             allowNull: false,
             type: Sequelize.INTEGER,
           },
-          num_beds: {
+          numBeds: {
             allowNull: false,
             type: Sequelize.INTEGER,
           },

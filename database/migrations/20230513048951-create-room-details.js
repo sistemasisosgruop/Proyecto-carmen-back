@@ -14,7 +14,7 @@ module.exports = {
             defaultValues: Sequelize.BIGINT,
             type: Sequelize.BIGINT,
           },
-          room_id: {
+          roomId: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
@@ -22,19 +22,19 @@ module.exports = {
               key: 'id',
             },
           },
-          type_room: {
+          typeRoom: {
             allowNull: false,
             type: Sequelize.STRING,
           },
-          num_bed: {
+          numBed: {
             allowNull: false,
             type: Sequelize.INTEGER,
           },
-          type_bed: {
+          typeBed: {
             allowNull: false,
             type: Sequelize.STRING,
           },
-          type_bed_2: {
+          typeBed2: {
             type: Sequelize.STRING,
           },
           createdAt: {

@@ -12,11 +12,11 @@ module.exports = {
             primaryKey: true,
             type: Sequelize.UUID,
           },
-          first_name: {
+          firstName: {
             allowNull: false,
             type: Sequelize.STRING,
           },
-          last_name: {
+          lastName: {
             allowNull: false,
             type: Sequelize.STRING,
           },
@@ -35,11 +35,11 @@ module.exports = {
           genre: {
             type: Sequelize.STRING,
           },
-          phone_number: {
+          phoneNumber: {
             allowNull: false,
             type: Sequelize.BIGINT,
           },
-          country_code: {
+          countryCode: {
             type: Sequelize.INTEGER,
             references: {
               model: 'Countries',
@@ -48,10 +48,10 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          document_type: {
+          documentType: {
             type: Sequelize.STRING,
           },
-          document_number: {
+          documentNumber: {
             type: Sequelize.INTEGER,
             unique: true,
           },
@@ -66,7 +66,7 @@ module.exports = {
             type: Sequelize.BOOLEAN,
             defaultValue: false,
           },
-          role_id: {
+          roleId: {
             type: Sequelize.INTEGER,
             references: {
               model: 'Roles',

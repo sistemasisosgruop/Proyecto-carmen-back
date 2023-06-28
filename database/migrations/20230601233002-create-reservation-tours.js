@@ -11,7 +11,7 @@ module.exports = {
             primaryKey: true,
             type: Sequelize.UUID,
           },
-          user_id: {
+          userId: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
@@ -21,7 +21,7 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          tour_id: {
+          tourId: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
@@ -31,34 +31,34 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          type_tour: {
+          typeTour: {
             allowNull: false,
             type: Sequelize.STRING,
           },
-          date_selected: {
+          dateSelected: {
             allowNull: false,
             type: Sequelize.ARRAY(Sequelize.DATE),
           },
-          schedule_selected: {
+          scheduleSelected: {
             allowNull: false,
             type: Sequelize.STRING,
           },
           location: {
             type: Sequelize.STRING,
           },
-          purchase_date: {
+          purchaseDate: {
             allowNull: false,
             type: Sequelize.DATE,
           },
-          purchase_time: {
+          purchaseTime: {
             allowNull: false,
             type: Sequelize.DATE,
           },
-          number_of_people: {
+          numberOfPeople: {
             allowNull: false,
             type: Sequelize.INTEGER,
           },
-          total_purchase: {
+          totalPurchase: {
             allowNull: false,
             type: Sequelize.FLOAT,
           },

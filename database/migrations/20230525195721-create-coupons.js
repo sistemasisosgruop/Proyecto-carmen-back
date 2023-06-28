@@ -11,7 +11,7 @@ module.exports = {
             primaryKey: true,
             type: Sequelize.UUID,
           },
-          coupon_code: {
+          couponCode: {
             allowNull: false,
             type: Sequelize.STRING,
           },
@@ -19,7 +19,7 @@ module.exports = {
             allowNull: false,
             type: Sequelize.FLOAT,
           },
-          room_id: {
+          roomId: {
             type: Sequelize.UUID,
             references: {
               model: 'Rooms',
@@ -28,7 +28,7 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          tour_id: {
+          tourId: {
             type: Sequelize.UUID,
             references: {
               model: 'Tours',
@@ -37,12 +37,12 @@ module.exports = {
             onUpdate: 'CASCADE',
             onDelete: 'CASCADE',
           },
-          created_at: {
+          createdAt: {
             allowNull: false,
             type: Sequelize.DATE,
             field: 'created_at',
           },
-          updated_at: {
+          updatedAt: {
             allowNull: false,
             type: Sequelize.DATE,
             field: 'updated_at',

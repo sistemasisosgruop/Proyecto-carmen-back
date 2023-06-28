@@ -6,13 +6,13 @@ module.exports = (sequelize, DataTypes) => {
   class Ratings extends Model {
     
     static associate(models) {
-      Ratings.belongsTo(models.Rooms, { foreignKey: 'room_id', as: 'Rooms' });
-      Ratings.belongsTo(models.Tours, { foreignKey: 'tour_id', as: 'Tours' });
+      Ratings.belongsTo(models.Rooms, { foreignKey: 'roomId', as: 'Rooms' });
+      Ratings.belongsTo(models.Tours, { foreignKey: 'tourId', as: 'Tours' });
     }
   }
   Ratings.init({
-    room_id: DataTypes.UUID,
-    tour_id: DataTypes.UUID,
+    roomId: DataTypes.UUID,
+    tourId: DataTypes.UUID,
     rate: DataTypes.FLOAT,
     comment: DataTypes.TEXT
   }, {

@@ -5,8 +5,8 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Messages extends Model {
     static associate(models) {
-      Messages.belongsTo(models.Users, { foreignKey: 'sender_id', as: 'sender' })
-      Messages.belongsTo(models.Users, { foreignKey: 'recipient_id', as: 'recipient' })
+      Messages.belongsTo(models.Users, { foreignKey: 'senderId', as: 'sender' })
+      Messages.belongsTo(models.Users, { foreignKey: 'recipientId', as: 'recipient' })
     }
   }
   Messages.init({
@@ -14,15 +14,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID, 
       primaryKey: true
     },
-    sender_id: DataTypes.UUID,
-    recipient_id: DataTypes.UUID,
-    sender_first_name: DataTypes.STRING,
-    sender_last_name: DataTypes.STRING,
-    sender_email: DataTypes.STRING,
-    sender_phone_number: DataTypes.BIGINT,
-    sender_country_code: DataTypes.STRING,
-    sender_document_type: DataTypes.STRING,
-    sender_document_number: DataTypes.INTEGER,
+    senderId: DataTypes.UUID,
+    recipientId: DataTypes.UUID,
+    senderFirstName: DataTypes.STRING,
+    senderLastName: DataTypes.STRING,
+    senderEmail: DataTypes.STRING,
+    senderPhoneNumber: DataTypes.BIGINT,
+    senderCountryCode: DataTypes.STRING,
+    senderDocumentType: DataTypes.STRING,
+    senderDocumentNumber: DataTypes.INTEGER,
     subject: DataTypes.STRING,
     content: DataTypes.TEXT,
     attachment: DataTypes.STRING
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     scopes: {
       public_view: {
-        attributes: ['sender_id', 'sender_first_name', 'sender_last_name', 'sender_email', 'sender_phone_number', 'sender_country_code', 'sender_document_type', 'sender_document_number', 'subject', 'content' ]
+        attributes: ['senderId', 'senderFirstName', 'senderLastName', 'senderEmail', 'senderPhoneNumber', 'senderCountryCode', 'senderDocumentType', 'senderDocumentNumber', 'subject', 'content' ]
       }
     },
   });

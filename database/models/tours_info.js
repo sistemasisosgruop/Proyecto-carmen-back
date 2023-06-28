@@ -5,19 +5,19 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Tours_Info extends Model {
     static associate(models) {
-      Tours_Info.belongsTo(models.Tours, { foreignKey: 'tour_id', as: 'Tours' })
+      Tours_Info.belongsTo(models.Tours, { foreignKey: 'tourId', as: 'Tours' })
     }
   }
   Tours_Info.init({
-    tour_id: {
+    tourId: {
       type: DataTypes.UUID,
       foreignKey: true
     },
-    what_to_do: DataTypes.TEXT,
-    good_choise_for: DataTypes.TEXT,
-    cancellation_policy: DataTypes.TEXT,
-    price_per_person: DataTypes.FLOAT,
-    available_dates: DataTypes.ARRAY(DataTypes.STRING),
+    whatToDo: DataTypes.TEXT,
+    goodChoiseFor: DataTypes.TEXT,
+    cancellationPolicy: DataTypes.TEXT,
+    pricePerPerson: DataTypes.FLOAT,
+    availableDates: DataTypes.ARRAY(DataTypes.STRING),
     schedule: DataTypes.STRING
   }, {
     sequelize,
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     scopes: {
       public_view: {
-        attributes: ['what_to_do', 'good_choise_for', 'cancellation_policy', 'price_per_person', 'available_dates', 'schedule']
+        attributes: ['whatToDo', 'goodChoiseFor', 'cancellationPolicy', 'pricePerPerson', 'availableDates', 'schedule']
       }
     },
   });

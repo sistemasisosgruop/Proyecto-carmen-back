@@ -12,7 +12,7 @@ module.exports = {
             type: Sequelize.UUID,
             primaryKey: true,
           },
-          room_id: {
+          roomId: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
@@ -22,7 +22,7 @@ module.exports = {
             onUpdate: 'CASCADE',
             onDelete: 'RESTRICT',
           },
-          image_url: {
+          imageUrl: {
             allowNull: false,
             type: Sequelize.TEXT,
             primaryKey: true,

@@ -6,18 +6,18 @@ module.exports = (sequelize, DataTypes) => {
   class Room_Details extends Model {
     
     static associate(models) {
-      Room_Details.belongsTo(models.Rooms, { foreignKey: 'room_id', as: 'Rooms' })
+      Room_Details.belongsTo(models.Rooms, { foreignKey: 'roomId', as: 'Rooms' })
     }
   }
   Room_Details.init({
-    room_id: {
+    roomId: {
       type: DataTypes.UUID, 
       foreignKey: true
     },
-    type_room: DataTypes.STRING,
-    num_bed: DataTypes.INTEGER,
-    type_bed: DataTypes.STRING,
-    type_bed_2: DataTypes.STRING,
+    typeRoom: DataTypes.STRING,
+    numBed: DataTypes.INTEGER,
+    typeBed: DataTypes.STRING,
+    typeBed_2: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Room_Details',

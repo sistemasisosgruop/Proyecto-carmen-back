@@ -6,19 +6,19 @@ module.exports = (sequelize, DataTypes) => {
   class Tours_Details extends Model {
   
     static associate(models) {
-      Tours_Details.belongsTo(models.Tours, { foreignKey: 'tour_id', as: 'Tours' })
+      Tours_Details.belongsTo(models.Tours, { foreignKey: 'tourId', as: 'Tours' })
     }
   }
   Tours_Details.init({
-    tour_id: {
+    tourId: {
       type: DataTypes.UUID,
       foreignKey: true,
     },
-    what_is_included: DataTypes.TEXT,
-    what_is_not_included: DataTypes.TEXT,
+    whatIsIncluded: DataTypes.TEXT,
+    whatIsNotIncluded: DataTypes.TEXT,
     itinerary: DataTypes.ARRAY(DataTypes.STRING),
-    departure_details: DataTypes.STRING,
-    return_details: DataTypes.STRING,
+    departureDetails: DataTypes.STRING,
+    returnDetails: DataTypes.STRING,
     accessibility: DataTypes.STRING,
 }, {
     sequelize,
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     scopes: {
       public_view: {
-        attributes: ['what_is_included', 'what_is_not_included', 'itinerary', 'departure_details', 'return_details', 'accessibility']
+        attributes: ['whatIsIncluded', 'whatIsNotIncluded', 'itinerary', 'departureDetails', 'returnDetails', 'accessibility']
       }
     },
   });

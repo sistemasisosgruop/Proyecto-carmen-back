@@ -12,11 +12,11 @@ module.exports = {
             defaultValue: Sequelize.UUIDV4,
             type: Sequelize.UUID,
           },
-          tour_name: {
+          tourName: {
             allowNull: false,
             type: Sequelize.STRING,
           },
-          tour_description: {
+          tourDescription: {
             allowNull: false,
             type: Sequelize.TEXT,
           },
@@ -39,7 +39,7 @@ module.exports = {
             allowNull: false,
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
-          number_of_people: {
+          numberOfPeople: {
             allowNull: false,
             type: Sequelize.STRING,
           },

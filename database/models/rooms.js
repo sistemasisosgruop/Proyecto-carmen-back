@@ -6,13 +6,13 @@ module.exports = (sequelize, DataTypes) => {
   class Rooms extends Model {
     static associate(models) {
 
-      Rooms.hasMany(models.Room_Details, { foreignKey: 'room_id', as: 'Room_Details' });
-      Rooms.hasMany(models.Room_Details_2, { foreignKey: 'room_id', as: 'Room_Details_2' });
-      Rooms.hasMany(models.Coupons, { foreignKey: 'room_id', as: 'Coupons' });
-      Rooms.hasMany(models.Reservation_Rooms, { foreignKey: 'room_id', as: 'Reservation_Rooms' });
-      Rooms.hasMany(models.Ratings, { foreignKey: 'room_id', as: 'Ratings' });
-      Rooms.hasMany(models.User_Products, { as: 'User_Products', foreignKey: 'room_id' })
-      Rooms.hasMany(models.Room_Images, { as: 'Room_Images', foreignKey: 'room_id' })
+      Rooms.hasMany(models.Room_Details, { foreignKey: 'roomId', as: 'Room_Details' });
+      Rooms.hasMany(models.Room_Details_2, { foreignKey: 'roomId', as: 'Room_Details_2' });
+      Rooms.hasMany(models.Coupons, { foreignKey: 'roomId', as: 'Coupons' });
+      Rooms.hasMany(models.Reservation_Rooms, { foreignKey: 'roomId', as: 'Reservation_Rooms' });
+      Rooms.hasMany(models.Ratings, { foreignKey: 'roomId', as: 'Ratings' });
+      Rooms.hasMany(models.User_Products, { as: 'User_Products', foreignKey: 'roomId' })
+      Rooms.hasMany(models.Room_Images, { as: 'Room_Images', foreignKey: 'roomId' })
     }
   }
   Rooms.init({
@@ -20,14 +20,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       primaryKey: true
     },
-    room_type: DataTypes.STRING,
+    roomType: DataTypes.STRING,
     description: DataTypes.TEXT,
     address: DataTypes.STRING,
     price: DataTypes.FLOAT,
-    check_in: DataTypes.STRING,
-    check_out: DataTypes.STRING,
-    num_bathrooms: DataTypes.INTEGER,
-    num_beds: DataTypes.INTEGER,
+    checkIn: DataTypes.STRING,
+    checkOut: DataTypes.STRING,
+    numBathrooms: DataTypes.INTEGER,
+    numBeds: DataTypes.INTEGER,
     extras: DataTypes.ARRAY(DataTypes.STRING)
   }, {
     sequelize,
@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     scopes: {
       public_view: {
-        attributes: ['room_type', 'description', 'address', 'price', 'check_id', 'check_out', 'num_bathrooms', 'num_beds', 'extras']
+        attributes: ['room_type', 'description', 'address', 'price', 'checkId', 'checkOut', 'numBathrooms', 'numBeds', 'extras']
       }
     },
   });

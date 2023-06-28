@@ -11,7 +11,7 @@ module.exports = {
             primaryKey: true,
             type: Sequelize.UUID,
           },
-          user_id: {
+          userId: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
@@ -21,7 +21,7 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          room_id: {
+          roomId: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
@@ -31,15 +31,15 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          type_room: {
+          typeRoom: {
             allowNull: false,
             type: Sequelize.STRING,
           },
-          check_in: {
+          checkIn: {
             allowNull: false,
             type: Sequelize.DATE,
           },
-          check_out: {
+          checkOut: {
             allowNull: false,
             type: Sequelize.DATE,
           },
@@ -47,19 +47,19 @@ module.exports = {
             allowNull: false,
             type: Sequelize.STRING,
           },
-          purchase_date: {
+          purchaseDate: {
             allowNull: false,
             type: Sequelize.DATE,
           },
-          purchase_time: {
+          purchaseTime: {
             allowNull: false,
             type: Sequelize.DATE,
           },
-          number_of_people: {
+          numberOfPeople: {
             allowNull: false,
             type: Sequelize.INTEGER,
           },
-          total_price: {
+          totalPrice: {
             allowNull: false,
             type: Sequelize.FLOAT,
           },

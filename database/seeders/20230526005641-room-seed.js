@@ -13,14 +13,14 @@ module.exports = {
         [
           {
             id: roomId,
-            room_type: 'Standard Room',
+            roomType: 'Standard Room',
             description: 'Cozy and affordable room for a comfortable stay.',
             address: '456 Elm Street, Townsville',
             price: 100,
-            check_in: new Date(),
-            check_out: new Date(),
-            num_bathrooms: 1,
-            num_beds: 1,
+            checkIn: new Date(),
+            checkOut: new Date(),
+            numBathrooms: 1,
+            numBeds: 1,
             extras: [
               'TV with cable channels',
               'Air conditioning',
@@ -37,11 +37,11 @@ module.exports = {
         'Room_Details',
         [
           {
-            room_id: roomId,
-            type_room: 'Deluxe Suite',
-            num_bed: 1,
-            type_bed: 'King Bed',
-            type_bed_2: 'Sofa Bed',
+            roomId: roomId,
+            typeRoom: 'Deluxe Suite',
+            numBed: 1,
+            typeBed: 'King Bed',
+            typeBed_2: 'Sofa Bed',
             created_at: new Date(),
             updated_at: new Date(),
           },
@@ -53,9 +53,9 @@ module.exports = {
         'Room_Details_2',
         [
           {
-            room_id: roomId,
+            roomId: roomId,
             amenities: ['Swimming pool', 'Restaurant', 'Room service'],
-            not_included: ['Pets not allowed', 'Smoking not allowed'],
+            notIncluded: ['Pets not allowed', 'Smoking not allowed'],
             services: ['24/7 concierge', 'Laundry service'],
             created_at: new Date(),
             updated_at: new Date(),

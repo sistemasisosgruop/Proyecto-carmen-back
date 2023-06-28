@@ -5,8 +5,8 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Shoping_Cart extends Model {
     static associate(models) {
-      Shoping_Cart.belongsTo(models.Users, { foreignKey: 'user_id', as: 'Users' });
-      Shoping_Cart.hasMany(models.User_Products, { foreignKey: 'cart_id', as: 'User_Products' });
+      Shoping_Cart.belongsTo(models.Users, { foreignKey: 'userId', as: 'Users' });
+      Shoping_Cart.hasMany(models.User_Products, { foreignKey: 'cartId', as: 'User_Products' });
     }
   }
   Shoping_Cart.init({
@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       primaryKey: true
     },
-    user_id: DataTypes.UUID,
-    total_price: DataTypes.FLOAT,
+    userId: DataTypes.UUID,
+    totalPrice: DataTypes.FLOAT,
   }, {
     sequelize,
     modelName: 'Shoping_Cart',
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     scopes: {
       public_view: {
-        attributes: ['user_id', 'total_price']
+        attributes: ['userId', 'totalPrice']
       }
     },
   });

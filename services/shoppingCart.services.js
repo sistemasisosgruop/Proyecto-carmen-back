@@ -10,8 +10,8 @@ class ShopingCartsService {
     try {
       // Buscar o crear el carrito del usuario
       let [cart, created] = await models.Shoping_Cart.findOrCreate({
-        where: { id: uuid4(), user_id: userId },
-        defaults: { user_id: userId },
+        where: { id: uuid4(), userId: userId },
+        defaults: { userId: userId },
       })
       // Agregar la habitación al carrito si se proporciona un ID de habitación
       if (cartData.reservationRoomId) {
@@ -31,12 +31,12 @@ class ShopingCartsService {
         await models.User_Products.findOrCreate({
           where: {
             id: uuid4(),
-            cart_id: cart.dataValues.id,
-            room_id: reservationRoom.dataValues.room_id,
+            cartId: cart.dataValues.id,
+            roomId: reservationRoom.dataValues.roomId,
           },
           defaults: {
-            cart_id: cart.dataValues.id,
-            room_id: reservationRoom.dataValues.room_id,
+            cartId: cart.dataValues.id,
+            roomId: reservationRoom.dataValues.roomId,
             quantity: cartData.quantity || 1,
           },
         })
@@ -58,12 +58,12 @@ class ShopingCartsService {
         await models.User_Products.findOrCreate({
           where: {
             id: uuid4(),
-            cart_id: cart.id,
-            tour_id: reservationTour.dataValues.tour_id,
+            cartId: cart.id,
+            tourId: reservationTour.dataValues.tourId,
           },
           defaults: {
-            cart_id: cart.id,
-            tour_id: reservationTour.dataValues.tour_id,
+            cartId: cart.id,
+            tourId: reservationTour.dataValues.tourId,
             quantity: cartData.quantity || 1,
           },
         })
@@ -122,7 +122,7 @@ class ShopingCartsService {
   async findUserProductsByUser(userId) {
     const product = await models.User_Products.findOne({
       where: {
-        user_id: userId,
+        userId: userId,
       },
     })
     return product

@@ -6,13 +6,13 @@ module.exports = (sequelize, DataTypes) => {
   class Tours extends Model {
     
     static associate(models) {
-      Tours.hasMany(models.Tours_Info, { foreignKey: 'tour_id', as: 'Tours_Info' });
-      Tours.hasMany(models.Tours_Details, { foreignKey: 'tour_id', as: 'Tours_Details' });
-      Tours.hasMany(models.Coupons, { foreignKey: 'tour_id', as: 'Coupons' });
-      Tours.hasMany(models.Reservation_Tours, { foreignKey: 'tour_id', as: 'Reservation_Tours' });
-      Tours.hasMany(models.Ratings, { foreignKey: 'tour_id', as: 'Ratings' });
-      Tours.hasMany(models.User_Products, { as: 'User_Products', foreignKey: 'tour_id' })
-      Tours.hasMany(models.Tour_Images, { as: 'Tour_Images', foreignKey: 'tour_id' })
+      Tours.hasMany(models.Tours_Info, { foreignKey: 'tourId', as: 'Tours_Info' });
+      Tours.hasMany(models.Tours_Details, { foreignKey: 'tourId', as: 'Tours_Details' });
+      Tours.hasMany(models.Coupons, { foreignKey: 'tourId', as: 'Coupons' });
+      Tours.hasMany(models.Reservation_Tours, { foreignKey: 'tourId', as: 'Reservation_Tours' });
+      Tours.hasMany(models.Ratings, { foreignKey: 'tourId', as: 'Ratings' });
+      Tours.hasMany(models.User_Products, { as: 'User_Products', foreignKey: 'tourId' })
+      Tours.hasMany(models.Tour_Images, { as: 'Tour_Images', foreignKey: 'tourId' })
     }
   }
   Tours.init({
@@ -20,14 +20,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID, 
       primaryKey: true
     },
-    tour_name: DataTypes.STRING, 
-    tour_description: DataTypes.TEXT,
+    tourName: DataTypes.STRING, 
+    tourDescription: DataTypes.TEXT,
     extras: DataTypes.STRING,
     location: DataTypes.STRING,
     duration: DataTypes.STRING,
     difficulty: DataTypes.STRING,
     languages: DataTypes.ARRAY(DataTypes.STRING),
-    number_of_people: DataTypes.STRING,
+    numberOfPeople: DataTypes.STRING,
     ages: DataTypes.STRING
   }, {
     sequelize,
@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     scopes: {
       public_view: {
-        attributes: ['tour_name', 'tour_description', 'extras', 'location', 'duration', 'difficulty', 'languages', 'number_of_people', 'ages']
+        attributes: ['tourName', 'tourDescription', 'extras', 'location', 'duration', 'difficulty', 'languages', 'numberOfPeople', 'ages']
       }
     },
   });

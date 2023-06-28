@@ -11,7 +11,7 @@ module.exports = {
             primaryKey: true,
             type: Sequelize.UUID,
           },
-          sender_id: {
+          senderId: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
@@ -21,7 +21,7 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          recipient_id: {
+          recipientId: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
@@ -31,34 +31,34 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          sender_first_name: {
+          senderFirstName: {
             allowNull: false,
             type: Sequelize.STRING,
           },
-          sender_last_name: {
+          senderLastName: {
             allowNull: false,
             type: Sequelize.STRING,
           },
-          sender_email: {
+          senderEmail: {
             allowNull: false,
             type: Sequelize.STRING,
             validate: {
               isEmail: true,
             },
           },
-          sender_phone_number: {
+          senderPhoneNumber: {
             allowNull: false,
             type: Sequelize.BIGINT,
           },
-          sender_country_code: {
+          senderCountryCode: {
             allowNull: false,
             type: Sequelize.STRING,
           },
-          sender_document_type: {
+          senderDocumentType: {
             allowNull: false,
             type: Sequelize.STRING,
           },
-          sender_document_number: {
+          senderDocumentNumber: {
             allowNull: false,
             type: Sequelize.INTEGER,
           },

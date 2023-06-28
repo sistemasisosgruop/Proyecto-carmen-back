@@ -9,7 +9,7 @@ class RoomImagesService {
     let availableValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     let images = await models.Room_Images.findAll({
-      where: { room_id: roomId },
+      where: { roomId: roomId },
       attributes: { exclude: ['created_at', 'updated_at'] },
       raw: true,
     })
@@ -31,12 +31,12 @@ class RoomImagesService {
     return availableSpots
   }
 
-  async createImage(room_id, image_url, order) {
+  async createImage(roomId, imageUrl, order) {
     const transaction = await models.sequelize.transaction()
 
     try {
       let newImage = await models.Room_Images.create(
-        { id: uuid4(), room_id, image_url, order },
+        { id: uuid4(), roomId, imageUrl, order },
         { transaction }
       )
       await transaction.commit()
@@ -47,9 +47,9 @@ class RoomImagesService {
     }
   }
 
-  async getImageOr404(room_id, order) {
+  async getImageOr404(roomId, order) {
     const roomImage = await models.Room_Images.findOne({
-      where: { room_id, order: parseInt(order) },
+      where: { roomId, order: parseInt(order) },
     })
     if (!roomImage)
       throw new CustomError(
@@ -60,12 +60,12 @@ class RoomImagesService {
     return roomImage
   }
 
-  async removeImage(room_id, order) {
+  async removeImage(roomId, order) {
     const transaction = await models.sequelize.transaction()
     try {
       let room = await models.Room_Images.findOne(
         {
-          where: { room_id, order: parseInt(order) },
+          where: { roomId, order: parseInt(order) },
         },
         { transaction }
       )

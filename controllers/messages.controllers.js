@@ -28,9 +28,7 @@ const postMessage = async (req, res) => {
       content
     )
 
-    return res
-      .status(201)
-      .json({ message: 'Message sent successfully', messageContent })
+    return res.status(201).json(messageContent)
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }

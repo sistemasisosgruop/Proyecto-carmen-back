@@ -11,7 +11,7 @@ module.exports = {
             primaryKey: true,
             type: Sequelize.UUID,
           },
-          cart_id: {
+          cartId: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
@@ -19,7 +19,7 @@ module.exports = {
               key: 'id',
             },
           },
-          room_id: {
+          roomId: {
             type: Sequelize.UUID,
             references: {
               model: 'Rooms',
@@ -28,7 +28,7 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          tour_id: {
+          tourId: {
             type: Sequelize.UUID,
             references: {
               model: 'Tours',

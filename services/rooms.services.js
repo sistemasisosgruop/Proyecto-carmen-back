@@ -1,7 +1,6 @@
 const { CustomError } = require('../utils/custom-error')
 const { v4: uuid4 } = require('uuid')
 const models = require('../database/models')
-const { Op } = require('sequelize')
 require('dotenv').config()
 class RoomService {
   constructor() {}
@@ -16,21 +15,21 @@ class RoomService {
         {
           model: models.Room_Details,
           as: 'Room_Details',
-          attributes: ['type_room', 'num_bed', 'type_bed', 'type_bed_2'],
+          attributes: ['typeRoom', 'numBed', 'typeBed', 'typeBed2'],
           required: true,
           duplicating: false,
         },
         {
           model: models.Room_Details_2,
           as: 'Room_Details_2',
-          attributes: ['amenities', 'not_included', 'services'],
+          attributes: ['amenities', 'notIncluded', 'services'],
           required: true,
           duplicating: false,
         },
         {
           model: models.Room_Images,
           as: 'Room_Images',
-          attributes: ['id', 'image_url', 'order'],
+          attributes: ['id', 'imageUrl', 'order'],
           required: false,
         },
       ],
@@ -72,28 +71,28 @@ class RoomService {
 
     let roomDetails = await models.Room_Details.findOne({
       where: {
-        room_id: roomId,
+        roomId: roomId,
       },
       attributes: {
-        exclude: ['id', 'room_id', 'created_at', 'updated_at'],
+        exclude: ['id', 'roomId', 'created_at', 'updated_at'],
       },
     })
 
     let roomDetails2 = await models.Room_Details_2.findOne({
       where: {
-        room_id: roomId,
+        roomId: roomId,
       },
       attributes: {
-        exclude: ['id', 'room_id', 'created_at', 'updated_at'],
+        exclude: ['id', 'roomId', 'created_at', 'updated_at'],
       },
     })
 
-    let roomImages = await models.Room_Images.findOne({
+    let roomImages = await models.Room_Images.findAll({
       where: {
-        room_id: roomId,
+        roomId: roomId,
       },
       attributes: {
-        exclude: ['id', 'room_id', 'created_at', 'updated_at'],
+        exclude: ['id', 'roomId', 'created_at', 'updated_at'],
       },
     })
 
@@ -112,14 +111,14 @@ class RoomService {
       const room = await models.Rooms.create(
         {
           id: uuid4(),
-          room_type: roomData.room_type,
+          roomType: roomData.roomType,
           description: roomData.description,
           address: roomData.address,
           price: roomData.price,
-          check_in: roomData.check_in,
-          check_out: roomData.check_out,
-          num_bathrooms: roomData.num_bathrooms,
-          num_beds: roomData.num_beds,
+          checkIn: roomData.checkIn,
+          checkOut: roomData.checkOut,
+          numBathrooms: roomData.numBathrooms,
+          numBeds: roomData.numBeds,
           extras: roomData.extras,
         },
         { transaction }
@@ -127,20 +126,20 @@ class RoomService {
 
       const roomDetails = await models.Room_Details.create(
         {
-          room_id: room.dataValues.id,
-          type_room: roomData.num_room.type_room,
-          num_bed: roomData.num_room.num_bed,
-          type_bed: roomData.num_room.type_bed,
-          type_bed_2: roomData.num_room.type_bed_2,
+          roomId: room.dataValues.id,
+          typeRoom: roomData.numRoom.typeRoom,
+          numBed: roomData.numRoom.numBed,
+          typeBed: roomData.numRoom.typeBed,
+          typeBed2: roomData.numRoom.typeBed2,
         },
         { transaction }
       )
 
       const roomDetails2 = await models.Room_Details_2.create(
         {
-          room_id: room.dataValues.id,
+          roomId: room.dataValues.id,
           amenities: roomData.details.amenities,
-          not_included: roomData.details.not_included,
+          notIncluded: roomData.details.notIncluded,
           services: roomData.details.services,
         },
         { transaction }
@@ -179,7 +178,7 @@ class RoomService {
       const rating = await models.Ratings.create(
         {
           id: uuid4(),
-          room_id: room.id, // Opcional si estás valorando una habitación
+          roomId: room.id, // Opcional si estás valorando una habitación
           rate: ratingData.rate,
           comment: ratingData.comment,
         },
@@ -197,7 +196,7 @@ class RoomService {
   async findRatingsByRoom(roomId) {
     const ratingsRoom = await models.Ratings.findAll({
       where: {
-        room_id: roomId,
+        roomId: roomId,
       },
     })
     return ratingsRoom

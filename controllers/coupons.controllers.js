@@ -35,14 +35,14 @@ class CouponController {
   }
 
   async postCoupon(req, res) {
-    const { coupon_code, discount, room_id, tour_id } = req.body
+    const { couponCode, discount, roomId, tourId } = req.body
 
     try {
       const couponData = {
-        coupon_code: coupon_code,
+        couponCode,
         discount,
-        room_id: room_id,
-        tour_id: tour_id,
+        roomId,
+        tourId,
       }
 
       const coupon = await couponService.createCoupon(couponData)
@@ -51,10 +51,10 @@ class CouponController {
       res.status(500).json({
         message: error.message,
         fields: {
-          coupon_code: 'String',
+          couponCode: 'String',
           discount: 'Float',
-          room_id: 'UUID',
-          tour_id: 'UUID',
+          roomId: 'UUID',
+          tourId: 'UUID',
         },
       })
     }

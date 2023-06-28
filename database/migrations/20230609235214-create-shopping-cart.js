@@ -11,7 +11,7 @@ module.exports = {
             primaryKey: true,
             type: Sequelize.UUID,
           },
-          user_id: {
+          userId: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
@@ -21,7 +21,7 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          total_price: {
+          totalPrice: {
             type: Sequelize.FLOAT,
           },
           createdAt: {

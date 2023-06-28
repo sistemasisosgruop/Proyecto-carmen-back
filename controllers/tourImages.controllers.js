@@ -91,9 +91,9 @@ class TourImagesController {
     const tourId = req.params.id
     const order = req.params.order
     try {
-      let { image_url } = await imageService.getImageOr404(tourId, order)
+      let { imageUrl } = await imageService.getImageOr404(tourId, order)
       let awsDomain = process.env.AWS_DOMAIN
-      const imageKey = image_url.replace(awsDomain, '')
+      const imageKey = imageUrl.replace(awsDomain, '')
       await deleteFile(imageKey)
       let tourImage = await imageService.removeImage(tourId, order)
 

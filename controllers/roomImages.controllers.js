@@ -91,9 +91,9 @@ class RoomImagesController {
     const roomId = req.params.id
     const order = req.params.order
     try {
-      let { image_url } = await imageService.getImageOr404(roomId, order)
+      let { imageUrl } = await imageService.getImageOr404(roomId, order)
       let awsDomain = process.env.AWS_DOMAIN
-      const imageKey = image_url.replace(awsDomain, '')
+      const imageKey = imageUrl.replace(awsDomain, '')
       await deleteFile(imageKey)
       let roomImage = await imageService.removeImage(roomId, order)
 

@@ -13,7 +13,7 @@ module.exports = {
             autoIncrement: true,
             type: Sequelize.BIGINT,
           },
-          tour_id: {
+          tourId: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
@@ -23,23 +23,23 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          what_to_do: {
+          whatToDo: {
             allowNull: false,
             type: Sequelize.TEXT,
           },
-          good_choise_for: {
+          goodChoiseFor: {
             allowNull: false,
             type: Sequelize.TEXT,
           },
-          cancellation_policy: {
+          cancellationPolicy: {
             allowNull: false,
             type: Sequelize.TEXT,
           },
-          price_per_person: {
+          pricePerPerson: {
             allowNull: false,
             type: Sequelize.FLOAT,
           },
-          available_dates: {
+          availableDates: {
             allowNull: false,
             type: Sequelize.ARRAY(Sequelize.STRING),
           },

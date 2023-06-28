@@ -6,8 +6,8 @@ module.exports = (sequelize, DataTypes) => {
   class Coupons extends Model {
     
     static associate(models) {
-      Coupons.belongsTo(models.Rooms, { foreignKey: 'room_id', as: 'Rooms' });
-      Coupons.belongsTo(models.Tours, { foreignKey: 'tour_id', as: 'Tours' });
+      Coupons.belongsTo(models.Rooms, { foreignKey: 'roomId', as: 'Rooms' });
+      Coupons.belongsTo(models.Tours, { foreignKey: 'tourId', as: 'Tours' });
     }
   }
   Coupons.init({
@@ -15,10 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey:true,
       type: DataTypes.UUID, 
     },
-    coupon_code: DataTypes.STRING,
+    couponCode: DataTypes.STRING,
     discount: DataTypes.FLOAT,
-    room_id: DataTypes.UUID, 
-    tour_id: DataTypes.UUID
+    roomId: DataTypes.UUID, 
+    tourId: DataTypes.UUID
   }, {
     sequelize,
     modelName: 'Coupons',
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true, 
     scopes:{
       public_view: {
-        attributes: ['coupon_code', 'discount', 'room_id', 'tour_id']
+        attributes: ['couponCode', 'discount', 'roomId', 'tourId']
       }
     }
   });

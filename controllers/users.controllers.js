@@ -23,51 +23,51 @@ const getUsers = async (req, res, next) => {
 const addUser = async (req, res) => {
   try {
     let {
-      first_name,
-      last_name,
+      firstName,
+      lastName,
       email,
       password,
       genre,
-      phone_number,
-      country_code,
-      document_type,
-      document_number,
+      phoneNumber,
+      countryCode,
+      documentType,
+      documentNumber,
       birthday,
       student,
-      role_id,
+      roleId,
     } = req.body
 
     let user = await usersService.createUser({
-      first_name,
-      last_name,
+      firstName,
+      lastName,
       email,
       password,
       genre,
-      phone_number,
-      country_code,
-      document_type,
-      document_number,
+      phoneNumber,
+      countryCode,
+      documentType,
+      documentNumber,
       birthday,
       student,
-      role_id,
+      roleId,
     })
     return res.status(201).json(user)
   } catch (error) {
     return res.status(401).json({
       message: error.message,
       fields: {
-        first_name: 'String',
-        last_name: 'String',
+        firstName: 'String',
+        lastName: 'String',
         email: 'example@example.com',
         password: 'String',
         genre: 'String',
-        phone_number: 'Integer',
-        country_code: 'String',
-        document_type: 'String',
-        document_number: 'Number',
+        phoneNumber: 'Integer',
+        countryCode: 'String',
+        documentType: 'String',
+        documentNumber: 'Number',
         birthday: 'Date',
         student: 'Boolean',
-        role_id: 'String',
+        roleId: 'String',
       },
     })
   }
@@ -87,24 +87,24 @@ const updateUser = async (req, res) => {
   try {
     let { id } = req.params
     let {
-      first_name,
-      last_name,
+      firstName,
+      lastName,
       genre,
-      phone_number,
-      document_type,
-      document_number,
+      phoneNumber,
+      documentType,
+      documentNumber,
       password,
       birthday,
       student,
     } = req.body
 
     let user = await usersService.updateUser(id, {
-      first_name,
-      last_name,
+      firstName,
+      lastName,
       genre,
-      phone_number,
-      document_type,
-      document_number,
+      phoneNumber,
+      documentType,
+      documentNumber,
       password,
       birthday,
       student,

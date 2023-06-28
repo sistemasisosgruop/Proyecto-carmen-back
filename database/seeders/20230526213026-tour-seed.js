@@ -13,14 +13,14 @@ module.exports = {
         [
           {
             id: tourId,
-            tour_name: 'Machu Picchu Adventure',
-            tour_description:
+            tourName: 'Machu Picchu Adventure',
+            tourDescription:
               'Join us on an exciting adventure to Machu Picchu!',
             location: 'Machu Picchu',
             duration: '3 days',
             difficulty: 'Moderate',
             languages: ['English', 'Spanish'],
-            number_of_people: '10',
+            numberOfPeople: '10',
             ages: '18+',
             created_at: new Date(),
             updated_at: new Date(),
@@ -33,14 +33,14 @@ module.exports = {
         'Tours_Info',
         [
           {
-            tour_id: tourId,
-            what_to_do:
+            tourId: tourId,
+            whatToDo:
               'Explore the ancient ruins, hike to the Sun Gate, and enjoy breathtaking views.',
-            good_choise_for: 'Adventure seekers and history enthusiasts.',
-            cancellation_policy:
+            goodChoise_for: 'Adventure seekers and history enthusiasts.',
+            cancellationPolicy:
               'Full refund if canceled at least 48 hours before the tour.',
-            price_per_person: 250.0,
-            available_dates: [new Date(), new Date()],
+            pricePerPerson: 250.0,
+            availableDates: [new Date(), new Date()],
             schedule:
               'Day 1: Arrival and orientation. Day 2: Machu Picchu guided tour. Day 3: Return journey.',
             created_at: new Date(),
@@ -54,17 +54,17 @@ module.exports = {
         'Tours_Details',
         [
           {
-            tour_id: tourId,
-            what_is_included:
+            tourId: tourId,
+            whatIsIncluded:
               'Transportation, accommodation, meals, guide, entrance fees.',
-            what_is_not_included: 'Airfare, personal expenses.',
+            whatIsNotIncluded: 'Airfare, personal expenses.',
             itinerary: [
               'Day 1: Arrival and orientation.',
               'Day 2: Machu Picchu guided tour.',
               'Day 3: Return journey.',
             ],
-            departure_details: 'Meet at Cusco Airport at 9:00 AM.',
-            return_details: 'Drop-off at Cusco Airport at 6:00 PM.',
+            departureDetails: 'Meet at Cusco Airport at 9:00 AM.',
+            returnDetails: 'Drop-off at Cusco Airport at 6:00 PM.',
             accessibility: 'This tour is not wheelchair accessible.',
             created_at: new Date(),
             updated_at: new Date(),

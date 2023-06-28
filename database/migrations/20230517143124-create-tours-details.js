@@ -13,7 +13,7 @@ module.exports = {
             primaryKey: true,
             type: Sequelize.BIGINT,
           },
-          tour_id: {
+          tourId: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
@@ -23,11 +23,11 @@ module.exports = {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          what_is_included: {
+          whatIsIncluded: {
             allowNull: false,
             type: Sequelize.TEXT,
           },
-          what_is_not_included: {
+          whatIsNotIncluded: {
             allowNull: false,
             type: Sequelize.TEXT,
           },
@@ -35,11 +35,11 @@ module.exports = {
             allowNull: false,
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
-          departure_details: {
+          departureDetails: {
             allowNull: false,
             type: Sequelize.STRING,
           },
-          return_details: {
+          returnDetails: {
             allowNull: false,
             type: Sequelize.STRING,
           },

@@ -30,31 +30,31 @@ class RoomsControllers {
   //? Create a new Room with details being a admin
   async postRoom(req, res) {
     const {
-      room_type,
+      roomType,
       description,
       address,
       price,
-      check_in,
-      check_out,
-      num_bathrooms,
-      num_beds,
+      checkIn,
+      checkOut,
+      numBathrooms,
+      numBeds,
       extras,
-      num_room,
+      numRoom,
       details,
     } = req.body
 
     try {
       const roomData = {
-        room_type,
+        roomType,
         description,
         address,
         price,
-        check_in,
-        check_out,
-        num_bathrooms,
-        num_beds,
+        checkIn,
+        checkOut,
+        numBathrooms,
+        numBeds,
         extras,
-        num_room,
+        numRoom,
         details,
       }
       const room = await roomsService.createRoom(roomData)
@@ -64,25 +64,25 @@ class RoomsControllers {
       return res.status(401).json({
         message: error.message,
         fields: {
-          room_type: 'String',
+          roomType: 'String',
           description: 'Text',
           address: 'String',
           price: 'Number',
-          check_in: 'Date',
-          check_out: 'Date',
-          num_bathrooms: 'Number',
-          num_beds: 'Number',
+          checkIn: 'Date',
+          checkOut: 'Date',
+          numBathrooms: 'Number',
+          numBeds: 'Number',
           extras: '[Strings]',
           details: {
             amenities: '[Strings]',
-            not_included: '[String]',
+            notIncluded: '[String]',
             services: '[String]',
           },
-          num_room: {
-            type_room: 'String',
-            num_bed: 'Number',
-            type_bed: 'String',
-            type_bed_2: 'String',
+          numRoom: {
+            typeRoom: 'String',
+            numBed: 'Number',
+            typeBed: 'String',
+            typeBed2: 'String',
           },
         },
       })
@@ -114,9 +114,7 @@ class RoomsControllers {
       }
 
       const rating = await roomsService.createRoomRating(roomId, ratingData)
-      return res
-        .status(201)
-        .json({ message: 'Rate created succesfully', rating })
+      return res.status(201).json(rating)
     } catch (error) {
       return res.status(400).json({
         message: error.message,

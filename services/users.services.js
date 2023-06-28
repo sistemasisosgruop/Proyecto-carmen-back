@@ -36,18 +36,18 @@ class UsersService {
       let newUser = await models.Users.create(
         {
           id: uuid4(),
-          first_name: userData.first_name,
-          last_name: userData.last_name,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
           genre: userData.genre,
-          phone_number: userData.phone_number,
-          document_type: userData.document_type,
-          document_number: userData.document_number,
+          phoneNumber: userData.phoneNumber,
+          documentType: userData.documentType,
+          documentNumber: userData.documentNumber,
           email: userData.email,
           password: hash(userData.password),
           birthday: userData.birthday,
           student: userData.student,
-          country_code: userData.country_code,
-          role_id: userData.role_id,
+          countryCode: userData.countryCode,
+          roleId: userData.roleId,
         },
         { transaction }
       )
@@ -77,12 +77,12 @@ class UsersService {
   async updateUser(
     id,
     {
-      first_name,
-      last_name,
+      firstName,
+      lastName,
       genre,
-      phone_number,
-      document_type,
-      document_number,
+      phoneNumber,
+      documentType,
+      documentNumber,
       password,
       birthday,
       student,
@@ -96,12 +96,12 @@ class UsersService {
 
       let updatedUser = await user.update(
         {
-          first_name,
-          last_name,
+          firstName,
+          lastName,
           genre,
-          phone_number,
-          document_type,
-          document_number,
+          phoneNumber,
+          documentType,
+          documentNumber,
           password,
           birthday,
           student,

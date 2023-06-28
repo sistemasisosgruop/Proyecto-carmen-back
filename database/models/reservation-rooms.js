@@ -4,8 +4,8 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Reservation_Rooms extends Model {
     static associate(models) {
-      Reservation_Rooms.belongsTo(models.Rooms, { foreignKey: 'room_id', as: 'Rooms' });
-      Reservation_Rooms.belongsTo(models.Users, { foreignKey: 'user_id', as: 'Users' });
+      Reservation_Rooms.belongsTo(models.Rooms, { foreignKey: 'roomId', as: 'Rooms' });
+      Reservation_Rooms.belongsTo(models.Users, { foreignKey: 'userId', as: 'Users' });
     }
   }
   Reservation_Rooms.init({
@@ -13,16 +13,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       primaryKey: true
     },
-    user_id: DataTypes.UUID,
-    room_id: DataTypes.UUID,
-    type_room: DataTypes.STRING,
-    check_in: DataTypes.DATE,
-    check_out: DataTypes.DATE,
+    userId: DataTypes.UUID,
+    roomId: DataTypes.UUID,
+    typeRoom: DataTypes.STRING,
+    checkIn: DataTypes.DATE,
+    checkOut: DataTypes.DATE,
     address: DataTypes.STRING,
-    purchase_date: DataTypes.DATE,
-    purchase_time: DataTypes.DATE,
-    number_of_people: DataTypes.INTEGER,
-    total_price: DataTypes.FLOAT,
+    purchaseDate: DataTypes.DATE,
+    purchaseTime: DataTypes.DATE,
+    numberOfPeople: DataTypes.INTEGER,
+    totalPrice: DataTypes.FLOAT,
   }, {
     sequelize,
     modelName: 'Reservation_Rooms',
@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     scopes: {
       public_view: {
-        attributes: ['id', 'user_id', 'room_id', 'type_room', 'check_in', 'check_out', 'address', 'purchase_date', 'purchase_time', 'number_of_people', 'total_price' ]
+        attributes: ['id', 'userId', 'roomId', 'typeRoom', 'checkIn', 'checkOut', 'address', 'purchaseDate', 'purchaseTime', 'numberOfPeople', 'totalPrice' ]
       }
     },
   });
