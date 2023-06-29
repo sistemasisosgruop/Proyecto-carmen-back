@@ -38,7 +38,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Users',
     tableName: 'Users',
-    underscored: true,
     timestamps: true,
     scopes: {
       public_view: {

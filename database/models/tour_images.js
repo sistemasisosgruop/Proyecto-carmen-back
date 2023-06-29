@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         foreignKey: true,
       },
-      image_url: {
+      imageUrl: {
         type: DataTypes.TEXT,
         foreignKey: true,
       },
@@ -29,7 +29,6 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: 'Tour_Images',
       tableName: 'Tour_Images',
-      underscored: true,
       timestamps: true,
       scopes: {
         public_view: {

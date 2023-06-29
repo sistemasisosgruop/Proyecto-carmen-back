@@ -21,7 +21,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Shoping_Cart',
     tableName: 'Shoping_Cart',
-    underscored: true,
     timestamps: true,
     scopes: {
       public_view: {

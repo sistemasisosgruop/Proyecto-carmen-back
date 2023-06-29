@@ -36,7 +36,7 @@ module.exports = {
             tourId: tourId,
             whatToDo:
               'Explore the ancient ruins, hike to the Sun Gate, and enjoy breathtaking views.',
-            goodChoise_for: 'Adventure seekers and history enthusiasts.',
+            goodChoiseFor: 'Adventure seekers and history enthusiasts.',
             cancellationPolicy:
               'Full refund if canceled at least 48 hours before the tour.',
             pricePerPerson: 250.0,

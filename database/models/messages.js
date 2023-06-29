@@ -30,7 +30,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Messages',
     tableName: 'Messages',
-    underscored: true,
     timestamps: true,
     scopes: {
       public_view: {

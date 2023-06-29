@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'RecoveryPasswords',
     tableName: 'RecoveryPasswords',
-    underscored: true,
     timestamps: true,
     scopes: {
       public_view: {

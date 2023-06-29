@@ -33,11 +33,10 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Rooms',
     tableName: 'Rooms',
-    underscored: true,
     timestamps: true,
     scopes: {
       public_view: {
-        attributes: ['room_type', 'description', 'address', 'price', 'checkId', 'checkOut', 'numBathrooms', 'numBeds', 'extras']
+        attributes: ['roomType', 'description', 'address', 'price', 'checkId', 'checkOut', 'numBathrooms', 'numBeds', 'extras']
       }
     },
   });

@@ -17,10 +17,8 @@ const postLogin = (req, res) => {
           const token = jwt.sign(
             {
               id: data.id,
-              first_name: data.first_name,
-              last_name: data.last_name,
               email: data.email,
-              role_id: data.role_id,
+              roleId: data.roleId,
             },
             config.api.jwtSecret
           )

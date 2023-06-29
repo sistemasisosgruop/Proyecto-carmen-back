@@ -5,8 +5,8 @@ module.exports = {
     use_env_variable: 'DATABASE_URI_DEV',
     define: {
       timestamps: true,
-      underscored: true,
-      underscoredAll: true,
+      underscored: false,
+      underscoredAll: false,
       createdAt: 'created_at',
       updatedAt: 'updated_at',
       deletedAt: 'deleted_at',
@@ -20,8 +20,8 @@ module.exports = {
     use_env_variable: process.env.DATABASE_URI_TEST,
     define: {
       timestamps: true,
-      underscored: true,
-      underscoredAll: true,
+      underscored: false,
+      underscoredAll: false,
       createdAt: 'created_at',
       updatedAt: 'updated_at',
       deletedAt: 'deleted_at',
@@ -42,8 +42,8 @@ module.exports = {
     },
     define: {
       timestamps: true,
-      underscored: true,
-      underscoredAll: true,
+      underscored: false,
+      underscoredAll: false,
       createdAt: 'created_at',
       updatedAt: 'updated_at',
       deletedAt: 'deleted_at',

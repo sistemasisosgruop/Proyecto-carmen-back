@@ -41,7 +41,7 @@ module.exports = {
             typeRoom: 'Deluxe Suite',
             numBed: 1,
             typeBed: 'King Bed',
-            typeBed_2: 'Sofa Bed',
+            typeBed2: 'Sofa Bed',
             created_at: new Date(),
             updated_at: new Date(),
           },

@@ -27,7 +27,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Reservation_Tours',
     tableName: 'Reservation_Tours',
-    underscored: true,
     timestamps: true,
     scopes: {
       public_view: {
