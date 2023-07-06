@@ -19,10 +19,10 @@ module.exports = {
               key: 'id',
             },
           },
-          roomId: {
+          departmentId: {
             type: Sequelize.UUID,
             references: {
-              model: 'Rooms',
+              model: 'Departments',
               key: 'id',
             },
             onDelete: 'CASCADE',
@@ -44,12 +44,10 @@ module.exports = {
           createdAt: {
             allowNull: false,
             type: Sequelize.DATE,
-            field: 'created_at',
           },
           updatedAt: {
             allowNull: false,
             type: Sequelize.DATE,
-            field: 'updated_at',
           },
         },
         { transaction }

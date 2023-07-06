@@ -1,14 +1,14 @@
 const { uploadFile, unlinkFile, deleteFile } = require('../s3')
-const RoomImagesService = require('../services/roomImages.services')
+const DepartmentImagesService = require('../services/departmentImages.services')
 const { CustomError } = require('../utils/custom-error')
 
-const imageService = new RoomImagesService()
+const imageService = new DepartmentImagesService()
 
-class RoomImagesController {
+class DepartmentImagesController {
   constructor() {}
 
-  async uploadImageRoom(req, res, next) {
-    const { roomId } = req.params
+  async uploadImageDepartment(req, res, next) {
+    const { departmentId } = req.params
     const files = req.files
 
     try {
@@ -18,7 +18,7 @@ class RoomImagesController {
       let imagesKeys = []
       let imagesErrors = []
 
-      let openSpots = await imageService.getAvailableImageOrders(roomId)
+      let openSpots = await imageService.getAvailableImageOrders(departmentId)
 
       await Promise.all(
         openSpots.map(async (spot, index) => {
@@ -26,25 +26,25 @@ class RoomImagesController {
             /* In case Open Spots > Images Posted */
             if (!files[index]) return
 
-            let fileKey = `public/rooms/images/image-${roomId}-${spot}`
+            let fileKey = `public/departments/images/image-${departmentId}-${spot}`
 
             if (files[index].mimetype == 'image/png') {
-              fileKey = `public/rooms/images/image-${roomId}-${spot}.png`
+              fileKey = `public/departments/images/image-${departmentId}-${spot}.png`
             }
 
             if (files[index].mimetype == 'image/jpg') {
-              fileKey = `public/rooms/images/image-${roomId}-${spot}.jpg`
+              fileKey = `public/departments/images/image-${departmentId}-${spot}.jpg`
             }
 
             if (files[index].mimetype == 'image/jpeg') {
-              fileKey = `public/rooms/images/image-${roomId}-${spot}.jpeg`
+              fileKey = `public/departments/images/image-${departmentId}-${spot}.jpeg`
             }
 
             await uploadFile(files[index], fileKey)
 
             let bucketURL = process.env.AWS_DOMAIN + fileKey
 
-            await imageService.createImage(roomId, bucketURL, spot)
+            await imageService.createImage(departmentId, bucketURL, spot)
 
             imagesKeys.push(bucketURL)
           } catch (error) {
@@ -87,21 +87,20 @@ class RoomImagesController {
     }
   }
 
-  async removeRoomImage(req, res, next) {
-    const roomId = req.params.id
+  async removeDepartmentImage(req, res, next) {
+    const departmentId = req.params.id
     const order = req.params.order
     try {
-      let { imageUrl } = await imageService.getImageOr404(roomId, order)
+      let { imageUrl } = await imageService.getImageOr404(departmentId, order)
       let awsDomain = process.env.AWS_DOMAIN
       const imageKey = imageUrl.replace(awsDomain, '')
       await deleteFile(imageKey)
-      let roomImage = await imageService.removeImage(roomId, order)
-
-      return res.status(200).json({ message: 'Removed', image: roomImage })
+      let departmentImage = await imageService.removeImage(departmentId, order)
+      res.status(200).json({ message: 'Removed', image: departmentImage })
     } catch (error) {
       next(error)
     }
   }
 }
 
-module.exports = RoomImagesController
+module.exports = DepartmentImagesController

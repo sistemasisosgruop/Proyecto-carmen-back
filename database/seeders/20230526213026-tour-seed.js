@@ -22,8 +22,8 @@ module.exports = {
             languages: ['English', 'Spanish'],
             numberOfPeople: '10',
             ages: '18+',
-            created_at: new Date(),
-            updated_at: new Date(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
           },
         ],
         { transaction }
@@ -43,8 +43,8 @@ module.exports = {
             availableDates: [new Date(), new Date()],
             schedule:
               'Day 1: Arrival and orientation. Day 2: Machu Picchu guided tour. Day 3: Return journey.',
-            created_at: new Date(),
-            updated_at: new Date(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
           },
         ],
         { transaction }
@@ -66,8 +66,8 @@ module.exports = {
             departureDetails: 'Meet at Cusco Airport at 9:00 AM.',
             returnDetails: 'Drop-off at Cusco Airport at 6:00 PM.',
             accessibility: 'This tour is not wheelchair accessible.',
-            created_at: new Date(),
-            updated_at: new Date(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
           },
         ],
         { transaction }

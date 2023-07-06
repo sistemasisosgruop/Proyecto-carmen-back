@@ -1,62 +1,45 @@
 'use strict'
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       await queryInterface.createTable(
-        'Rooms',
+        'Department_Details',
         {
           id: {
-            allowNull: false,
             primaryKey: true,
-            defaultValue: Sequelize.UUIDV4,
+            autoIncrement: true,
+            defaultValues: Sequelize.BIGINT,
+            type: Sequelize.BIGINT,
+          },
+          departmentId: {
+            allowNull: false,
             type: Sequelize.UUID,
+            references: {
+              model: 'Departments',
+              key: 'id',
+            },
           },
-          roomType: {
+          amenities: {
             allowNull: false,
-            type: Sequelize.STRING,
+            type: Sequelize.ARRAY(Sequelize.STRING),
           },
-          description: {
+          notIncluded: {
             allowNull: false,
-            type: Sequelize.TEXT,
+            type: Sequelize.ARRAY(Sequelize.STRING),
           },
-          address: {
-            allowNull: false,
-            type: Sequelize.STRING,
-          },
-          price: {
-            allowNull: false,
-            type: Sequelize.FLOAT,
-          },
-          checkIn: {
-            allowNull: false,
-            type: Sequelize.DATE,
-          },
-          checkOut: {
-            allowNull: false,
-            type: Sequelize.DATE,
-          },
-          numBathrooms: {
-            allowNull: false,
-            type: Sequelize.INTEGER,
-          },
-          numBeds: {
-            allowNull: false,
-            type: Sequelize.INTEGER,
-          },
-          extras: {
+          services: {
             allowNull: false,
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
           createdAt: {
             allowNull: false,
             type: Sequelize.DATE,
-            field: 'created_at',
           },
           updatedAt: {
             allowNull: false,
             type: Sequelize.DATE,
-            field: 'updated_at',
           },
         },
         { transaction }
@@ -70,7 +53,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Rooms', { transaction })
+      await queryInterface.dropTable('Department_Details', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

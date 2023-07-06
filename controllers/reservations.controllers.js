@@ -18,42 +18,44 @@ class ReservationsControllers {
     }
   }
 
-  async getRoomReservationById(req, res) {
-    const { roomReservationId } = req.params
+  async getDepartmentReservationById(req, res) {
+    const { departmentReservationId } = req.params
 
     try {
-      const reservation = await reservationService.findRoomReservationById(
-        roomReservationId
-      )
+      const reservation =
+        await reservationService.findDepartmentReservationById(
+          departmentReservationId
+        )
       return res.status(200).json(reservation)
     } catch (error) {
       return res.status(404).json({ message: error })
     }
   }
 
-  async postRoomReservation(req, res) {
+  async postDepartmentReservation(req, res) {
     const userId = req.user.id
-    const { roomId } = req.params
+    const { departmentId } = req.params
     const { purchaseDate, purchaseTime, numberOfPeople, totalPrice } = req.body
 
     try {
-      const reservationRoomData = {
+      const reservationDepartmentData = {
         purchaseDate,
         purchaseTime,
         numberOfPeople,
         totalPrice,
       }
 
-      if (!reservationRoomData) {
+      if (!reservationDepartmentData) {
         throw new Error('All fields are required!')
       }
 
-      const reservationRoom = await reservationService.createRoomReservation(
-        userId,
-        roomId,
-        reservationRoomData
-      )
-      return res.status(201).json(reservationRoom)
+      const reservationDepartment =
+        await reservationService.createDepartmentReservation(
+          userId,
+          departmentId,
+          reservationDepartmentData
+        )
+      return res.status(201).json(reservationDepartment)
     } catch (error) {
       return res.status(404).json({
         message: error.message,
@@ -67,8 +69,8 @@ class ReservationsControllers {
     }
   }
 
-  async patchRoomReservation(req, res) {
-    const { roomReservationId } = req.params
+  async patchDepartmentReservation(req, res) {
+    const { departmentReservationId } = req.params
     const { purchaseDate, purchaseTime, numberOfPeople, totalPrice } = req.body
 
     try {
@@ -79,21 +81,22 @@ class ReservationsControllers {
         totalPrice,
       }
 
-      const reservationEdited = await reservationService.updateRoomReservation(
-        roomReservationId,
-        reservationData
-      )
+      const reservationEdited =
+        await reservationService.updateDepartmentReservation(
+          departmentReservationId,
+          reservationData
+        )
       return res.status(201).json(reservationEdited)
     } catch (error) {
       return res.status(401).json({ message: error.mesage })
     }
   }
 
-  async deleteRoomReservation(req, res) {
+  async deleteDepartmentReservation(req, res) {
     try {
-      let { roomReservationId } = req.params
-      let reservation = await reservationService.removeRoomReservation(
-        roomReservationId
+      let { departmentReservationId } = req.params
+      let reservation = await reservationService.removeDepartmentReservation(
+        departmentReservationId
       )
       return res.json({ results: reservation, message: 'removed' })
     } catch (error) {
@@ -170,10 +173,11 @@ class ReservationsControllers {
         numberOfPeople,
         totalPurchase,
       }
-      const reservationEdited = await reservationService.updateRoomReservation(
-        tourReservationId,
-        reservationData
-      )
+      const reservationEdited =
+        await reservationService.updateDepartmentReservation(
+          tourReservationId,
+          reservationData
+        )
       return res.status(201).json(reservationEdited)
     } catch (error) {
       return res.status(401).json({ message: error.mesage })

@@ -45,7 +45,7 @@ class TourService {
         },
       ],
       attributes: {
-        exclude: ['created_at', 'updated_at'],
+        exclude: ['createdAt', 'updatedAt'],
       },
       raw: true,
       nest: true,
@@ -62,7 +62,7 @@ class TourService {
         tourId: tourId,
       },
       attributes: {
-        exclude: ['id', 'tourId', 'created_at', 'updated_at'],
+        exclude: ['id', 'tourId', 'createdAt', 'updatedAt'],
       },
     })
     let tourDetail = await models.Tours_Details.findOne({
@@ -70,7 +70,7 @@ class TourService {
         tourId: tourId,
       },
       attributes: {
-        exclude: ['id', 'tourId', 'created_at', 'updated_at'],
+        exclude: ['id', 'tourId', 'createdAt', 'updatedAt'],
       },
     })
     return { tour, tourInfo, tourDetail }

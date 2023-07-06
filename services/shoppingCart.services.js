@@ -14,29 +14,30 @@ class ShopingCartsService {
         defaults: { userId: userId },
       })
       // Agregar la habitación al carrito si se proporciona un ID de habitación
-      if (cartData.reservationRoomId) {
-        const reservationRoom = await models.Reservation_Rooms.findOne({
-          where: {
-            id: cartData.reservationRoomId,
-          },
-        })
-        if (!reservationRoom) {
-          throw new Error(`Room reservation for user ${userId} not found`)
+      if (cartData.reservationDepartmentId) {
+        const reservationDepartment =
+          await models.Reservation_Departments.findOne({
+            where: {
+              id: cartData.reservationDepartmentId,
+            },
+          })
+        if (!reservationDepartment) {
+          throw new Error(`Department reservation for user ${userId} not found`)
         }
 
         console.log('USER: ', userId)
         console.log('CART: ', cart)
-        console.log('RESERVSTIONROOM: ', reservationRoom)
+        console.log('RESERVSTIONDepartment: ', reservationDepartment)
         // Crear o actualizar el elemento de carrito para la habitación
         await models.User_Products.findOrCreate({
           where: {
             id: uuid4(),
             cartId: cart.dataValues.id,
-            roomId: reservationRoom.dataValues.roomId,
+            departmentId: reservationDepartment.dataValues.departmentId,
           },
           defaults: {
             cartId: cart.dataValues.id,
-            roomId: reservationRoom.dataValues.roomId,
+            departmentId: reservationDepartment.dataValues.departmentId,
             quantity: cartData.quantity || 1,
           },
         })
@@ -100,7 +101,7 @@ class ShopingCartsService {
   // // Calcular el total_price sumando los precios de las habitaciones y tours en el carrito
   // let totalPrice = 0
   // cart.RoomItems.forEach((roomItem) => {
-  // totalPrice += roomItem.Room.price * roomItem.quantity
+  // totalPrice += roomItem.Department.price * roomItem.quantity
   // })
   // cart.TourItems.forEach((tourItem) => {
   // totalPrice += tourItem.Tour.price * tourItem.quantity

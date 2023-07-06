@@ -3,51 +3,51 @@ const passport = require('passport')
 const { multerPhotos } = require('../middlewares/multer.middleware')
 require('../libs/passport')(passport)
 
-const RoomsControllers = require('../controllers/rooms.controllers')
+const DepartmentsControllers = require('../controllers/departments.controllers')
 const RoleAuth = require('../middlewares/auth.middleware')
 const ReservationsControllers = require('../controllers/reservations.controllers')
-const RoomImagesController = require('../controllers/roomImages.controllers')
-const roomController = new RoomsControllers()
+const DepartmentImagesController = require('../controllers/departmentImages.controllers')
+const departmentController = new DepartmentsControllers()
 const roleAuth = new RoleAuth()
-const imageController = new RoomImagesController()
+const imageController = new DepartmentImagesController()
 const reservationController = new ReservationsControllers()
 
 const router = express.Router()
 
-router.get('/', roomController.getAllRooms)
+router.get('/', departmentController.getAllDepartments)
 
 router.post(
   '/',
   [passport.authenticate('jwt', { session: false }), roleAuth.isAdmin],
-  roomController.postRoom
+  departmentController.postDepartment
 )
 
-router.get('/:roomId', roomController.getRoom)
+router.get('/:departmentId', departmentController.getDepartment)
 
 router.delete(
-  '/:roomId',
+  '/:departmentId',
   [passport.authenticate('jwt', { session: false }), roleAuth.isAdmin],
-  roomController.deleteRoom
+  departmentController.deleteDepartment
 )
 
 router.post(
-  '/:roomId/images',
+  '/:departmentId/images',
   [passport.authenticate('jwt', { session: false }), roleAuth.isAdmin],
   multerPhotos.array('image', 10),
-  imageController.uploadImageRoom
+  imageController.uploadImageDepartment
 )
 
 router.post(
-  '/:roomId/rating',
+  '/:departmentId/rating',
   passport.authenticate('jwt', { session: false }),
-  roomController.postRoomRating
+  departmentController.postDepartmentRating
 )
-router.get('/:roomId/rating', roomController.getRatingsByRoom)
+router.get('/:departmentId/rating', departmentController.getRatingsByDepartment)
 
 router.post(
-  '/:roomId/reservation',
+  '/:departmentId/reservation',
   passport.authenticate('jwt', { session: false }),
-  reservationController.postRoomReservation
+  reservationController.postDepartmentReservation
 )
 
 module.exports = router

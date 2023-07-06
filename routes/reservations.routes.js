@@ -14,35 +14,36 @@ router.get(
 )
 
 router.get(
-  '/:roomReservationId',
+  '/:departmentReservationId',
   passport.authenticate('jwt', { session: false }),
-  reservationController.getRoomReservationById
+  reservationController.getDepartmentReservationById
 )
 router.patch(
-  '/:roomReservationId',
+  '/:departmentReservationId',
   passport.authenticate('jwt', { session: false }),
-  reservationController.patchRoomReservation
+  reservationController.patchDepartmentReservation
 )
+
 router.delete(
-  '/:roomReservationId',
+  '/:departmentReservationId',
   passport.authenticate('jwt', { session: false }),
-  reservationController.deleteRoomReservation
+  reservationController.deleteDepartmentReservation
 )
 
 router.get(
   '/:tourReservationId',
   passport.authenticate('jwt', { session: false }),
-  reservationController.getRoomReservationById
+  reservationController.getTourReservationById
 )
 router.patch(
   '/:tourReservationId',
   passport.authenticate('jwt', { session: false }),
-  reservationController.patchRoomReservation
+  reservationController.patchTourReservation
 )
 router.delete(
   '/:tourReservationId',
   passport.authenticate('jwt', { session: false }),
-  reservationController.deleteRoomReservation
+  reservationController.deleteTourReservation
 )
 
 module.exports = router

@@ -11,22 +11,16 @@ module.exports = {
           {
             id: 1,
             name: 'admin',
-            permissions: JSON.stringify({
-              sendMessages: true,
-              receiveMessages: true,
-            }),
-            created_at: new Date(),
-            updated_at: new Date(),
+            permissions: ['All permissions'],
+            createdAt: new Date(),
+            updatedAt: new Date(),
           },
           {
             id: 2,
             name: 'public',
-            permissions: JSON.stringify({
-              sendMessages: true,
-              receiveMessages: true,
-            }),
-            created_at: new Date(),
-            updated_at: new Date(),
+            permissions: ['Delete'],
+            createdAt: new Date(),
+            updatedAt: new Date(),
           },
         ],
         { transaction }

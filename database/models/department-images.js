@@ -1,18 +1,18 @@
 'use strict'
 const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
-  class Room_Images extends Model {
+  class Department_Images extends Model {
     static associate(models) {
-      Room_Images.belongsTo(models.Rooms, { as: 'Room', foreignKey: 'roomId' })
+      Department_Images.belongsTo(models.Departments, { as: 'Departments', foreignKey: 'departmentId' })
     }
   }
-  Room_Images.init(
+  Department_Images.init(
     {
       id: {
         type: DataTypes.UUID,
         primaryKey: true,
       },
-      roomId: {
+      departmentId: {
         type: DataTypes.UUID,
         foreignKey: true,
       },
@@ -27,15 +27,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'Room_Images',
-      tableName: 'Room_Images',
+      modelName: 'Department_Images',
+      tableName: 'departmentImages',
       timestamps: true,
       scopes: {
         public_view: {
-          attributes: ['id', 'imageUrl', 'roomId'],
+          attributes: ['id', 'imageUrl', 'departmentId'],
         },
       },
     }
   )
-  return Room_Images
+  return Department_Images
 }

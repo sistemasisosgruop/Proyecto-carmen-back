@@ -10,7 +10,7 @@ class TourImagesService {
 
     let images = await models.Tour_Images.findAll({
       where: { tourId: tourId },
-      attributes: { exclude: ['created_at', 'updated_at'] },
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
       raw: true,
     })
 

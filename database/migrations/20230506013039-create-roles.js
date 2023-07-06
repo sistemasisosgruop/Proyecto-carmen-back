@@ -7,28 +7,26 @@ module.exports = {
         'Roles',
         {
           id: {
-            allowNull: false,
             autoIncrement: true,
             primaryKey: true,
             type: Sequelize.INTEGER,
           },
           name: {
             allowNull: false,
+            unique: true,
             type: Sequelize.STRING,
           },
           permissions: {
             allowNull: false,
-            type: Sequelize.JSONB,
+            type: Sequelize.ARRAY(Sequelize.STRING),
           },
           createdAt: {
             allowNull: false,
             type: Sequelize.DATE,
-            field: 'created_at',
           },
           updatedAt: {
             allowNull: false,
             type: Sequelize.DATE,
-            field: 'updated_at',
           },
         },
         { transaction }

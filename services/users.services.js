@@ -102,7 +102,6 @@ class UsersService {
           phoneNumber,
           documentType,
           documentNumber,
-          password,
           birthday,
           student,
         },

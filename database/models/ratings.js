@@ -6,12 +6,12 @@ module.exports = (sequelize, DataTypes) => {
   class Ratings extends Model {
     
     static associate(models) {
-      Ratings.belongsTo(models.Rooms, { foreignKey: 'roomId', as: 'Rooms' });
+      Ratings.belongsTo(models.Departments, { foreignKey: 'departmentId', as: 'Departments' });
       Ratings.belongsTo(models.Tours, { foreignKey: 'tourId', as: 'Tours' });
     }
   }
   Ratings.init({
-    roomId: DataTypes.UUID,
+    departmentId: DataTypes.UUID,
     tourId: DataTypes.UUID,
     rate: DataTypes.FLOAT,
     comment: DataTypes.TEXT

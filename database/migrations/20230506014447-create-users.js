@@ -7,7 +7,6 @@ module.exports = {
         'Users',
         {
           id: {
-            allowNull: false,
             defaultValue: Sequelize.UUIDV4,
             primaryKey: true,
             type: Sequelize.UUID,
@@ -49,13 +48,16 @@ module.exports = {
             onUpdate: 'CASCADE',
           },
           documentType: {
+            allowNull: false,
             type: Sequelize.STRING,
           },
           documentNumber: {
+            allowNull: false,
             type: Sequelize.INTEGER,
             unique: true,
           },
           birthday: {
+            allowNull: false,
             type: Sequelize.DATE,
             validate: {
               isDate: true,
@@ -78,12 +80,10 @@ module.exports = {
           createdAt: {
             allowNull: false,
             type: Sequelize.DATE,
-            field: 'created_at',
           },
           updatedAt: {
             allowNull: false,
             type: Sequelize.DATE,
-            field: 'updated_at',
           },
         },
         { transaction }

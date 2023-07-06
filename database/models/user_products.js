@@ -5,7 +5,7 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class User_Products extends Model {
     static associate(models) {
-      User_Products.belongsTo(models.Rooms, { as: 'Rooms', foreignKey: 'roomId'})
+      User_Products.belongsTo(models.Departments, { as: 'Departments', foreignKey: 'departmentId'})
       User_Products.belongsTo(models.Tours, { as: 'Tours', foreignKey: 'tourId'})
       User_Products.belongsTo(models.Shoping_Cart, { as: 'Shoping_Cart', foreignKey: 'cartId'})
     }
@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       foreignKey: true
     },
-    roomId: {
+    departmentId: {
       type: DataTypes.UUID,
       foreignKey: true
     },
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     scopes: {
       public_view: {
-        attributes: ['userId', 'roomId', 'tourId']
+        attributes: ['userId', 'departmentId', 'tourId']
       }
     },
   });

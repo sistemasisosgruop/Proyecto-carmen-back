@@ -7,50 +7,57 @@ class ReservationsService {
 
   async findReservationsByUser(userId) {
     const user = await models.Users.findByPk(userId)
-    const roomReservations = await models.Reservation_Rooms.findAll({
-      where: {
-        userId: user.id,
-      },
-    })
+    const departmentReservations = await models.Reservation_Departments.findAll(
+      {
+        where: {
+          userId: user.id,
+        },
+      }
+    )
     const tourReservations = await models.Reservation_Tours.findAll({
       where: {
         userId: user.id,
       },
     })
-    return { roomReservations, tourReservations }
+    return { departmentReservations, tourReservations }
   }
 
-  async findRoomReservationById(roomReservationId) {
-    const reservations = await models.Reservation_Rooms.findByPk(
-      roomReservationId
+  async findDepartmentReservationById(departmentReservationId) {
+    const reservations = await models.Reservation_Departments.findByPk(
+      departmentReservationId
     )
     return reservations
   }
 
-  async createRoomReservation(userId, roomId, reservationRoomData) {
-    const transaction = await models.Reservation_Rooms.sequelize.transaction()
+  async createDepartmentsReservation(
+    userId,
+    departmentId,
+    reservationDepartmentData
+  ) {
+    const transaction =
+      await models.Reservation_Departments.sequelize.transaction()
 
     const user = await models.Users.findByPk(userId)
-    const room = await models.Rooms.findByPk(roomId)
+    const department = await models.Departments.findByPk(departmentId)
 
-    if (!user || !room) {
+    if (!user || !department) {
       throw new Error('Error creating the reservation')
     }
 
     try {
-      const reservation = await models.Reservation_Rooms.create(
+      const reservation = await models.Reservation_Departments.create(
         {
           id: uuid4(),
           userId: user.dataValues.id,
-          roomId: room.dataValues.id,
-          typeRoom: room.dataValues.roomType,
-          checkIn: room.dataValues.checkIn,
-          checkOut: room.dataValues.checkOut,
-          address: room.dataValues.address,
-          purchaseDate: reservationRoomData.purchaseDate,
-          purchaseTime: reservationRoomData.purchaseTime,
-          numberOfPeople: reservationRoomData.numberOfPeople,
-          totalPrice: reservationRoomData.totalPrice,
+          departmentId: department.dataValues.id,
+          typeDepartment: department.dataValues.departmentType,
+          checkIn: department.dataValues.checkIn,
+          checkOut: department.dataValues.checkOut,
+          address: department.dataValues.address,
+          purchaseDate: reservationDepartmentData.purchaseDate,
+          purchaseTime: reservationDepartmentData.purchaseTime,
+          numberOfPeople: reservationDepartmentData.numberOfPeople,
+          totalPrice: reservationDepartmentData.totalPrice,
         },
         { transaction }
       )
@@ -62,38 +69,43 @@ class ReservationsService {
     }
   }
 
-  async updateRoomReservation(roomReservationId, reservationRoomData) {
-    const transaction = await models.Reservation_Rooms.sequelize.transaction()
+  async updateDepartmentReservation(
+    departmentReservationId,
+    reservationDepartmentData
+  ) {
+    const transaction =
+      await models.Reservation_Departments.sequelize.transaction()
 
     try {
-      const reservation = await models.Reservation_Rooms.findByPk(
-        roomReservationId
+      const reservation = await models.Reservation_Departments.findByPk(
+        departmentReservationId
       )
       if (!reservation) {
         throw new Error('Reservation not found!')
       }
 
-      const editedRoom = await reservation.update(
+      const editedDepartment = await reservation.update(
         {
-          purchaseDate: reservationRoomData.purchaseDate,
-          purchaseTime: reservationRoomData.purchaseTime,
-          numberOfPeople: reservationRoomData.numberOfPeople,
+          purchaseDate: reservationDepartmentData.purchaseDate,
+          purchaseTime: reservationDepartmentData.purchaseTime,
+          numberOfPeople: reservationDepartmentData.numberOfPeople,
         },
         { transaction }
       )
       await transaction.commit()
-      return editedRoom
+      return editedDepartment
     } catch (error) {
       await transaction.rollback()
       throw error
     }
   }
 
-  async removeRoomReservation(roomReservationId) {
-    const transaction = await models.Reservation_Rooms.sequelize.transaction()
+  async removeDepartmentReservation(departmentReservationId) {
+    const transaction =
+      await models.Reservation_Departments.sequelize.transaction()
     try {
-      let reservation = await models.Reservation_Rooms.findByPk(
-        roomReservationId
+      let reservation = await models.Reservation_Departments.findByPk(
+        departmentReservationId
       )
 
       if (!reservation)

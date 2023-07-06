@@ -35,13 +35,13 @@ class CouponController {
   }
 
   async postCoupon(req, res) {
-    const { couponCode, discount, roomId, tourId } = req.body
+    const { couponCode, discount, departmentId, tourId } = req.body
 
     try {
       const couponData = {
         couponCode,
         discount,
-        roomId,
+        departmentId,
         tourId,
       }
 
@@ -53,7 +53,7 @@ class CouponController {
         fields: {
           couponCode: 'String',
           discount: 'Float',
-          roomId: 'UUID',
+          departmentId: 'UUID',
           tourId: 'UUID',
         },
       })

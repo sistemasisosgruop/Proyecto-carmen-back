@@ -1,24 +1,22 @@
 'use strict'
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       await queryInterface.createTable(
-        'Room_Details',
+        'Department_Rooms',
         {
           id: {
-            allowNull: false,
-            primaryKey: true,
             autoIncrement: true,
+            primaryKey: true,
             defaultValues: Sequelize.BIGINT,
             type: Sequelize.BIGINT,
           },
-          roomId: {
+          departmentId: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
-              model: 'Rooms',
+              model: 'Departments',
               key: 'id',
             },
           },
@@ -32,20 +30,23 @@ module.exports = {
           },
           typeBed: {
             allowNull: false,
-            type: Sequelize.STRING,
+            type: Sequelize.ARRAY(Sequelize.STRING),
           },
-          typeBed2: {
+          numBathrooms: {
+            allowNull: false,
+            type: Sequelize.INTEGER,
+          },
+          image: {
+            allowNull: false,
             type: Sequelize.STRING,
           },
           createdAt: {
             allowNull: false,
             type: Sequelize.DATE,
-            field: 'created_at',
           },
           updatedAt: {
             allowNull: false,
             type: Sequelize.DATE,
-            field: 'updated_at',
           },
         },
         { transaction }
@@ -59,7 +60,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Room_Details', { transaction })
+      await queryInterface.dropTable('Department_Rooms', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

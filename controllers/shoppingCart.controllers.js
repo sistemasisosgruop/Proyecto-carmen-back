@@ -6,17 +6,17 @@ class ShopingCartsController {
 
   async postShopingCart(req, res) {
     const userId = req.user.id
-    const { reservationRoomId, reservationTourId, quantity } = req.body
+    const { reservationDepartmentId, reservationTourId, quantity } = req.body
 
     try {
-      if (!reservationRoomId || !reservationTourId) {
-        return res
-          .status(400)
-          .json({ error: 'Room reservation or Tour reservation are required' })
+      if (!reservationDepartmentId || !reservationTourId) {
+        return res.status(400).json({
+          error: 'Department reservation or Tour reservation are required',
+        })
       }
 
       const cartData = {
-        reservationRoomId,
+        reservationDepartmentId,
         reservationTourId,
         quantity,
       }
@@ -26,7 +26,7 @@ class ShopingCartsController {
       return res.status(401).json({
         message: error.message,
         fields: {
-          reservationRoomId: 'UUID',
+          reservationDepartmentId: 'UUID',
           reservationTourId: 'UUID',
           quantity: 'Integer',
         },

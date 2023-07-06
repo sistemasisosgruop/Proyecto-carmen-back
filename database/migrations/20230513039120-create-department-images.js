@@ -5,18 +5,17 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       await queryInterface.createTable(
-        'Room_Images',
+        'Department_Images',
         {
           id: {
-            allowNull: false,
             type: Sequelize.UUID,
             primaryKey: true,
           },
-          roomId: {
+          departmentId: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
-              model: 'Rooms',
+              model: 'Departments',
               key: 'id',
             },
             onUpdate: 'CASCADE',
@@ -34,12 +33,10 @@ module.exports = {
           createdAt: {
             allowNull: false,
             type: Sequelize.DATE,
-            field: 'created_at',
           },
           updatedAt: {
             allowNull: false,
             type: Sequelize.DATE,
-            field: 'updated_at',
           },
         },
         { transaction }
@@ -54,7 +51,7 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Room_Images', { transaction })
+      await queryInterface.dropTable('Department_Images', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()
