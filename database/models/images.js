@@ -1,0 +1,54 @@
+const { Model } = require('sequelize')
+
+module.exports = (sequelize, DataTypes) => {
+  class Images extends Model {
+    static associate(models) {
+      Images.belongsToMany(models.Departments, {
+        through: 'EntityImage',
+        foreignKey: 'imageId',
+      })
+      Images.belongsToMany(models.Tours, {
+        through: 'EntityImage',
+        foreignKey: 'imageId',
+      })
+      Images.belongsToMany(models.Department_Rooms, {
+        through: 'EntityImage',
+        foreignKey: 'imageId',
+      })
+    }
+  }
+
+  Images.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+      },
+      productId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
+      imageUrl: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      order: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+    },
+    {
+      sequelize,
+      modelName: 'Images',
+      tableName: 'Images',
+      timestamps: true,
+      scopes: {
+        public_view: {
+          attributes: ['id', 'imageUrl', 'departmentId'],
+        },
+      },
+    }
+  )
+
+  return Images
+}

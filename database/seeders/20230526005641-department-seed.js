@@ -6,6 +6,7 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       const departmentId = uuid4() // Genera un ID para la habitación
+      const roomId = uuid4()
 
       // Crear la habitación en la tabla 'Departments'
       await queryInterface.bulkInsert(
@@ -55,12 +56,12 @@ module.exports = {
         'Department_Rooms',
         [
           {
+            id: roomId,
             departmentId: departmentId,
             typeRoom: 'Deluxe Suite',
             numBed: 2,
             typeBed: ['King Bed', 'Normal'],
-            numBathrooms: 1,
-            image: 'https://bucketaws.s3/images',
+            numBaths: 1,
             createdAt: new Date(),
             updatedAt: new Date(),
           },

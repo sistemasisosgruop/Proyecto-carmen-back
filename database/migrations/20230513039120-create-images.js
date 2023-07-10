@@ -5,26 +5,22 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       await queryInterface.createTable(
-        'Department_Images',
+        'Images',
         {
           id: {
-            type: Sequelize.UUID,
             primaryKey: true,
+            defaultValue: Sequelize.UUIDV4,
+            type: Sequelize.UUID,
           },
-          departmentId: {
+          productId: {
             allowNull: false,
             type: Sequelize.UUID,
-            references: {
-              model: 'Departments',
-              key: 'id',
-            },
             onUpdate: 'CASCADE',
             onDelete: 'RESTRICT',
           },
           imageUrl: {
             allowNull: false,
             type: Sequelize.TEXT,
-            primaryKey: true,
           },
           order: {
             allowNull: false,
@@ -51,7 +47,7 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Department_Images', { transaction })
+      await queryInterface.dropTable('Images', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

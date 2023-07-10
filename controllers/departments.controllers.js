@@ -1,21 +1,37 @@
+const models = require('../database/models')
+const { getPagination, getPagingData } = require('../utils/pagination')
 const DepartmentsService = require('../services/departments.services')
-const { getPagination } = require('../utils/pagination')
+const ImagesService = require('../services/images.services')
+const { CustomError } = require('../utils/custom-error')
+const { uploadFile, unlinkFile } = require('../s3')
+
 const departmentsService = new DepartmentsService()
+const imageService = new ImagesService()
 
 class DepartmentControllers {
   //? Get All Departments with Pagination
   async getAllDepartments(req, res) {
-    const { page, size } = req.query
-
     try {
-      const { limit, offset } = getPagination(page, size)
-      const departments = await departmentsService.findAllDepartments(
-        limit,
-        offset
-      )
-      res.json(departments)
+      let query = req.query
+      let { page, size } = query
+
+      const { limit, offset } = getPagination(page, size, '10')
+      query.limit = limit
+      query.offset = offset
+
+      let department = await departmentsService.findAndCount({
+        ...query,
+        include: [
+          {
+            model: models.Department_Details,
+            as: 'Department_Details',
+          },
+        ],
+      })
+      const results = getPagingData(department, page, limit)
+      return res.json(results)
     } catch (error) {
-      res.status(500).json({ error: 'Can not get to all Departments' })
+      return res.status(401).json({ message: 'Unauthorized' })
     }
   }
 
@@ -65,7 +81,6 @@ class DepartmentControllers {
       const department = await departmentsService.createDepartment(
         departmentData
       )
-
       return res.status(201).json(department)
     } catch (error) {
       return res.status(401).json({
@@ -90,7 +105,7 @@ class DepartmentControllers {
             typeRoom: 'String',
             numBed: 'Number',
             typeBed: 'String',
-            numBathrooms: 'Number',
+            numBaths: 'Number',
             image: 'String',
           },
         },

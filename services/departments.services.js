@@ -1,115 +1,179 @@
 const { CustomError } = require('../utils/custom-error')
 const { v4: uuid4 } = require('uuid')
 const models = require('../database/models')
+const { Op } = require('sequelize')
 require('dotenv').config()
 class DepartmentServices {
   constructor() {}
 
   //? Get All Departments with pagination
-  async findAllDepartments(limit, offset) {
-    const departments = await models.Departments.findAndCountAll({
-      limit,
-      offset,
-      distinct: true, // Esta opción es para obtener conteo de departamentos distintas y no todos los models
-      include: [
-        {
-          model: models.Department_Details,
-          as: 'Department_Details',
-          attributes: ['amenities', 'notIncluded', 'services'],
-          required: true,
-          duplicating: false,
-        },
-        {
-          model: models.Department_Rooms,
-          as: 'Department_Rooms',
-          attributes: [
-            'typeRoom',
-            'numBed',
-            'typeBed',
-            'numBathrooms',
-            'ímage',
-          ],
-          required: true,
-          duplicating: false,
-        },
-        {
-          model: models.Department_Images,
-          as: 'Department_Images',
-          attributes: ['id', 'imageUrl', 'order'],
-          required: false,
-        },
-      ],
-      attributes: {
-        exclude: ['createdAt', 'updatedAt'],
-      },
-      raw: true,
-      nest: true,
-    })
+  async findAndCount(query) {
+    const options = {
+      where: {},
+      // limit,
+      // offset,
+      distinct: true, // Esta opción es para obtener conteo de departam
+      // include: [
+      //   {
+      //     model: models.Department_Details,
+      //     as: 'Department_Details',
+      //     // attributes: ['amenities', 'notIncluded', 'services'],
+      //     // required: true,
+      //     duplicating: false,
+      //   },
+      //   {
+      //     model: models.Department_Rooms,
+      //     as: 'Department_Rooms',
+      //     // attributes: [
+      //     //   'typeRoom',
+      //     //   'numBed',
+      //     //   'typeBed',
+      //     //   'numBathrooms',
+      //     //   'ímage',
+      //     // ],
+      //     // required: true,
+      //     duplicating: false,
+      //   },
+      //   {
+      //     model: models.Images,
+      //     as: 'Images',
+      //     // attributes: ['id', 'imageUrl', 'order'],
+      //     required: false,
+      //   },
+      // ],
+      // attributes: {
+      //   exclude: ['createdAt', 'updatedAt'],
+      // },
+      // raw: true,
+      // nest: true,
+    }
 
-    const { count, rows: results } = departments
-    const totalPages = Math.ceil(count / limit)
+    console.log(options)
 
-    // Group the images for the department
-    const groupedResults = results.reduce((acc, department) => {
-      const departmentId = department.id
-      if (!acc[departmentId]) {
-        acc[departmentId] = {
-          ...department,
-          Department_Images: [],
-        }
-      }
-      if (department.Department_Images.id) {
-        acc[departmentId].Department_Images.push(department.Department_Images)
-      }
-      return acc
-    }, {})
+    const { limit, offset } = query
+    if (limit && offset) {
+      options.limit = limit
+      options.offset = offset
+    }
 
-    //? Object to array of groupedResults
-    const finalResults = Object.values(groupedResults)
+    const { name } = query
+    if (name) {
+      options.where.name = { [Op.iLike]: `%${name}%` }
+    }
+    options.distinct = true
 
-    return { count, totalPages, results: finalResults }
+    console.log('AQUI')
+    const departments = await models.Departments.findAndCountAll(options)
+    return departments
   }
 
-  //? Get Department by Id
-  async getDepartmentOr404(departmentId) {
-    let department = await models.Departments.findByPk(departmentId)
-    if (!department)
-      throw new CustomError('Not found Department', 404, 'Not Found')
+  // async findAllDepartments(limit, offset) {
+  //   console.log('AQUI')
+  //   const departments = await models.Departments.findAndCountAll({
+  //     limit,
+  //     offset,
+  //     distinct: true, // Esta opción es para obtener conteo de departamentos distintas y no todos los models
+  //     include: [
+  //       {
+  //         model: models.Department_Details,
+  //         as: 'Department_Details',
+  //         attributes: ['amenities', 'notIncluded', 'services'],
+  //         required: true,
+  //         duplicating: false,
+  //       },
+  //       {
+  //         model: models.Department_Rooms,
+  //         as: 'Department_Rooms',
+  //         attributes: [
+  //           'typeRoom',
+  //           'numBed',
+  //           'typeBed',
+  //           'numBathrooms',
+  //           'ímage',
+  //         ],
+  //         required: true,
+  //         duplicating: false,
+  //       },
+  //       {
+  //         model: models.Images,
+  //         as: 'Images',
+  //         attributes: ['id', 'imageUrl', 'order'],
+  //         required: false,
+  //       },
+  //     ],
+  //     attributes: {
+  //       exclude: ['createdAt', 'updatedAt'],
+  //     },
+  //     raw: true,
+  //     nest: true,
+  //   })
 
-    let departmentDetails = await models.Department_Details.findOne({
-      where: {
-        departmentId: departmentId,
-      },
-      attributes: {
-        exclude: ['id', 'departmentId', 'createdAt', 'updatedAt'],
-      },
-    })
+  //   console.log(departments)
+  //   const { count, rows: results } = departments
+  //   const totalPages = Math.ceil(count / limit)
 
-    let departmentRooms = await models.Department_Rooms.findOne({
-      where: {
-        departmentId: departmentId,
-      },
-      attributes: {
-        exclude: ['id', 'departmentId', 'createdAt', 'updatedAt'],
-      },
-    })
+  //   // Group the images for the department
+  //   const groupedResults = results.reduce((acc, department) => {
+  //     const departmentId = department.id
+  //     if (!acc[departmentId]) {
+  //       acc[departmentId] = {
+  //         ...department,
+  //         Images: [],
+  //       }
+  //     }
+  //     if (department.Images.id) {
+  //       acc[departmentId].Images.push(department.Images)
+  //     }
+  //     return acc
+  //   }, {})
 
-    let departmentImages = await models.department_Images.findAll({
-      where: {
-        departmentId: departmentId,
-      },
-      attributes: {
-        exclude: ['id', 'departmentId', 'createdAt', 'updatedAt'],
-      },
-    })
+  //   //? Object to array of groupedResults
+  //   const finalResults = Object.values(groupedResults)
 
-    //? Add departmentDetail and departmentRooms into department
-    department.dataValues.departmentRooms = departmentRooms
-    department.dataValues.departmentDetails = departmentDetails
-    department.dataValues.departmentImages = departmentImages
+  //   return { count, totalPages, results: finalResults }
+  // }
 
-    return department
-  }
+  // //? Get Department by Id
+  // async getDepartmentOr404(departmentId) {
+  //   let department = await models.Departments.findByPk(departmentId)
+  //   if (!department)
+  //     throw new CustomError('Not found Department', 404, 'Not Found')
+
+  //   console.log('department: ', department)
+  //   let departmentDetails = await models.Department_Details.findOne({
+  //     where: {
+  //       departmentId: departmentId,
+  //     },
+  //     attributes: {
+  //       exclude: ['id', 'departmentId', 'createdAt', 'updatedAt'],
+  //     },
+  //   })
+  //   console.log('details', departmentDetails)
+  //   let departmentRooms = await models.Department_Rooms.findOne({
+  //     where: {
+  //       departmentId: departmentId,
+  //     },
+  //     attributes: {
+  //       exclude: ['id', 'departmentId', 'createdAt', 'updatedAt'],
+  //     },
+  //   })
+
+  //   let departmentImages = await models.Images.findAll({
+  //     where: {
+  //       departmentId: departmentId,
+  //     },
+  //     attributes: {
+  //       exclude: ['id', 'departmentId', 'createdAt', 'updatedAt'],
+  //     },
+  //   })
+
+  //   //? Add departmentDetail and departmentRooms into department
+  //   department.dataValues.departmentRooms = departmentRooms
+  //   department.dataValues.departmentDetails = departmentDetails
+  //   department.dataValues.departmentImages = departmentImages
+
+  //   return department
+  // }
 
   //? Create a new Department with details being a admin
   async createDepartment(departmentData) {
@@ -117,6 +181,7 @@ class DepartmentServices {
     try {
       const department = await models.Departments.create(
         {
+          id: uuid4(),
           departmentType: departmentData.departmentType,
           description: departmentData.description,
           address: departmentData.address,
@@ -134,21 +199,21 @@ class DepartmentServices {
       const departmentDetails = await models.Department_Details.create(
         {
           departmentId: department.dataValues.id,
-          amenities: departmentData.numRoom.amenities,
-          notIncluded: departmentData.numRoom.notIncluded,
-          services: departmentData.numRoom.services,
+          amenities: departmentData.departmentDetails.amenities,
+          notIncluded: departmentData.departmentDetails.notIncluded,
+          services: departmentData.departmentDetails.services,
         },
         { transaction }
       )
 
       const departmentRoom = await models.Department_Rooms.create(
         {
+          id: uuid4(),
           departmentId: department.dataValues.id,
-          typeRoom: departmentData.details.typeRoom,
-          numBed: departmentData.details.numBed,
-          typeBed: departmentData.details.typeBed,
-          numBathrooms: departmentData.details.numBathrooms,
-          image: departmentData.details.image,
+          typeRoom: departmentData.departmentRooms.typeRoom,
+          numBed: departmentData.departmentRooms.numBed,
+          typeBed: departmentData.departmentRooms.typeBed,
+          numBaths: departmentData.departmentRooms.numBaths,
         },
         { transaction }
       )

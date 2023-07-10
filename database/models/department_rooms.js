@@ -6,7 +6,9 @@ module.exports = (sequelize, DataTypes) => {
   class Department_Rooms extends Model {
     
     static associate(models) {  
-      Department_Rooms.belongsTo(models.Departments, { foreignKey: 'departmentId', as: 'Departments' });   
+      Department_Rooms.belongsTo(models.Departments, { foreignKey: 'productId', as: 'Departments' });   
+      Department_Rooms.belongsToMany(models.Images, { through: 'EntityImage', foreignKey: 'roomId' })
+
     }
   }
   Department_Rooms.init({
@@ -17,12 +19,11 @@ module.exports = (sequelize, DataTypes) => {
     typeRoom: DataTypes.STRING,
     numBed: DataTypes.INTEGER,
     typeBed: DataTypes.ARRAY(DataTypes.STRING),
-    numBathrooms: DataTypes.INTEGER,
-    image: DataTypes.STRING
+    numBaths: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Department_Rooms',
-    tableName: 'departmentRooms',
+    tableName: 'Department_Rooms',
   })
 
   return Department_Rooms

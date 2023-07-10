@@ -1,34 +1,37 @@
 'use strict'
-
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
+  up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       await queryInterface.createTable(
-        'Tour_Images',
+        'Department_Rooms',
         {
           id: {
-            allowNull: false,
             primaryKey: true,
+            defaultValues: Sequelize.UUID,
             type: Sequelize.UUID,
           },
-          tourId: {
+          departmentId: {
             allowNull: false,
             type: Sequelize.UUID,
             references: {
-              model: 'Tours',
+              model: 'Departments',
               key: 'id',
             },
-            onUpdate: 'CASCADE',
-            onDelete: 'RESTRICT',
           },
-          imageUrl: {
+          typeRoom: {
             allowNull: false,
-            type: Sequelize.TEXT,
-            primaryKey: true,
+            type: Sequelize.STRING,
           },
-          order: {
+          numBed: {
+            allowNull: false,
+            type: Sequelize.INTEGER,
+          },
+          typeBed: {
+            allowNull: false,
+            type: Sequelize.ARRAY(Sequelize.STRING),
+          },
+          numBaths: {
             allowNull: false,
             type: Sequelize.INTEGER,
           },
@@ -43,17 +46,16 @@ module.exports = {
         },
         { transaction }
       )
-
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()
       throw error
     }
   },
-  async down(queryInterface, Sequelize) {
+  down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Tour_Images', { transaction })
+      await queryInterface.dropTable('Department_Rooms', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

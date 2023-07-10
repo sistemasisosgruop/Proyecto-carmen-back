@@ -6,10 +6,10 @@ require('../libs/passport')(passport)
 const DepartmentsControllers = require('../controllers/departments.controllers')
 const RoleAuth = require('../middlewares/auth.middleware')
 const ReservationsControllers = require('../controllers/reservations.controllers')
-const DepartmentImagesController = require('../controllers/departmentImages.controllers')
+const ImagesController = require('../controllers/images.controllers')
 const departmentController = new DepartmentsControllers()
 const roleAuth = new RoleAuth()
-const imageController = new DepartmentImagesController()
+const imageController = new ImagesController()
 const reservationController = new ReservationsControllers()
 
 const router = express.Router()
@@ -34,9 +34,15 @@ router.post(
   '/:departmentId/images',
   [passport.authenticate('jwt', { session: false }), roleAuth.isAdmin],
   multerPhotos.array('image', 10),
-  imageController.uploadImageDepartment
+  imageController.uploadImagesDepartment
 )
 
+router.post(
+  '/rooms/:roomId/images',
+  [passport.authenticate('jwt', { session: false }), roleAuth.isAdmin],
+  multerPhotos.array('image', 10),
+  imageController.uploadImagesDepartmentRooms
+)
 router.post(
   '/:departmentId/rating',
   passport.authenticate('jwt', { session: false }),

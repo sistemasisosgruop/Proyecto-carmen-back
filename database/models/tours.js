@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       Tours.hasMany(models.Reservation_Tours, { foreignKey: 'tourId', as: 'Reservation_Tours' });
       Tours.hasMany(models.Ratings, { foreignKey: 'tourId', as: 'Ratings' });
       Tours.hasMany(models.User_Products, { as: 'User_Products', foreignKey: 'tourId' })
-      Tours.hasMany(models.Tour_Images, { as: 'Tour_Images', foreignKey: 'tourId' })
+      Tours.belongsToMany(models.Images, { through: 'EntityImage', foreignKey: 'tourId' })
     }
   }
   Tours.init({

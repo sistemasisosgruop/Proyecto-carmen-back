@@ -14,7 +14,7 @@ module.exports = {
             type: Sequelize.BIGINT,
           },
           departmentId: {
-            allowNull: false,
+            // allowNull: false,
             type: Sequelize.UUID,
             references: {
               model: 'Departments',
@@ -22,23 +22,23 @@ module.exports = {
             },
           },
           amenities: {
-            allowNull: false,
+            // allowNull: false,
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
           notIncluded: {
-            allowNull: false,
+            // allowNull: false,
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
           services: {
-            allowNull: false,
+            // allowNull: false,
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
           createdAt: {
-            allowNull: false,
+            // allowNull: false,
             type: Sequelize.DATE,
           },
           updatedAt: {
-            allowNull: false,
+            // allowNull: false,
             type: Sequelize.DATE,
           },
         },

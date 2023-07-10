@@ -38,8 +38,8 @@ class TourService {
           required: true,
         },
         {
-          model: models.Tour_Images,
-          as: 'Tour_Images',
+          model: models.Images,
+          as: 'Images',
           attributes: ['id', 'tourId', 'imageUrl', 'order'],
           required: false,
         },
