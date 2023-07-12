@@ -151,19 +151,22 @@ class DepartmentServices {
 
       if (!department) throw new Error('Department not found')
 
-      const newDepartment = await department.update({
-        departmentType: departmentData.departmentType,
-        description: departmentData.description,
-        address: departmentData.address,
-        price: departmentData.price,
-        checkIn: departmentData.checkIn,
-        checkOut: departmentData.checkOut,
-        numBathrooms: departmentData.numBathrooms,
-        numBeds: departmentData.numBeds,
-        numRooms: departmentData.numRooms,
-        extras: departmentData.extras,
-        details: departmentData.details,
-      })
+      const newDepartment = await department.update(
+        {
+          departmentType: departmentData.departmentType,
+          description: departmentData.description,
+          address: departmentData.address,
+          price: departmentData.price,
+          checkIn: departmentData.checkIn,
+          checkOut: departmentData.checkOut,
+          numBathrooms: departmentData.numBathrooms,
+          numBeds: departmentData.numBeds,
+          numRooms: departmentData.numRooms,
+          extras: departmentData.extras,
+          details: departmentData.details,
+        },
+        { transaction }
+      )
 
       await transaction.commit()
       return newDepartment

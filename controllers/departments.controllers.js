@@ -102,7 +102,7 @@ class DepartmentControllers {
   }
 
   async patchDepartment(req, res) {
-    const departmentId = req.params
+    const { departmentId } = req.params
     const {
       departmentType,
       description,
@@ -141,8 +141,8 @@ class DepartmentControllers {
   }
 
   async deleteDepartment(req, res) {
+    let { departmentId } = req.params
     try {
-      let { departmentId } = req.params
       let department = await departmentsService.removeDepartment(departmentId)
       return res.status(201).json({ results: department, message: 'removed' })
     } catch (error) {

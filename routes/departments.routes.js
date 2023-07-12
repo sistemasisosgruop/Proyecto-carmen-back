@@ -49,6 +49,7 @@ router.post(
   multerPhotos.array('image', 10),
   imageController.uploadImagesDepartmentRooms
 )
+
 router.post(
   '/:departmentId/rating',
   passport.authenticate('jwt', { session: false }),
