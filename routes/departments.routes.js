@@ -24,6 +24,12 @@ router.post(
 
 router.get('/:departmentId', departmentController.getDepartment)
 
+router.patch(
+  '/:departmentId',
+  [passport.authenticate('jwt', { session: false }), roleAuth.isAdmin],
+  departmentController.patchDepartment
+)
+
 router.delete(
   '/:departmentId',
   [passport.authenticate('jwt', { session: false }), roleAuth.isAdmin],

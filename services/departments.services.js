@@ -144,6 +144,35 @@ class DepartmentServices {
     }
   }
 
+  async updateDepartment(departmentId, departmentData) {
+    const transaction = await models.Departments.Sequelize.transaction()
+    try {
+      const department = models.Departments.findByPk(departmentId)
+
+      if (!department) throw new Error('Department not found')
+
+      const newDepartment = await department.update({
+        departmentType: departmentData.departmentType,
+        description: departmentData.description,
+        address: departmentData.address,
+        price: departmentData.price,
+        checkIn: departmentData.checkIn,
+        checkOut: departmentData.checkOut,
+        numBathrooms: departmentData.numBathrooms,
+        numBeds: departmentData.numBeds,
+        numRooms: departmentData.numRooms,
+        extras: departmentData.extras,
+        details: departmentData.details,
+      })
+
+      await transaction.commit()
+      return newDepartment
+    } catch (error) {
+      await transaction.rollback()
+      throw error
+    }
+  }
+
   async removeDepartment(departmentId) {
     const transaction = await models.Departments.sequelize.transaction()
     try {

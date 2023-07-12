@@ -101,6 +101,45 @@ class DepartmentControllers {
     }
   }
 
+  async patchDepartment(req, res) {
+    const departmentId = req.params
+    const {
+      departmentType,
+      description,
+      address,
+      price,
+      checkIn,
+      checkOut,
+      numBathrooms,
+      numBeds,
+      numRooms,
+      extras,
+      details,
+    } = req.body
+    try {
+      const departmentData = {
+        departmentType,
+        description,
+        address,
+        price,
+        checkIn,
+        checkOut,
+        numBathrooms,
+        numBeds,
+        numRooms,
+        extras,
+        details,
+      }
+      const department = await departmentsService.updateDepartment(
+        departmentId,
+        departmentData
+      )
+      return res.json(department)
+    } catch (error) {
+      return res.status(401).json({ message: error.message })
+    }
+  }
+
   async deleteDepartment(req, res) {
     try {
       let { departmentId } = req.params
