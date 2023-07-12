@@ -119,20 +119,25 @@ class DepartmentServices {
         { transaction }
       )
 
-      const departmentRoom = await models.DepartmentRooms.create(
-        {
-          id: uuid4(),
-          departmentId: department.dataValues.id,
-          typeRoom: departmentData.departmentRooms.typeRoom,
-          numBed: departmentData.departmentRooms.numBed,
-          typeBed: departmentData.departmentRooms.typeBed,
-          numBaths: departmentData.departmentRooms.numBaths,
-        },
-        { transaction }
-      )
+      const departmentRooms = []
+
+      for (const roomData of departmentData.departmentRooms) {
+        const room = await models.DepartmentRooms.create(
+          {
+            id: uuid4(),
+            departmentId: department.dataValues.id,
+            typeRoom: roomData.typeRoom,
+            numBed: roomData.numBed,
+            typeBed: roomData.typeBed,
+            numBaths: roomData.numBaths,
+          },
+          { transaction }
+        )
+        departmentRooms.push(room)
+      }
 
       await transaction.commit()
-      return { department, departmentRoom }
+      return { department, departmentRooms }
     } catch (error) {
       await transaction.rollback()
       throw error
