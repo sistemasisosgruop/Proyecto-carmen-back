@@ -2,13 +2,13 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Reservation_Departments extends Model {
+  class ReservationDepartments extends Model {
     static associate(models) {
-      Reservation_Departments.belongsTo(models.Reservation_Departments, { foreignKey: 'departmentId', as: 'DeReservation_Departments' });
-      Reservation_Departments.belongsTo(models.Users, { foreignKey: 'userId', as: 'Users' });
+      ReservationDepartments.belongsTo(models.ReservationDepartments, { foreignKey: 'departmentId', as: 'ReservationDepartments' });
+      ReservationDepartments.belongsTo(models.Users, { foreignKey: 'userId', as: 'Users' });
     }
   }
-  Reservation_Departments.init({
+  ReservationDepartments.init({
     id: {
       type: DataTypes.UUID,
       primaryKey: true
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     totalPrice: DataTypes.FLOAT,
   }, {
     sequelize,
-    modelName: 'Reservation_Departments',
+    modelName: 'ReservationDepartments',
     tableName: 'reservationDepartments',
     timestamps: true,
     scopes: {
@@ -34,5 +34,5 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
   });
-  return Reservation_Departments;
+  return ReservationDepartments;
 };

@@ -5,18 +5,18 @@ class ShopingCartsService {
 
   async addProductsToCart(userId, cartData) {
     // Iniciar una transacción
-    const transacción = await models.Shoping_Cart.sequelize.transaction()
+    const transacción = await models.ShopingCart.sequelize.transaction()
 
     try {
       // Buscar o crear el carrito del usuario
-      let [cart, created] = await models.Shoping_Cart.findOrCreate({
+      let [cart, created] = await models.ShopingCart.findOrCreate({
         where: { id: uuid4(), userId: userId },
         defaults: { userId: userId },
       })
       // Agregar la habitación al carrito si se proporciona un ID de habitación
       if (cartData.reservationDepartmentId) {
         const reservationDepartment =
-          await models.Reservation_Departments.findOne({
+          await models.ReservationDepartments.findOne({
             where: {
               id: cartData.reservationDepartmentId,
             },
@@ -29,7 +29,7 @@ class ShopingCartsService {
         console.log('CART: ', cart)
         console.log('RESERVSTIONDepartment: ', reservationDepartment)
         // Crear o actualizar el elemento de carrito para la habitación
-        await models.User_Products.findOrCreate({
+        await models.UserProducts.findOrCreate({
           where: {
             id: uuid4(),
             cartId: cart.dataValues.id,
@@ -45,7 +45,7 @@ class ShopingCartsService {
 
       // Agregar el tour al carrito si se proporciona un ID de tour
       if (cartData.reservationTourId) {
-        const reservationTour = await models.Reservation_Tours.findOne({
+        const reservationTour = await models.ReservationTours.findOne({
           where: {
             id: cartData.reservationTourId,
           },
@@ -56,7 +56,7 @@ class ShopingCartsService {
 
         console.log(reservationTour)
         // Crear o actualizar el elemento de carrito para el tour
-        await models.User_Products.findOrCreate({
+        await models.UserProducts.findOrCreate({
           where: {
             id: uuid4(),
             cartId: cart.id,
@@ -73,8 +73,8 @@ class ShopingCartsService {
       // Confirmar la transacción
       console.log(cart)
       // Devolver el carrito actualizado
-      cart = await models.Shoping_Cart.findByPk(cart.dataValues.id, {
-        include: [{ model: models.User_Products, as: 'User_Products' }],
+      cart = await models.ShopingCart.findByPk(cart.dataValues.id, {
+        include: [{ model: models.UserProducts, as: 'UserProducts' }],
       })
       console.log(cart)
       await transacción.commit()
@@ -87,10 +87,10 @@ class ShopingCartsService {
   }
 
   // async processPayment(cartId, paymentData) {
-  // const cart = await models.Shoping_Cart.findByPk(cartId, {
+  // const cart = await models.ShopingCart.findByPk(cartId, {
   // include: [
-  // { model: models.Reservation_Rooms, as: 'RoomItems' },
-  // { model: models.Reservation_Tours, as: 'TourItems' },
+  // { model: models.ReservationRooms, as: 'RoomItems' },
+  // { model: models.ReservationTours, as: 'TourItems' },
   // ],
   // })
 
@@ -98,7 +98,7 @@ class ShopingCartsService {
   // throw new Error('Shoping Cart does not exist')
   // }
 
-  // // Calcular el total_price sumando los precios de las habitaciones y tours en el carrito
+  // // Calcular el totalprice sumando los precios de las habitaciones y tours en el carrito
   // let totalPrice = 0
   // cart.RoomItems.forEach((roomItem) => {
   // totalPrice += roomItem.Department.price * roomItem.quantity
@@ -121,7 +121,7 @@ class ShopingCartsService {
   // }
 
   async findUserProductsByUser(userId) {
-    const product = await models.User_Products.findOne({
+    const product = await models.UserProducts.findOne({
       where: {
         userId: userId,
       },

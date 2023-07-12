@@ -1,49 +1,41 @@
 'use strict'
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
       await queryInterface.createTable(
-        'Department_Details',
+        'EntityImages',
         {
           id: {
             primaryKey: true,
-            autoIncrement: true,
-            defaultValues: Sequelize.BIGINT,
             type: Sequelize.BIGINT,
+            defaulValue: Sequelize.BIGINT,
+            autoIncrement: true,
+          },
+          imageId: {
+            type: Sequelize.UUID,
           },
           departmentId: {
-            // allowNull: false,
             type: Sequelize.UUID,
-            references: {
-              model: 'Departments',
-              key: 'id',
-            },
           },
-          amenities: {
-            // allowNull: false,
-            type: Sequelize.ARRAY(Sequelize.STRING),
+          roomId: {
+            type: Sequelize.UUID,
           },
-          notIncluded: {
-            // allowNull: false,
-            type: Sequelize.ARRAY(Sequelize.STRING),
-          },
-          services: {
-            // allowNull: false,
-            type: Sequelize.ARRAY(Sequelize.STRING),
+          tourId: {
+            type: Sequelize.UUID,
           },
           createdAt: {
-            // allowNull: false,
+            allowNull: false,
             type: Sequelize.DATE,
           },
           updatedAt: {
-            // allowNull: false,
+            allowNull: false,
             type: Sequelize.DATE,
           },
         },
         { transaction }
       )
+
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()
@@ -53,7 +45,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('Department_Details', { transaction })
+      await queryInterface.dropTable('EntityImages', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()

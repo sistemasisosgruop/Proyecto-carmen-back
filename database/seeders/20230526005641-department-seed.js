@@ -29,31 +29,20 @@ module.exports = {
               'Air conditioning',
               'Mini fridge',
             ],
+            details: {
+              amenities: ['Swimming pool', 'Restaurant', 'Department service'],
+              notIncluded: ['Pets not allowed', 'Smoking not allowed'],
+              services: ['24/7 concierge', 'Laundry service'],
+            },
             createdAt: new Date(),
             updatedAt: new Date(),
           },
         ],
         { transaction }
       )
-      // Create details of the department in the table 'Department_Details'
+      // Crear los detalles adicionales de la habitación en la tabla 'DepartmentDetails'
       await queryInterface.bulkInsert(
-        'Department_Details',
-        [
-          {
-            departmentId: departmentId,
-            amenities: ['Swimming pool', 'Restaurant', 'Department service'],
-            notIncluded: ['Pets not allowed', 'Smoking not allowed'],
-            services: ['24/7 concierge', 'Laundry service'],
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          },
-        ],
-        { transaction }
-      )
-
-      // Crear los detalles adicionales de la habitación en la tabla 'Department_Details'
-      await queryInterface.bulkInsert(
-        'Department_Rooms',
+        'DepartmentRooms',
         [
           {
             id: roomId,
@@ -78,13 +67,8 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      // Eliminar los registros de la tabla 'Department_Rooms'
-      await queryInterface.bulkDelete('Department_Rooms', null, {
-        transaction,
-      })
-
-      // Eliminar los registros de la tabla 'Department_Details'
-      await queryInterface.bulkDelete('Department_Details', null, {
+      // Eliminar los registros de la tabla 'DepartmentRooms'
+      await queryInterface.bulkDelete('DepartmentRooms', null, {
         transaction,
       })
 

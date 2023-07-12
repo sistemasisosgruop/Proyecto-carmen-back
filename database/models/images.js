@@ -4,16 +4,19 @@ module.exports = (sequelize, DataTypes) => {
   class Images extends Model {
     static associate(models) {
       Images.belongsToMany(models.Departments, {
-        through: 'EntityImage',
+        through: 'EntityImages',
         foreignKey: 'imageId',
+        as: 'Departments'
       })
       Images.belongsToMany(models.Tours, {
-        through: 'EntityImage',
+        through: 'EntityImages',
         foreignKey: 'imageId',
+        as: 'DepartmentsRooms'
       })
-      Images.belongsToMany(models.Department_Rooms, {
-        through: 'EntityImage',
+      Images.belongsToMany(models.DepartmentRooms, {
+        through: 'EntityImages',
         foreignKey: 'imageId',
+        as: 'Tours'
       })
     }
   }
@@ -44,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       scopes: {
         public_view: {
-          attributes: ['id', 'imageUrl', 'departmentId'],
+          attributes: ['id', 'imageUrl', 'productId'],
         },
       },
     }

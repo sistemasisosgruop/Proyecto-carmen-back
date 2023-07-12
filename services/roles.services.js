@@ -58,7 +58,6 @@ class RolesService {
       if (!role) {
         throw new Error('Role does not exist')
       }
-      console.log('HERE ROLE: ', role)
       let updatedRole = await role.update(
         {
           name,
@@ -66,7 +65,6 @@ class RolesService {
         },
         { transaction }
       )
-      console.log(updatedRole)
       await transaction.commit()
       return updatedRole
     } catch (error) {

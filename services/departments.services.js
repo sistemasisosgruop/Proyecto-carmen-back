@@ -12,20 +12,26 @@ class DepartmentServices {
       where: {},
       include: [
         {
-          model: models.Department_Details,
-          as: 'Department_Details',
-          attributes: ['amenities', 'notIncluded', 'services'],
+          model: models.DepartmentRooms,
+          as: 'DepartmentRooms',
+          include: [
+            {
+              model: models.Images,
+              as: 'Images',
+              attributes: {
+                exclude: ['id', 'productId', 'createdAt', 'updatedAt'],
+              },
+            },
+          ],
+          attributes: {
+            exclude: ['departmentId', 'createdAt', 'updatedAt', 'EntityImages'],
+          },
         },
         {
-          model: models.Department_Rooms,
-          as: 'Department_Rooms',
-          attributes: ['typeRoom', 'numBed', 'typeBed', 'numBaths'],
+          model: models.Images,
+          as: 'Images',
+          attributes: ['imageUrl', 'order'],
         },
-        // {
-        // model: models.Images,
-        // as: 'Images',
-        // attributes: ['id', 'imageUrl', 'order'],
-        // },
       ],
       attributes: {
         exclude: ['createdAt', 'updatedAt'],
@@ -44,7 +50,6 @@ class DepartmentServices {
     }
     options.distinct = true
 
-    console.log('AQUI')
     const departments = await models.Departments.findAndCountAll(options)
     return departments
   }
@@ -55,15 +60,7 @@ class DepartmentServices {
     if (!department)
       throw new CustomError('Not found Department', 404, 'Not Found')
 
-    let departmentDetails = await models.Department_Details.findOne({
-      where: {
-        departmentId: department.dataValues.id,
-      },
-      attributes: {
-        exclude: ['id', 'departmentId', 'createdAt', 'updatedAt'],
-      },
-    })
-    let departmentRoom = await models.Department_Rooms.findOne({
+    let departmentRoom = await models.DepartmentRooms.findOne({
       where: {
         departmentId: department.dataValues.id,
       },
@@ -95,7 +92,6 @@ class DepartmentServices {
     //? Add departmentDetail and departmentRooms into department
     department.dataValues.departmentRoom = departmentRoom
     department.dataValues.departmentRoom.dataValues.roomImages = roomImages
-    department.dataValues.departmentDetails = departmentDetails
     department.dataValues.departmentImages = departmentImages
 
     return department
@@ -118,21 +114,12 @@ class DepartmentServices {
           numBeds: departmentData.numBeds,
           numRooms: departmentData.numRooms,
           extras: departmentData.extras,
+          details: departmentData.details,
         },
         { transaction }
       )
 
-      const departmentDetails = await models.Department_Details.create(
-        {
-          departmentId: department.dataValues.id,
-          amenities: departmentData.departmentDetails.amenities,
-          notIncluded: departmentData.departmentDetails.notIncluded,
-          services: departmentData.departmentDetails.services,
-        },
-        { transaction }
-      )
-
-      const departmentRoom = await models.Department_Rooms.create(
+      const departmentRoom = await models.DepartmentRooms.create(
         {
           id: uuid4(),
           departmentId: department.dataValues.id,
@@ -145,7 +132,7 @@ class DepartmentServices {
       )
 
       await transaction.commit()
-      return { department, departmentDetails, departmentRoom }
+      return { department, departmentRoom }
     } catch (error) {
       await transaction.rollback()
       throw error

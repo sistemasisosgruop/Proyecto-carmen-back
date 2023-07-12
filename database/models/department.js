@@ -3,13 +3,12 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Departments extends Model {
     static associate(models) {
-      Departments.hasMany(models.Department_Details, { foreignKey: 'departmentId', as: 'Department_Details' });
-      Departments.hasMany(models.Department_Rooms, { foreignKey: 'departmentId', as: 'Department_Rooms' });
+      Departments.hasMany(models.DepartmentRooms, { foreignKey: 'departmentId', as: 'DepartmentRooms' });
       Departments.hasMany(models.Coupons, { foreignKey: 'departmentId', as: 'Coupons' });
-      Departments.hasMany(models.Reservation_Departments, { foreignKey: 'departmentId', as: 'reservationDepartments' });
+      Departments.hasMany(models.ReservationDepartments, { foreignKey: 'departmentId', as: 'reservationDepartments' });
       Departments.hasMany(models.Ratings, { foreignKey: 'departmentId', as: 'Ratings' });
-      Departments.hasMany(models.User_Products, { as: 'User_Products', foreignKey: 'departmentId' });
-      Departments.belongsToMany(models.Images, { through: 'EntityImage', foreignKey: 'departmentId' });
+      Departments.hasMany(models.UserProducts, { as: 'UserProducts', foreignKey: 'departmentId' });
+      Departments.belongsToMany(models.Images, { through: 'EntityImages', foreignKey: 'departmentId', as: 'Images'});
     }
   }
 
@@ -29,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       numBeds: DataTypes.INTEGER,
       numRooms: DataTypes.INTEGER,
       extras: DataTypes.ARRAY(DataTypes.STRING),
+      details: DataTypes.JSONB
     },
     {
       sequelize,
@@ -46,7 +46,8 @@ module.exports = (sequelize, DataTypes) => {
             'checkOut',
             'numBathrooms',
             'numBeds',
-            'extras',
+            'extras', 
+            'details',
           ],
         },
       },

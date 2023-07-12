@@ -3,14 +3,14 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class User_Products extends Model {
+  class UserProducts extends Model {
     static associate(models) {
-      User_Products.belongsTo(models.Departments, { as: 'Departments', foreignKey: 'departmentId'})
-      User_Products.belongsTo(models.Tours, { as: 'Tours', foreignKey: 'tourId'})
-      User_Products.belongsTo(models.Shoping_Cart, { as: 'Shoping_Cart', foreignKey: 'cartId'})
+      UserProducts.belongsTo(models.Departments, { as: 'Departments', foreignKey: 'departmentId'})
+      UserProducts.belongsTo(models.Tours, { as: 'Tours', foreignKey: 'tourId'})
+      UserProducts.belongsTo(models.ShopingCart, { as: 'ShopingCart', foreignKey: 'cartId'})
     }
   }
-  User_Products.init({
+  UserProducts.init({
     cartId: {
       type: DataTypes.UUID,
       foreignKey: true
@@ -29,8 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'User_Products',
-    tableName: 'User_Products', 
+    modelName: 'UserProducts',
+    tableName: 'UserProducts', 
     timestamps: true,
     scopes: {
       public_view: {
@@ -38,5 +38,5 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
   });
-  return User_Products;
+  return UserProducts;
 };

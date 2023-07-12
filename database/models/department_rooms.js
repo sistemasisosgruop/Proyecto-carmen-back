@@ -3,15 +3,15 @@ const {
   Model, Sequelize
 } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
-  class Department_Rooms extends Model {
+  class DepartmentRooms extends Model {
     
     static associate(models) {  
-      Department_Rooms.belongsTo(models.Departments, { foreignKey: 'departmentId', as: 'Departments' });   
-      Department_Rooms.belongsToMany(models.Images, { through: 'EntityImage', foreignKey: 'roomId' })
+      DepartmentRooms.belongsTo(models.Departments, { foreignKey: 'departmentId', as: 'Departments' });   
+      DepartmentRooms.belongsToMany(models.Images, { through: 'EntityImages', foreignKey: 'roomId', as: 'Images'})
 
     }
   }
-  Department_Rooms.init({
+  DepartmentRooms.init({
     departmentId: {
     type: DataTypes.UUID, 
     foreignKey: true
@@ -22,9 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     numBaths: DataTypes.INTEGER,
   }, {
     sequelize,
-    modelName: 'Department_Rooms',
-    tableName: 'Department_Rooms',
+    modelName: 'DepartmentRooms',
+    tableName: 'DepartmentRooms',
   })
 
-  return Department_Rooms
+  return DepartmentRooms
 }

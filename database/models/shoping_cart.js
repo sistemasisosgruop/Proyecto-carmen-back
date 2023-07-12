@@ -3,13 +3,13 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Shoping_Cart extends Model {
+  class ShopingCart extends Model {
     static associate(models) {
-      Shoping_Cart.belongsTo(models.Users, { foreignKey: 'userId', as: 'Users' });
-      Shoping_Cart.hasMany(models.User_Products, { foreignKey: 'cartId', as: 'User_Products' });
+      ShopingCart.belongsTo(models.Users, { foreignKey: 'userId', as: 'Users' });
+      ShopingCart.hasMany(models.UserProducts, { foreignKey: 'cartId', as: 'UserProducts' });
     }
   }
-  Shoping_Cart.init({
+  ShopingCart.init({
     id: {
       type: DataTypes.UUID,
       allowNull: false,
@@ -19,8 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     totalPrice: DataTypes.FLOAT,
   }, {
     sequelize,
-    modelName: 'Shoping_Cart',
-    tableName: 'Shoping_Cart',
+    modelName: 'ShopingCart',
+    tableName: 'ShopingCart',
     timestamps: true,
     scopes: {
       public_view: {
@@ -28,5 +28,5 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
   });
-  return Shoping_Cart;
+  return ShopingCart;
 };

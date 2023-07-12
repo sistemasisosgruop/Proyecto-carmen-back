@@ -51,6 +51,10 @@ module.exports = {
             allowNull: false,
             type: Sequelize.ARRAY(Sequelize.STRING),
           },
+          details: {
+            allowNull: false,
+            type: Sequelize.JSONB,
+          },
           createdAt: {
             allowNull: false,
             type: Sequelize.DATE,

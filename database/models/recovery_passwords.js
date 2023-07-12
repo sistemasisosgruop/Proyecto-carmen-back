@@ -3,12 +3,12 @@ const {
   Model
 } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
-  class Recovery_Passwords extends Model {
+  class RecoveryPasswords extends Model {
     static associate(models) {
       
     }
   }
-  Recovery_Passwords.init({
+  RecoveryPasswords.init({
     userId: DataTypes.UUID,
     used: DataTypes.BOOLEAN
   }, {
@@ -22,5 +22,5 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
   });
-  return Recovery_Passwords
+  return RecoveryPasswords
 }

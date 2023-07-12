@@ -8,9 +8,6 @@ const UsersService = new UsersServices()
 const verifyUser = async (email, password) => {
   try {
     const user = await UsersService.getUserByEmail(email)
-    console.log(password)
-    console.log(user)
-    console.log(user.dataValues.password)
     const compare = comparePassword(password, user.dataValues.password)
     if (compare) {
       return user
@@ -25,7 +22,7 @@ const verifyUser = async (email, password) => {
 const createRecoveryToken = async (email) => {
   try {
     const user = await UsersService.getUserByEmail(email)
-    const data = await models.Recovery_Passwords.create({
+    const data = await models.RecoveryPasswords.create({
       id: uuid4(),
       userId: user.id,
       used: false,
@@ -38,14 +35,14 @@ const createRecoveryToken = async (email) => {
 }
 
 const changePassword = async (tokenId, newPassword) => {
-  const changeData = await models.Recovery_Passwords.findOne({
+  const changeData = await models.RecoveryPasswords.findOne({
     where: {
       id: tokenId,
       used: false,
     },
   })
   if (changeData) {
-    await models.Recovery_Passwords.update(
+    await models.RecoveryPasswords.update(
       { used: true },
       {
         where: {

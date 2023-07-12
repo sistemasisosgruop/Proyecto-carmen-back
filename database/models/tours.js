@@ -6,13 +6,11 @@ module.exports = (sequelize, DataTypes) => {
   class Tours extends Model {
     
     static associate(models) {
-      Tours.hasMany(models.Tours_Info, { foreignKey: 'tourId', as: 'Tours_Info' });
-      Tours.hasMany(models.Tours_Details, { foreignKey: 'tourId', as: 'Tours_Details' });
       Tours.hasMany(models.Coupons, { foreignKey: 'tourId', as: 'Coupons' });
-      Tours.hasMany(models.Reservation_Tours, { foreignKey: 'tourId', as: 'Reservation_Tours' });
+      Tours.hasMany(models.ReservationTours, { foreignKey: 'tourId', as: 'ReservationTours' });
       Tours.hasMany(models.Ratings, { foreignKey: 'tourId', as: 'Ratings' });
-      Tours.hasMany(models.User_Products, { as: 'User_Products', foreignKey: 'tourId' })
-      Tours.belongsToMany(models.Images, { through: 'EntityImage', foreignKey: 'tourId' })
+      Tours.hasMany(models.UserProducts, { as: 'UserProducts', foreignKey: 'tourId' })
+      Tours.belongsToMany(models.Images, { through: 'EntityImages', foreignKey: 'tourId', as: 'Images' })
     }
   }
   Tours.init({
@@ -28,7 +26,9 @@ module.exports = (sequelize, DataTypes) => {
     difficulty: DataTypes.STRING,
     languages: DataTypes.ARRAY(DataTypes.STRING),
     numberOfPeople: DataTypes.STRING,
-    ages: DataTypes.STRING
+    ages: DataTypes.STRING, 
+    tourInfo: DataTypes.JSONB, 
+    details: DataTypes.JSONB
   }, {
     sequelize,
     modelName: 'Tours',

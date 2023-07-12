@@ -37,7 +37,6 @@ class RolesController {
     const { name, permissions } = req.body
     try {
       const role = await roleService.createRole(name, permissions)
-      console.log(role)
       return res.status(201).json(role)
     } catch (error) {
       return res.status(401).json({

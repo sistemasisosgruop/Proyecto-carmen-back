@@ -1,12 +1,7 @@
-const models = require('../database/models')
 const { getPagination, getPagingData } = require('../utils/pagination')
 const DepartmentsService = require('../services/departments.services')
-const ImagesService = require('../services/images.services')
-const { CustomError } = require('../utils/custom-error')
-const { uploadFile, unlinkFile } = require('../s3')
 
 const departmentsService = new DepartmentsService()
-const imageService = new ImagesService()
 
 class DepartmentControllers {
   //? Get All Departments with Pagination
@@ -19,15 +14,7 @@ class DepartmentControllers {
       query.limit = limit
       query.offset = offset
 
-      let department = await departmentsService.findAndCount({
-        ...query,
-        include: [
-          {
-            model: models.Department_Details,
-            as: 'Department_Details',
-          },
-        ],
-      })
+      let department = await departmentsService.findAndCount(query)
       const results = getPagingData(department, page, limit)
       return res.json(results)
     } catch (error) {
@@ -59,7 +46,7 @@ class DepartmentControllers {
       numBeds,
       numRooms,
       extras,
-      departmentDetails,
+      details,
       departmentRooms,
     } = req.body
 
@@ -75,9 +62,10 @@ class DepartmentControllers {
         numBeds,
         numRooms,
         extras,
-        departmentDetails,
+        details,
         departmentRooms,
       }
+
       const department = await departmentsService.createDepartment(
         departmentData
       )
@@ -95,16 +83,16 @@ class DepartmentControllers {
           numBathrooms: 'Number',
           numBeds: 'Number',
           numRooms: 'Number',
-          extras: '[Strings]',
-          departmentDetails: {
-            amenities: '[Strings]',
-            notIncluded: '[String]',
-            services: '[String]',
+          extras: ['String', 'String2'],
+          details: {
+            amenities: ['String', 'String2'],
+            notIncluded: ['String', 'String2'],
+            services: ['String', 'String2'],
           },
           departmentRooms: {
             typeRoom: 'String',
             numBed: 'Number',
-            typeBed: 'String',
+            typeBed: ['String', 'String2'],
             numBaths: 'Number',
             image: 'String',
           },

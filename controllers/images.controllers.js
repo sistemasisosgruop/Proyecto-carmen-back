@@ -1,6 +1,7 @@
 const { uploadFile, unlinkFile, deleteFile } = require('../s3')
 const ImagesService = require('../services/images.services')
 const { CustomError } = require('../utils/custom-error')
+const models = require('../database/models')
 
 const imageService = new ImagesService()
 
@@ -44,8 +45,13 @@ class ImagesController {
 
             let bucketURL = process.env.AWS_DOMAIN + fileKey
 
-            await imageService.createImage(departmentId, bucketURL, spot)
-
+            let image = await imageService.createImage(
+              departmentId,
+              bucketURL,
+              spot
+            )
+            const department = await models.Departments.findByPk(departmentId)
+            await department.addImages(image)
             imagesKeys.push(bucketURL)
           } catch (error) {
             imagesErrors.push(error.message)
@@ -139,7 +145,9 @@ class ImagesController {
 
             let bucketURL = process.env.AWS_DOMAIN + fileKey
 
-            await imageService.createImage(roomId, bucketURL, spot)
+            let image = await imageService.createImage(roomId, bucketURL, spot)
+            const room = await models.DepartmentRooms.findByPk(roomId)
+            await room.addImages(image)
 
             imagesKeys.push(bucketURL)
           } catch (error) {
@@ -186,6 +194,7 @@ class ImagesController {
     const { tourId } = req.params
     const files = req.files
 
+    console.log(files)
     try {
       if (files.length < 1)
         throw new CustomError('No images received', 400, 'Bad Request')

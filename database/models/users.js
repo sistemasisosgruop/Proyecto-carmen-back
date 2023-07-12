@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Users.belongsTo(models.Roles, { as: 'Roles', foreignKey: 'roleId' })
       Users.belongsTo(models.Countries, { as: 'Countries', foreignKey: 'countryCode' })
-      Users.hasOne(models.Shoping_Cart, { as: 'Shoping_Cart', foreignKey: 'userId' })
+      Users.hasOne(models.ShopingCart, { as: 'ShopingCart', foreignKey: 'userId' })
     }
   }
   Users.init({  

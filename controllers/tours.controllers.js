@@ -1,17 +1,21 @@
 const ToursService = require('../services/tours.services')
-const { getPagination } = require('../utils/pagination')
+const { getPagination, getPagingData } = require('../utils/pagination')
 const tourService = new ToursService()
 
 class TourController {
   constructor() {}
 
   async getAllTours(req, res) {
-    const { page, size } = req.query
-
     try {
-      const { limit, offset } = getPagination(page, size)
-      const tours = await tourService.findAllTours(limit, offset)
-      res.json(tours)
+      let query = req.query
+      let { page, size } = query
+
+      const { limit, offset } = getPagination(page, size, '10')
+      query.limit = limit
+      query.offset = offset
+      const tours = await tourService.findAllTours(query)
+      const results = getPagingData(tours, page, limit)
+      res.json(results)
     } catch (error) {
       res.status(500).json({ error: 'Error al obtener los Tours' })
     }
@@ -36,14 +40,14 @@ class TourController {
       duration,
       difficulty,
       languages,
-      numberdOfPeople,
+      numberOfPeople,
       ages,
       tourInfo,
-      tourDetails,
+      details,
     } = req.body
 
     try {
-      const tour = await tourService.createTour(
+      const tourData = {
         tourName,
         tourDescription,
         extras,
@@ -51,11 +55,13 @@ class TourController {
         duration,
         difficulty,
         languages,
-        numberdOfPeople,
+        numberOfPeople,
         ages,
         tourInfo,
-        tourDetails
-      )
+        details,
+      }
+
+      const tour = await tourService.createTour(tourData)
       return res.status(201).json(tour)
     } catch (error) {
       return res.status(401).json({
@@ -67,7 +73,7 @@ class TourController {
           location: 'String',
           duration: 'String',
           difficulty: 'String',
-          languages: ['String'],
+          languages: ['String', 'String2'],
           numberdOfPeople: 'String',
           ages: 'String',
           tourInfo: {
@@ -75,13 +81,13 @@ class TourController {
             goodChoiseFor: 'Text',
             cancellationPolicy: 'Text',
             pricePerPerson: 'Number',
-            availableDates: ['Date'],
+            availableDates: ['01-01-2022', '02-02-2023'],
             schedule: 'String',
           },
           tourDetails: {
             whatIsIncluded: 'Text',
             whatIsNotIncluded: 'Text',
-            itinerary: ['String'],
+            itinerary: ['String', 'String2'],
             departureDetails: 'String',
             returnDetails: 'String',
             accessibility: 'Text',

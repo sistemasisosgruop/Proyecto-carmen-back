@@ -47,6 +47,14 @@ module.exports = {
             allowNull: false,
             type: Sequelize.STRING,
           },
+          tourInfo: {
+            allowNull: false,
+            type: Sequelize.JSONB,
+          },
+          details: {
+            allowNull: false,
+            type: Sequelize.JSONB,
+          },
           createdAt: {
             allowNull: false,
             type: Sequelize.DATE,

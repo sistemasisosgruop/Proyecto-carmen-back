@@ -7,14 +7,12 @@ class ReservationsService {
 
   async findReservationsByUser(userId) {
     const user = await models.Users.findByPk(userId)
-    const departmentReservations = await models.Reservation_Departments.findAll(
-      {
-        where: {
-          userId: user.id,
-        },
-      }
-    )
-    const tourReservations = await models.Reservation_Tours.findAll({
+    const departmentReservations = await models.ReservationDepartments.findAll({
+      where: {
+        userId: user.id,
+      },
+    })
+    const tourReservations = await models.ReservationTours.findAll({
       where: {
         userId: user.id,
       },
@@ -23,7 +21,7 @@ class ReservationsService {
   }
 
   async findDepartmentReservationById(departmentReservationId) {
-    const reservations = await models.Reservation_Departments.findByPk(
+    const reservations = await models.ReservationDepartments.findByPk(
       departmentReservationId
     )
     return reservations
@@ -35,7 +33,7 @@ class ReservationsService {
     reservationDepartmentData
   ) {
     const transaction =
-      await models.Reservation_Departments.sequelize.transaction()
+      await models.ReservationDepartments.sequelize.transaction()
 
     const user = await models.Users.findByPk(userId)
     const department = await models.Departments.findByPk(departmentId)
@@ -45,7 +43,7 @@ class ReservationsService {
     }
 
     try {
-      const reservation = await models.Reservation_Departments.create(
+      const reservation = await models.ReservationDepartments.create(
         {
           id: uuid4(),
           userId: user.dataValues.id,
@@ -74,10 +72,10 @@ class ReservationsService {
     reservationDepartmentData
   ) {
     const transaction =
-      await models.Reservation_Departments.sequelize.transaction()
+      await models.ReservationDepartments.sequelize.transaction()
 
     try {
-      const reservation = await models.Reservation_Departments.findByPk(
+      const reservation = await models.ReservationDepartments.findByPk(
         departmentReservationId
       )
       if (!reservation) {
@@ -102,9 +100,9 @@ class ReservationsService {
 
   async removeDepartmentReservation(departmentReservationId) {
     const transaction =
-      await models.Reservation_Departments.sequelize.transaction()
+      await models.ReservationDepartments.sequelize.transaction()
     try {
-      let reservation = await models.Reservation_Departments.findByPk(
+      let reservation = await models.ReservationDepartments.findByPk(
         departmentReservationId
       )
 
@@ -123,18 +121,18 @@ class ReservationsService {
   //! ======================================================================
 
   async findTourReservationById(tourReservationId) {
-    const reservations = await models.Reservation_Tours.findByPk(
+    const reservations = await models.ReservationTours.findByPk(
       tourReservationId
     )
     return reservations
   }
 
   async createTourReservation(userId, tourId, reservationTourData) {
-    const transaction = await models.Reservation_Tours.sequelize.transaction()
+    const transaction = await models.ReservationTours.sequelize.transaction()
 
     const user = await models.Users.findByPk(userId)
     const tour = await models.Tours.findByPk(tourId)
-    const infoTour = await models.Tours_Info.findOne({
+    const infoTour = await models.ToursInfo.findOne({
       where: {
         tourId: tourId,
       },
@@ -147,7 +145,7 @@ class ReservationsService {
     const tourCheckout = tour.dataValues.tourCheckOut
     const dateSelected = [tourCheckIn, tourCheckout]
     try {
-      const reservation = await models.Reservation_Tours.create(
+      const reservation = await models.ReservationTours.create(
         {
           id: uuid4(),
           userId: user.dataValues.id,
@@ -172,10 +170,10 @@ class ReservationsService {
   }
 
   async updateTourReservation(tourReservationId, reservationTourData) {
-    const transaction = await models.Reservation_Tours.sequelize.transaction()
+    const transaction = await models.ReservationTours.sequelize.transaction()
 
     try {
-      const reservation = await models.Reservation_Tours.findByPk(
+      const reservation = await models.ReservationTours.findByPk(
         tourReservationId
       )
       if (!reservation) {
@@ -199,9 +197,9 @@ class ReservationsService {
   }
 
   async removeTourReservation(tourReservationId) {
-    const transaction = await models.Reservation_Tours.sequelize.transaction()
+    const transaction = await models.ReservationTours.sequelize.transaction()
     try {
-      let reservation = await models.Reservation_Tours.findByPk(
+      let reservation = await models.ReservationTours.findByPk(
         tourReservationId
       )
 

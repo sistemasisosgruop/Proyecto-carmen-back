@@ -1,3 +1,4 @@
+const { Op } = require('sequelize')
 const models = require('../database/models')
 const { CustomError } = require('../utils/custom-error')
 const { v4: uuid4 } = require('uuid')
@@ -6,74 +7,45 @@ require('dotenv').config()
 class TourService {
   constructor() {}
 
-  async findAllTours(limit, offset) {
-    const tours = await models.Tours.findAll({
-      limit,
-      offset,
-      include: [
-        {
-          model: models.Tours_Details,
-          as: 'Tours_Details',
-          attributes: [
-            'whatIsIncluded',
-            'whatIsNotIncluded',
-            'itinerary',
-            'departureDetails',
-            'returnDetails',
-            'accessibility',
-          ],
-          required: true,
-        },
-        {
-          model: models.Tours_Info,
-          as: 'Tours_Info',
-          attributes: [
-            'whatToDo',
-            'goodChoiseFor',
-            'cancellationPolicy',
-            'pricePerPerson',
-            'availableDates',
-            'schedule',
-          ],
-          required: true,
-        },
-        {
-          model: models.Images,
-          as: 'Images',
-          attributes: ['id', 'tourId', 'imageUrl', 'order'],
-          required: false,
-        },
-      ],
-      attributes: {
-        exclude: ['createdAt', 'updatedAt'],
-      },
-      raw: true,
-      nest: true,
-    })
+  async findAllTours(query) {
+    const options = {
+      where: {},
+      // include: [
+      //   {
+      //     model: models.Images,
+      //     as: 'Images',
+      //   },
+      // ],
+    }
 
+    const { limit, offset } = query
+    if (limit && offset) {
+      options.limit = limit
+      options.offset = offset
+    }
+
+    const { name } = query
+    if (name) {
+      options.where.name = { [Op.iLike]: `%${name}%` }
+    }
+    options.distinct = true
+
+    const tours = await models.Tours.findAndCountAll(options)
     return tours
   }
 
   async getTourOr404(tourId) {
     let tour = await models.Tours.findByPk(tourId)
     if (!tour) throw new CustomError('Not found Tour', 404, 'Not Found')
-    let tourInfo = await models.Tours_Info.findOne({
+    let tourImages = await models.Images.findAll({
       where: {
-        tourId: tourId,
+        productId: tourId,
       },
       attributes: {
         exclude: ['id', 'tourId', 'createdAt', 'updatedAt'],
       },
     })
-    let tourDetail = await models.Tours_Details.findOne({
-      where: {
-        tourId: tourId,
-      },
-      attributes: {
-        exclude: ['id', 'tourId', 'createdAt', 'updatedAt'],
-      },
-    })
-    return { tour, tourInfo, tourDetail }
+    return { tour, tourImages }
   }
 
   async createTour(tourData) {
@@ -92,37 +64,14 @@ class TourService {
           languages: tourData.languages,
           numberOfPeople: tourData.numberOfPeople,
           ages: tourData.ages,
+          tourInfo: tourData.tourInfo,
+          details: tourData.details,
         },
         { transaction }
       )
 
-      const tourInfo = await models.Tours_Info.create(
-        {
-          tourId: tour.dataValues.id,
-          whatToDo: tourData.tourInfo.whatToDo,
-          goodChoiseFor: tourData.tourInfo.goodChoiseFor,
-          cancellationPolicy: tourData.tourInfo.cancellationPolicy,
-          pricePerPerson: tourData.tourInfo.pricePerPerson,
-          availableDates: tourData.tourInfo.availableDates,
-          schedule: tourData.tourInfo.schedule,
-        },
-        { transaction }
-      )
-
-      const tourDetails = await models.Tours_Details.create(
-        {
-          tourId: tour.dataValues.id,
-          whatIsIncluded: tourData.tourDetails.whatIsIncluded,
-          whatIsNotIncluded: tourData.tourDetails.whatIsNotIncluded,
-          itinerary: tourData.tourDetails.itinerary,
-          departureDetails: tourData.tourDetails.departureDetails,
-          returnDetails: tourData.tourDetails.returnDetails,
-          accessibility: tourData.tourDetails.accessibility,
-        },
-        { transaction }
-      )
       await transaction.commit()
-      return { tour, tourInfo, tourDetails }
+      return tour
     } catch (error) {
       await transaction.rollback()
       throw error
